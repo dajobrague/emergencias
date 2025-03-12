@@ -1,0 +1,10 @@
+# Crear un nuevo proyecto React
+npx create-react-app fleet-management-system
+
+# Instalar Tailwind CSS
+cd fleet-management-system
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+# Instalar dependencias adicionales
+npm install react-router-dom @heroicons/react 

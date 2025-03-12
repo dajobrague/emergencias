@@ -1,0 +1,217 @@
+/* Animaciones para los modales */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translate(-50%, -45%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+.animate-modal-appear {
+  animation: modalFadeIn 0.2s ease forwards, modalSlideIn 0.25s ease forwards;
+}
+
+/* Estilos adicionales para mejorar la apariencia de los modales */
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+  transition: backdrop-filter 0.3s ease;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Estilo específico para el modal de Nueva Emergencia */
+.modal-backdrop.pt-\[8rem\] {
+  padding-top: 8rem !important;
+  align-items: flex-start !important;
+}
+
+/* Posicionamiento específico para el modal de emergencia */
+:root {
+  --emergency-button-top: 115px; /* Valor por defecto */
+}
+
+.emergency-modal-position {
+  /* Posicionamiento exacto basado en la posición del botón */
+  padding-top: 0 !important;
+  margin-top: calc(var(--emergency-button-top) - 60px) !important; /* Ajuste para centrar con el botón */
+  align-items: flex-start !important;
+}
+
+/* Clase super específica SOLO para centrar el modal de Nueva Alerta */
+/* Usar selección muy específica para evitar afectar otros elementos */
+.modal-backdrop .nueva-alerta-modal-container-centered {
+  position: absolute !important;
+  top: 50vh !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  /* Asegurar que aparezca en el centro de la ventana visible */
+  z-index: 10001 !important;
+  /* Forzar el centrado horizontal */
+  right: auto !important;
+  width: auto !important;
+  /* Eliminar cualquier otro posicionamiento que pueda interferir */
+  float: none !important;
+  clear: both !important;
+  /* Asegurar que el ancho se calcule correctamente */
+  box-sizing: border-box !important;
+  /* Asegurar un ancho mínimo para el modal de alerta */
+  min-width: 800px !important;
+}
+
+/* Forzar que la clase anterior solo afecte al modal de emergencias */
+.nueva-alerta-modal-container-centered ~ .modal-form-container {
+  max-height: 60vh !important; /* Reducir altura para asegurar visibilidad completa */
+}
+
+/* Estilos para los botones dentro de los modales */
+.modal-btn {
+  transition: all 0.2s ease;
+}
+
+.modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para los formularios dentro de los modales */
+.modal-form-container {
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+  padding: 1rem;
+  flex: 1;
+  max-height: 70vh; /* Reducido para evitar scroll excesivo */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.modal-form-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-form-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-form-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+/* Estilos para los campos de formulario dentro de los modales */
+.modal-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Asegurar que el modal esté por encima de todos los elementos */
+.modal-container {
+  z-index: 10000 !important;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 
+              0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  animation: modalFadeIn 0.3s ease forwards;
+  margin: auto;
+  max-height: 90vh;
+  width: 100%;
+}
+
+/* Tamaños de modal */
+.max-w-md {
+  max-width: 28rem;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
+}
+
+.max-w-6xl {
+  max-width: 80rem;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+/* Cabecera fija del modal */
+.modal-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem;
+}
+
+/* Media queries para ajustar el modal en diferentes tamaños de pantalla */
+@media (max-width: 640px) {
+  .modal-container {
+    width: 95%;
+    max-width: 95%;
+    max-height: 80vh;
+    border-radius: 0.5rem;
+  }
+  
+  .modal-form-container {
+    padding: 0.75rem;
+    max-height: 65vh; /* Reducido para móviles */
+  }
+  
+  .modal-header {
+    padding: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-backdrop {
+    padding: 0 !important;
+    overflow-y: auto !important;
+  }
+  
+  .modal-form-container {
+    padding: 1rem;
+  }
+}
+
+/* Ajustes específicos para dispositivos iOS */
+@supports (-webkit-touch-callout: none) {
+  .modal-container {
+    max-height: 75vh;
+  }
+  
+  .modal-form-container {
+    max-height: 65vh;
+    padding-bottom: 1rem;
+  }
+} 

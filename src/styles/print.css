@@ -1,0 +1,54 @@
+/* Estilos para impresión */
+@media print {
+  /* Ocultar elementos que no deben imprimirse */
+  .print:hidden {
+    display: none !important;
+  }
+  
+  /* Asegurar que los gráficos se impriman correctamente */
+  .h-64 {
+    height: 300px !important;
+    page-break-inside: avoid;
+  }
+  
+  /* Ajustar el layout para impresión */
+  .grid {
+    display: block !important;
+  }
+  
+  .grid > div {
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+  }
+  
+  /* Ajustar márgenes y tamaño de página */
+  @page {
+    size: A4 landscape;
+    margin: 1cm;
+  }
+  
+  /* Añadir título al informe */
+  body::before {
+    content: "Informe del Sistema de Emergencias";
+    display: block;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Añadir fecha al informe */
+  body::after {
+    content: "Fecha de generación: " attr(data-print-date);
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    margin-top: 20px;
+  }
+  
+  /* Ajustar colores para impresión */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+} 

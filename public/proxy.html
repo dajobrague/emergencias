@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Emergencias</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="appFrame" src="/" frameborder="0" allowfullscreen></iframe>
+  
+  <script>
+    // Redirigir a la página principal si se accede directamente a proxy.html
+    if (window === window.parent) {
+      window.location.href = '/';
+    }
+    
+    // Escuchar mensajes del iframe
+    window.addEventListener('message', function(event) {
+      // Reenviar mensajes al padre (Softr)
+      if (window.parent !== window) {
+        window.parent.postMessage(event.data, '*');
+      }
+    });
+    
+    // Escuchar mensajes del padre (Softr)
+    window.addEventListener('message', function(event) {
+      // Reenviar mensajes al iframe
+      const iframe = document.getElementById('appFrame');
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage(event.data, '*');
+      }
+    });
+  </script>
+</body>
+</html> 
