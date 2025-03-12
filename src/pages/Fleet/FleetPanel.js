@@ -100,9 +100,9 @@ const FleetPanel = () => {
 
   return (
     <div id="fleet-panel" className="service-panel active">
-      <h2 className="text-2xl font-bold text-dark mb-6">Gestión de Flota</h2>
+      <h2 className="text-2xl font-bold text-dark mb-6">Seguridad Vial</h2>
       <p className="text-gray-600 mb-8">
-        Seleccione uno de nuestros servicios de gestión de flota para acceder a información detallada sobre sus vehículos.
+        Seleccione uno de nuestros servicios de seguridad vial para acceder a información detallada sobre sus vehículos.
       </p>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -139,8 +139,35 @@ const FleetPanel = () => {
           </h3>
           
           <div className="flex-grow flex flex-col">
-            {/* Supervisores de Ruta */}
+            {/* Tarjetas de Registros - AHORA ARRIBA */}
             <div className="mb-6 flex-grow">
+              <h4 className="text-md font-medium text-gray-700 mb-3">Registros</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div 
+                  onClick={() => setShowIncidentModal(true)} 
+                  className="bg-gray-50 hover:bg-gray-100 transition-colors p-4 rounded-lg text-center cursor-pointer"
+                >
+                  <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 mx-auto mb-2">
+                    <i className="fas fa-exclamation-triangle"></i>
+                  </div>
+                  <h5 className="font-medium text-gray-800">Registro de Incidentes</h5>
+                  <p className="text-sm text-gray-500 mt-1">Reportar y consultar incidentes</p>
+                </div>
+                <div 
+                  onClick={() => setShowCirculationModal(true)} 
+                  className="bg-gray-50 hover:bg-gray-100 transition-colors p-4 rounded-lg text-center cursor-pointer"
+                >
+                  <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-500 mx-auto mb-2">
+                    <i className="fas fa-traffic-light"></i>
+                  </div>
+                  <h5 className="font-medium text-gray-800">Control de Tránsito</h5>
+                  <p className="text-sm text-gray-500 mt-1">Gestionar rutas y horarios</p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Supervisores de Ruta - AHORA ABAJO */}
+            <div>
               <h4 className="text-md font-medium text-gray-700 mb-3">Supervisores de Ruta</h4>
               <div className="space-y-3">
                 {supervisors.map((supervisor, index) => (
@@ -164,33 +191,6 @@ const FleetPanel = () => {
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-            
-            {/* Tarjetas de Registros */}
-            <div>
-              <h4 className="text-md font-medium text-gray-700 mb-3">Registros</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div 
-                  onClick={() => setShowIncidentModal(true)} 
-                  className="bg-gray-50 hover:bg-gray-100 transition-colors p-4 rounded-lg text-center cursor-pointer"
-                >
-                  <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 mx-auto mb-2">
-                    <i className="fas fa-exclamation-triangle"></i>
-                  </div>
-                  <h5 className="font-medium text-gray-800">Registro de Incidentes</h5>
-                  <p className="text-sm text-gray-500 mt-1">Reportar y consultar incidentes</p>
-                </div>
-                <div 
-                  onClick={() => setShowCirculationModal(true)} 
-                  className="bg-gray-50 hover:bg-gray-100 transition-colors p-4 rounded-lg text-center cursor-pointer"
-                >
-                  <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-500 mx-auto mb-2">
-                    <i className="fas fa-truck"></i>
-                  </div>
-                  <h5 className="font-medium text-gray-800">Circulación de Camiones</h5>
-                  <p className="text-sm text-gray-500 mt-1">Gestionar rutas y horarios</p>
-                </div>
               </div>
             </div>
           </div>

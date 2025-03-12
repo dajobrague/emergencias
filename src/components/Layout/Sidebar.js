@@ -5,8 +5,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
   // Estado para controlar qué secciones están expandidas
   const [expandedSections, setExpandedSections] = useState({
     'fleet-panel': true,
-    'emergency-panel': true,
-    'road-safety-panel': true
+    'emergency-panel': true
   });
 
   // Referencias para los contenedores de subelementos
@@ -34,13 +33,14 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
   const menuStructure = [
     {
       id: 'fleet-panel',
-      title: 'Flota',
-      useLogoInstead: true,
-      icon: 'fa-truck',
+      title: 'Seguridad Vial',
+      icon: 'fa-traffic-light',
       subItems: [
         { id: 'wisetrack-panel', title: 'Wisetrack', icon: 'fa-satellite' },
         { id: 'teletrac-panel', title: 'Teletrac', icon: 'fa-location-arrow' },
         { id: 'gauss-panel', title: 'Gauss', icon: 'fa-compass' },
+        { id: 'explork-panel', title: 'Explor-K', icon: 'fa-map-marked-alt' },
+        { id: 'document-panel', title: 'Repositorio', icon: 'fa-file-alt' },
         { id: 'records-panel', title: 'Registros', icon: 'fa-clipboard-list' },
         { id: 'simulators-panel', title: 'Simuladores', icon: 'fa-video' }
       ]
@@ -54,14 +54,6 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
         { id: 'personnel-panel', title: 'Personal', icon: 'fa-users' },
         { id: 'dashboard-graphics-panel', title: 'Dashboard', icon: 'fa-chart-line' }
       ]
-    },
-    {
-      id: 'road-safety-panel',
-      title: 'Seguridad Vial',
-      icon: 'fa-road',
-      subItems: [
-        { id: 'document-panel', title: 'Repositorio', icon: 'fa-file-alt' }
-      ]
     }
   ];
 
@@ -71,14 +63,41 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
         isCollapsed ? 'w-20' : 'w-64'
       }`}
     >
-      {/* Botón de colapso */}
-      <div className="flex justify-end p-4 border-b">
-        <button 
-          onClick={toggleSidebar}
-          className="p-2 rounded-lg text-gray-500 hover:bg-gray-100"
-        >
-          <i className={`fas ${isCollapsed ? 'fa-chevron-right' : 'fa-chevron-left'}`}></i>
-        </button>
+      {/* Header con logo y botón de colapso */}
+      <div className="flex items-center justify-between p-4 border-b relative">
+        {/* Logo */}
+        <div className={`flex items-center ${isCollapsed ? 'justify-center w-full' : ''}`}>
+          <img 
+            src="/images/logo-flota.png" 
+            alt="Logo Seguridad Vial" 
+            className={`${isCollapsed ? 'w-14 h-14' : 'w-40 h-16'}`}
+            style={{ 
+              objectFit: 'contain',
+              transition: 'all 0.2s ease'
+            }}
+          />
+        </div>
+        
+        {/* Botón de colapso (visible cuando está expandido) */}
+        {!isCollapsed && (
+          <button 
+            onClick={toggleSidebar}
+            className="p-2 rounded-lg text-gray-500 hover:bg-gray-100"
+          >
+            <i className="fas fa-chevron-left"></i>
+          </button>
+        )}
+        
+        {/* Botón de expansión (visible cuando está colapsado) */}
+        {isCollapsed && (
+          <button 
+            onClick={toggleSidebar}
+            className="absolute -right-4 top-6 bg-white p-2 rounded-full shadow-md text-gray-500 hover:bg-gray-100 hover:text-blue-600 z-10"
+            style={{ boxShadow: '0 0 5px rgba(0,0,0,0.2)' }}
+          >
+            <i className="fas fa-chevron-right"></i>
+          </button>
+        )}
       </div>
       
       {/* Menú de navegación */}
@@ -97,43 +116,25 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
                   }`}
                   onClick={(e) => {
                     e.preventDefault();
-                    // Si es "Seguridad Vial", solo expandir/colapsar sin cambiar el panel activo
-                    if (mainItem.id === 'road-safety-panel') {
-                      toggleSection(mainItem.id, e);
-                    } else {
-                      setActivePanel(mainItem.id);
-                      // Si la sección está colapsada, la expandimos automáticamente
-                      if (!expandedSections[mainItem.id]) {
-                        setExpandedSections(prev => ({
-                          ...prev,
-                          [mainItem.id]: true
-                        }));
-                      }
+                    setActivePanel(mainItem.id);
+                    // Si la sección está colapsada, la expandimos automáticamente
+                    if (!expandedSections[mainItem.id]) {
+                      setExpandedSections(prev => ({
+                        ...prev,
+                        [mainItem.id]: true
+                      }));
                     }
                   }}
                 >
-                  {mainItem.useLogoInstead ? (
-                    <div className="flex items-center">
-                      <img 
-                        src="/images/logo-flota.png" 
-                        alt="Logo Flota" 
-                        className={`${
-                          isCollapsed ? 'w-10 h-10' : 'w-12 h-12'
-                        } ${isMainActive(mainItem.id, mainItem.subItems.map(sub => sub.id)) ? 'filter-none' : 'opacity-80'}`}
-                        style={{ 
-                          objectFit: 'contain',
-                          transition: 'all 0.2s ease'
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <i className={`fas ${mainItem.icon} text-xl ${
-                      isMainActive(mainItem.id, mainItem.subItems.map(sub => sub.id)) 
-                        ? 'text-blue-600' 
-                        : 'text-gray-500'
-                    }`}></i>
-                  )}
-                  {!isCollapsed && !mainItem.useLogoInstead && <span className="ml-3">{mainItem.title}</span>}
+                  {/* Icono para todos los items del menú principal */}
+                  <i className={`fas ${mainItem.icon} text-xl ${
+                    isMainActive(mainItem.id, mainItem.subItems.map(sub => sub.id)) 
+                      ? 'text-blue-600' 
+                      : 'text-gray-500'
+                  }`}></i>
+                  
+                  {/* Título (visible cuando el menú no está colapsado) */}
+                  {!isCollapsed && <span className="ml-3">{mainItem.title}</span>}
                   
                   {/* Botón de colapso/expansión para la sección */}
                   {!isCollapsed && (
