@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autenticación</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f8f9fa;
+    }
+    .auth-container {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      max-width: 400px;
+      width: 100%;
+    }
+    .button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <h2>Acceso al Sistema de Emergencias</h2>
+    <p>Haga clic en el botón para iniciar sesión y acceder al sistema.</p>
+    <button class="button" id="authButton">Iniciar Sesión</button>
+  </div>
+
+  <script>
+    document.getElementById('authButton').addEventListener('click', function() {
+      // Establecer una cookie de autenticación
+      document.cookie = "auth_verified=true; path=/; max-age=3600";
+      
+      // Redirigir a la aplicación principal
+      window.location.href = "/";
+    });
+    
+    // Verificar si ya está autenticado
+    if (document.cookie.includes('auth_verified=true')) {
+      window.location.href = "/";
+    }
+  </script>
+</body>
+</html> 
