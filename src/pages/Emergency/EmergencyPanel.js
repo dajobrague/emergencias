@@ -22,12 +22,12 @@ const EmergencyPanel = () => {
 
   // Datos de ejemplo
   const emergencyUnits = [
-    { id: 1, name: 'RGBD50', type: 'fire', status: 'active', icon: 'fa-fire-extinguisher' },
-    { id: 2, name: 'GXPG50', type: 'fire', status: 'active', icon: 'fa-fire-extinguisher' },
-    { id: 3, name: 'LJTD55', type: 'rescue', status: 'active', icon: 'fa-truck' },
-    { id: 4, name: 'LVFW73', type: 'rescue', status: 'standby', icon: 'fa-truck' },
-    { id: 5, name: 'STP', type: 'tactical', status: 'active', icon: 'fa-shield-alt' },
-    { id: 6, name: 'Ambulancia 01', type: 'ambulance', status: 'standby', icon: 'fa-ambulance' },
+    { id: 1, name: 'Los Bronce', type: 'fire', status: 'active', icon: 'fa-fire-extinguisher' },
+    { id: 2, name: 'Las Tórtola', type: 'fire', status: 'active', icon: 'fa-fire-extinguisher' },
+    { id: 3, name: 'La Ermita', type: 'rescue', status: 'active', icon: 'fa-truck' },
+    { id: 4, name: 'STP', type: 'rescue', status: 'standby', icon: 'fa-truck' },
+    { id: 5, name: 'Mina', type: 'tactical', status: 'active', icon: 'fa-shield-alt' },
+    { id: 6, name: 'Ambulancia', type: 'ambulance', status: 'standby', icon: 'fa-ambulance' },
     { id: 7, name: 'Helicóptero', type: 'helicopter', status: 'active', icon: 'fa-helicopter' },
   ];
 
@@ -36,7 +36,7 @@ const EmergencyPanel = () => {
     AA: [
       { 
         id: 1, 
-        zone: 'Zona 1', 
+        zone: 'Los Bronce', 
         dayShift: { 
           active: 8, 
           leader: 'Carlos Pérez', 
@@ -50,7 +50,7 @@ const EmergencyPanel = () => {
       },
       { 
         id: 2, 
-        zone: 'Zona 2', 
+        zone: 'Las Tórtola', 
         dayShift: { 
           active: 10, 
           leader: 'Manuel Rodríguez', 
@@ -64,7 +64,7 @@ const EmergencyPanel = () => {
       },
       { 
         id: 3, 
-        zone: 'Zona 3', 
+        zone: 'La Ermita', 
         dayShift: { 
           active: 12, 
           leader: 'Roberto Sánchez', 
@@ -78,7 +78,7 @@ const EmergencyPanel = () => {
       },
       { 
         id: 4, 
-        zone: 'Zona 4', 
+        zone: 'STP', 
         dayShift: { 
           active: 9, 
           leader: 'Javier Torres', 
@@ -92,7 +92,7 @@ const EmergencyPanel = () => {
       },
       { 
         id: 5, 
-        zone: 'Zona 5', 
+        zone: 'Mina', 
         dayShift: { 
           active: 7, 
           leader: 'Antonio Díaz', 
@@ -108,7 +108,7 @@ const EmergencyPanel = () => {
     Externas: [
       { 
         id: 6, 
-        zone: 'Zona 1', 
+        zone: 'Los Bronce', 
         dayShift: { 
           active: 5, 
           leader: 'Miguel Vargas', 
@@ -122,7 +122,7 @@ const EmergencyPanel = () => {
       },
       { 
         id: 7, 
-        zone: 'Zona 2', 
+        zone: 'Las Tórtola', 
         dayShift: { 
           active: 6, 
           leader: 'Pablo Morales', 
@@ -136,7 +136,7 @@ const EmergencyPanel = () => {
       },
       { 
         id: 8, 
-        zone: 'Zona 3', 
+        zone: 'La Ermita', 
         dayShift: { 
           active: 7, 
           leader: 'David Gutiérrez', 
@@ -150,7 +150,7 @@ const EmergencyPanel = () => {
       },
       { 
         id: 9, 
-        zone: 'Zona 4', 
+        zone: 'STP', 
         dayShift: { 
           active: 5, 
           leader: 'Alejandro Méndez', 
@@ -164,7 +164,7 @@ const EmergencyPanel = () => {
       },
       { 
         id: 10, 
-        zone: 'Zona 5', 
+        zone: 'Mina', 
         dayShift: { 
           active: 4, 
           leader: 'Fernando Castro', 
@@ -279,6 +279,21 @@ const EmergencyPanel = () => {
     setShowUnitDetails(false);
     setSelectedUnit(null);
   };
+  
+  // Exponer funciones para el tour
+  React.useEffect(() => {
+    // Exportar las funciones al objeto window para que puedan ser utilizadas desde el tour
+    window.handleCloseAlertForm = handleCloseAlertForm;
+    window.handleCloseBrigadeDetails = handleCloseBrigadeDetails;
+    window.handleCloseUnitDetails = handleCloseUnitDetails;
+    
+    // Limpieza al desmontar el componente
+    return () => {
+      delete window.handleCloseAlertForm;
+      delete window.handleCloseBrigadeDetails;
+      delete window.handleCloseUnitDetails;
+    };
+  }, []);
 
   return (
     <div id="emergency-panel">
