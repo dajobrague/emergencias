@@ -24,10 +24,10 @@ const FleetPanel = () => {
     {
       id: 'gpschile',
       title: 'GPSChile',
-      description: 'Sistema de Monitoreo de Flotas Teletrack Navman.',
+      description: 'Sistema de Monitoreo de Flotas Navman.',
       icon: 'fas fa-location-arrow',
-      iconClass: 'icon-teletrac',
-      buttonClass: 'teletrac',
+      iconClass: 'icon-gpschile',
+      buttonClass: 'gpschile',
       url: 'https://director-cl.teletracnavman.net/avl3/Account/Login?ReturnUrl=%2favl3%2fMain%2fVehiclesNav'
     },
     {

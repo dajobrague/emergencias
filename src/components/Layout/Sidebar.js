@@ -37,7 +37,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
       icon: 'fa-traffic-light',
       subItems: [
         { id: 'wisetrack-panel', title: 'Wisetrack', icon: 'fa-satellite' },
-        { id: 'teletrac-panel', title: 'Teletrac', icon: 'fa-location-arrow' },
+        { id: 'teletrac-panel', title: 'GPSChile', icon: 'fa-location-arrow' },
         { id: 'gauss-panel', title: 'Gauss', icon: 'fa-compass' },
         { id: 'explork-panel', title: 'Explor-K', icon: 'fa-map-marked-alt' },
         { id: 'document-panel', title: 'Repositorio', icon: 'fa-file-alt' },

@@ -3,8 +3,9 @@ import Sidebar from './components/Layout/Sidebar';
 import PanelTransition from './components/Layout/PanelTransition';
 import FleetPanel from './pages/Fleet/FleetPanel';
 import WisetrackPanel from './pages/Fleet/WisetrackPanel';
-import TeletracPanel from './pages/Fleet/TeletracPanel';
+import GPSChilePanel from './pages/Fleet/GPSChilePanel';
 import GaussPanel from './pages/Fleet/GaussPanel';
+import ExplorkPanel from './pages/Fleet/ExplorkPanel';
 import RecordsPanel from './pages/Fleet/RecordsPanel';
 import SimulatorsPanel from './pages/Fleet/SimulatorsPanel';
 import EmergencyPanel from './pages/Emergency/EmergencyPanel';
@@ -52,9 +53,11 @@ function App({ softrData }) {
       case 'wisetrack-panel':
         return <WisetrackPanel />;
       case 'teletrac-panel':
-        return <TeletracPanel />;
+        return <GPSChilePanel />;
       case 'gauss-panel':
         return <GaussPanel />;
+      case 'explork-panel':
+        return <ExplorkPanel />;
       case 'records-panel':
         return <RecordsPanel />;
       case 'simulators-panel':
