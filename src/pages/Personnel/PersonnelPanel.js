@@ -615,12 +615,20 @@ const PersonnelPanel = () => {
           <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-800">Perfil de Personal</h2>
-              <button 
-                className="text-gray-500 hover:text-gray-700"
-                onClick={() => setIsProfileModalOpen(false)}
-              >
-                <i className="fas fa-times"></i>
-              </button>
+              <div className="flex items-center gap-3">
+                <button 
+                  className="px-3 py-1.5 border border-yellow-600 text-yellow-600 hover:bg-yellow-50 rounded-lg flex items-center"
+                >
+                  <i className="fas fa-edit mr-1.5"></i>
+                  Editar
+                </button>
+                <button 
+                  className="text-gray-500 hover:text-gray-700"
+                  onClick={() => setIsProfileModalOpen(false)}
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -773,11 +781,6 @@ const PersonnelPanel = () => {
                     <button className="flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors">
                       <i className="fas fa-calendar-plus mr-2"></i>
                       Programar Reunión
-                    </button>
-                    
-                    <button className="flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
-                      <i className="fas fa-edit mr-2"></i>
-                      Editar Perfil
                     </button>
                   </div>
                 </div>

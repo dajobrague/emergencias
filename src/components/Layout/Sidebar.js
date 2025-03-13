@@ -101,7 +101,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
       </div>
       
       {/* Menú de navegación */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3">
+      <nav className="flex-1 overflow-y-auto py-4 px-3 sidebar">
         <ul className="space-y-2">
           {menuStructure.map(mainItem => (
             <React.Fragment key={mainItem.id}>
@@ -109,6 +109,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
               <li>
                 <a
                   href="#"
+                  data-panel={mainItem.id}
                   className={`flex items-center py-3 px-4 rounded-lg transition-colors ${
                     isMainActive(mainItem.id, mainItem.subItems.map(sub => sub.id)) 
                       ? 'bg-blue-100 text-blue-700' 
@@ -162,6 +163,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
                   <li key={subItem.id} className={isCollapsed ? 'flex justify-center' : ''}>
                     <a
                       href="#"
+                      data-panel={subItem.id}
                       className={`flex items-center py-3 px-4 rounded-lg transition-colors ${
                         isActive(subItem.id) ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
                       } ${!isCollapsed ? 'pl-10' : 'px-2'}`}

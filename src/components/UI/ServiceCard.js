@@ -1,8 +1,11 @@
 import React from 'react';
 
-const ServiceCard = ({ title, description, icon, iconClass, buttonClass, url }) => {
+const ServiceCard = ({ title, description, icon, iconClass, buttonClass, url, id }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 transition-all hover:-translate-y-1 hover:shadow-md flex flex-col h-full">
+    <div 
+      className="service-card bg-white rounded-xl shadow-sm p-4 transition-all hover:-translate-y-1 hover:shadow-md flex flex-col h-full"
+      data-id={id}
+    >
       <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 text-xl ${
         iconClass === 'icon-wisetrack' ? 'bg-blue-50 text-blue-600' :
         iconClass === 'icon-gpschile' ? 'bg-green-50 text-green-600' :

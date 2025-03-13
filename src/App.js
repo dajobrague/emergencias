@@ -14,6 +14,24 @@ import DocumentPanel from './pages/Document/DocumentPanel';
 import PersonnelPanel from './pages/Personnel/PersonnelPanel';
 import DashboardPanel from './pages/Dashboard/DashboardPanel';
 
+// Importaciones para el tour guiado
+import { TourProvider } from './context/TourContext';
+import MainTour from './components/Tours/MainTour';
+import FleetTour from './components/Tours/FleetTour';
+import WisetrackTour from './components/Tours/WisetrackTour';
+import GPSChileTour from './components/Tours/GPSChileTour';
+import EmergencyTour from './components/Tours/EmergencyTour';
+import EmergencyUnitsTour from './components/Tours/EmergencyUnitsTour';
+import PersonnelTour from './components/Tours/PersonnelTour';
+import DocumentTour from './components/Tours/DocumentTour';
+import HelpButton from './components/UI/HelpButton';
+import DemoControls from './components/UI/DemoControls';
+import RoadSafetyTour from './components/Tours/RoadSafetyTour';
+
+// Importar estilos de Intro.js
+import 'intro.js/introjs.css';
+import './styles/intro-custom.css';
+
 function App({ softrData }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activePanel, setActivePanel] = useState('fleet-panel');
@@ -78,19 +96,36 @@ function App({ softrData }) {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      <Sidebar 
-        isCollapsed={isCollapsed} 
-        toggleSidebar={toggleSidebar} 
-        activePanel={activePanel} 
-        setActivePanel={handlePanelChange} 
-      />
-      <main className={`flex-1 overflow-auto transition-all duration-300 ${isCollapsed ? 'ml-2' : 'ml-4'}`}>
-        <PanelTransition activePanel={activePanel} previousPanel={previousPanel}>
-          {renderActivePanel()}
-        </PanelTransition>
-      </main>
-    </div>
+    <TourProvider>
+      <div className="flex h-screen bg-gray-50">
+        {/* Componentes del tour */}
+        <MainTour />
+        <FleetTour />
+        <EmergencyTour />
+        <DocumentTour />
+        <PersonnelTour />
+        <EmergencyUnitsTour />
+        <WisetrackTour />
+        <GPSChileTour />
+        <RoadSafetyTour />
+        
+        {/* Controles de ayuda y demo */}
+        <HelpButton />
+        <DemoControls />
+        
+        <Sidebar 
+          isCollapsed={isCollapsed} 
+          toggleSidebar={toggleSidebar} 
+          activePanel={activePanel} 
+          setActivePanel={handlePanelChange} 
+        />
+        <main className={`flex-1 overflow-auto transition-all duration-300 ${isCollapsed ? 'ml-2' : 'ml-4'}`}>
+          <PanelTransition activePanel={activePanel} previousPanel={previousPanel}>
+            {renderActivePanel()}
+          </PanelTransition>
+        </main>
+      </div>
+    </TourProvider>
   );
 }
 

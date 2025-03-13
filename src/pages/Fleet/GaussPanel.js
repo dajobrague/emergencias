@@ -22,7 +22,7 @@ const GaussPanel = () => {
         </p>
         
         <a 
-          href="https://gausscontrol.com" 
+          href="https://w3.gausscontrol.com/" 
           target="_blank" 
           rel="noopener noreferrer" 
           className="inline-flex items-center px-6 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors"

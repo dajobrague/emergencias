@@ -20,7 +20,7 @@ const EmergencyUnitsPanel = () => {
   const recentChecklists = [
     {
       id: 1,
-      unitNumber: 'RGBD50',
+      unitNumber: 'Los Bronce',
       unitType: 'Camión de Bomberos',
       date: '18/05/2023',
       time: '09:30',
@@ -30,7 +30,7 @@ const EmergencyUnitsPanel = () => {
     },
     {
       id: 2,
-      unitNumber: 'GXPG50',
+      unitNumber: 'Las Tórtola',
       unitType: 'Camión de Bomberos',
       date: '17/05/2023',
       time: '14:15',
@@ -40,7 +40,7 @@ const EmergencyUnitsPanel = () => {
     },
     {
       id: 3,
-      unitNumber: 'Ambulancia 01',
+      unitNumber: 'Ambulancia',
       unitType: 'Ambulancia',
       date: '16/05/2023',
       time: '11:45',
@@ -50,7 +50,7 @@ const EmergencyUnitsPanel = () => {
     },
     {
       id: 4,
-      unitNumber: 'LJTD55',
+      unitNumber: 'La Ermita',
       unitType: 'Vehículo de Rescate',
       date: '16/05/2023',
       time: '08:20',
@@ -80,7 +80,7 @@ const EmergencyUnitsPanel = () => {
     },
     {
       id: 7,
-      unitNumber: 'LVFW73',
+      unitNumber: 'Mina',
       unitType: 'Vehículo de Rescate',
       date: '14/05/2023',
       time: '15:45',
@@ -90,7 +90,7 @@ const EmergencyUnitsPanel = () => {
     },
     {
       id: 8,
-      unitNumber: 'RGBD50',
+      unitNumber: 'Los Bronce',
       unitType: 'Camión de Bomberos',
       date: '13/05/2023',
       time: '09:15',
@@ -100,7 +100,7 @@ const EmergencyUnitsPanel = () => {
     },
     {
       id: 9,
-      unitNumber: 'Ambulancia 01',
+      unitNumber: 'Ambulancia',
       unitType: 'Ambulancia',
       date: '12/05/2023',
       time: '13:20',
@@ -110,7 +110,7 @@ const EmergencyUnitsPanel = () => {
     },
     {
       id: 10,
-      unitNumber: 'GXPG50',
+      unitNumber: 'Las Tórtola',
       unitType: 'Camión de Bomberos',
       date: '11/05/2023',
       time: '11:30',
@@ -123,7 +123,7 @@ const EmergencyUnitsPanel = () => {
   const [units, setUnits] = useState([
     {
       id: 1,
-      number: 'RGBD50',
+      number: 'Los Bronce',
       type: 'Camión de Bomberos',
       status: 'Activo',
       zone: 'Zona Norte',
@@ -134,24 +134,27 @@ const EmergencyUnitsPanel = () => {
       checklistStatus: 'Completo',
       observations: 'Equipo en perfectas condiciones',
       phone: '+56 9 1234 5678',
+      patente: 'RGBD50',
       personnel: [
         {
           name: "Juan Pérez",
           role: "Conductor",
           time: "3h",
-          image: "https://randomuser.me/api/portraits/men/32.jpg"
+          image: "https://randomuser.me/api/portraits/men/32.jpg",
+          gender: "male"
         },
         {
           name: "María Gómez",
           role: "Técnico de Emergencias",
           time: "3h",
-          image: "https://randomuser.me/api/portraits/women/44.jpg"
+          image: "https://randomuser.me/api/portraits/women/44.jpg",
+          gender: "female"
         }
       ]
     },
     {
       id: 2,
-      number: 'GXPG50',
+      number: 'Las Tórtola',
       type: 'Camión de Bomberos',
       status: 'En ruta',
       zone: 'Zona Centro',
@@ -162,18 +165,20 @@ const EmergencyUnitsPanel = () => {
       checklistStatus: 'Pendiente',
       observations: 'Nivel de agua al 75%',
       phone: '+56 9 2345 6789',
+      patente: 'GXPG50',
       personnel: [
         {
           name: "Ana Martínez",
           role: "Paramédico",
           time: "2h",
-          image: "https://randomuser.me/api/portraits/women/65.jpg"
+          image: "https://randomuser.me/api/portraits/women/65.jpg",
+          gender: "female"
         }
       ]
     },
     {
       id: 3,
-      number: 'LJTD55',
+      number: 'La Ermita',
       type: 'Vehículo de Rescate',
       status: 'Activo',
       zone: 'Zona Sur',
@@ -184,11 +189,12 @@ const EmergencyUnitsPanel = () => {
       checklistStatus: 'Completo',
       observations: 'Equipamiento completo y verificado',
       phone: '+56 9 3456 7890',
+      patente: 'LJTD55',
       personnel: []
     },
     {
       id: 4,
-      number: 'LVFW73',
+      number: 'STP',
       type: 'Vehículo de Rescate',
       status: 'En mantenimiento',
       zone: 'Zona Este',
@@ -199,11 +205,12 @@ const EmergencyUnitsPanel = () => {
       checklistStatus: 'No aplica',
       observations: 'En revisión mecánica programada',
       phone: '+56 9 4567 8901',
+      patente: 'LVFW73',
       personnel: []
     },
     {
       id: 5,
-      number: 'STP',
+      number: 'Mina',
       type: 'Unidad Táctica',
       status: 'Activo',
       zone: 'Zona Centro',
@@ -214,11 +221,12 @@ const EmergencyUnitsPanel = () => {
       checklistStatus: 'Completo',
       observations: 'Sin observaciones',
       phone: '+56 9 5678 9012',
+      patente: 'STP',
       personnel: []
     },
     {
       id: 6,
-      number: 'Ambulancia 01',
+      number: 'Ambulancia',
       type: 'Ambulancia',
       status: 'Activo',
       zone: 'Zona Oeste',
@@ -229,6 +237,7 @@ const EmergencyUnitsPanel = () => {
       checklistStatus: 'Completo',
       observations: 'Equipamiento médico verificado',
       phone: '+56 9 6789 0123',
+      patente: 'AMB01',
       personnel: []
     },
     {
@@ -244,6 +253,7 @@ const EmergencyUnitsPanel = () => {
       checklistStatus: 'Completo',
       observations: 'Listo para despegue inmediato',
       phone: '+56 9 7890 1234',
+      patente: 'HLC01',
       personnel: []
     }
   ]);
@@ -291,32 +301,35 @@ const EmergencyUnitsPanel = () => {
   };
 
   const handleAddUnit = () => {
-    // Validación básica
-    if (!formData.unitNumber || !formData.unitType || !formData.unitZone) {
+    // Validar que al menos se haya ingresado un número de unidad
+    if (!formData.unitNumber.trim()) {
+      alert('Por favor ingrese al menos un número de unidad');
       return;
     }
-
-    // En una aplicación real, aquí enviaríamos los datos al servidor
+    
+    // Crear un nuevo objeto de unidad
     const newUnit = {
       id: units.length + 1,
       number: formData.unitNumber,
-      type: formData.unitType,
+      type: formData.unitType || 'No especificado',
       status: formData.unitStatus,
-      zone: formData.unitZone,
+      zone: formData.unitZone || 'No asignada',
       icon: getIconByType(formData.unitType),
       bgColor: getBgColorByType(formData.unitType),
       iconColor: getIconColorByType(formData.unitType),
-      lastCheck: new Date().toLocaleDateString('es-ES'),
+      lastCheck: 'No realizado',
       checklistStatus: 'Pendiente',
       observations: formData.unitNotes || 'Sin observaciones',
       phone: formData.unitPhone || 'No registrado',
+      patente: formData.unitNumber,
       personnel: []
     };
     
+    // Agregar la nueva unidad al array de unidades
     setUnits([...units, newUnit]);
-    setShowAddUnitModal(false);
     
-    // Limpiar formulario
+    // Cerrar el modal y resetear el formulario
+    setShowAddUnitModal(false);
     setFormData({
       unitNumber: '',
       unitType: '',
@@ -477,6 +490,11 @@ const EmergencyUnitsPanel = () => {
                 <div className="flex justify-between mb-2">
                   <span className="text-sm text-gray-500">Teléfono:</span>
                   <span className="text-sm font-medium">{unit.phone}</span>
+                </div>
+                
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm text-gray-500">Patente:</span>
+                  <span className="text-sm font-medium">{unit.patente}</span>
                 </div>
                 
                 <div className="flex items-center text-xs text-gray-500 mb-2">
@@ -787,6 +805,13 @@ const EmergencyUnitsPanel = () => {
                     {selectedUnit.phone}
                   </p>
                 </div>
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Patente</p>
+                  <p className="text-sm font-medium flex items-center">
+                    <i className="fas fa-id-card text-gray-400 mr-1.5"></i>
+                    {selectedUnit.patente}
+                  </p>
+                </div>
               </div>
             </div>
             
@@ -825,8 +850,8 @@ const EmergencyUnitsPanel = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {selectedUnit.personnel.map((person, index) => (
                     <div key={index} className="flex items-center p-2 rounded-lg hover:bg-gray-50">
-                      <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden mr-3">
-                        <img src={person.image} alt={person.name} className="w-full h-full object-cover" />
+                      <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 mr-3">
+                        <i className={`fas ${person.gender === 'female' ? 'fa-female text-pink-500' : 'fa-male text-blue-500'} text-xl`}></i>
                       </div>
                       <div>
                         <p className="text-sm font-medium">{person.name}</p>
@@ -846,6 +871,13 @@ const EmergencyUnitsPanel = () => {
                 onClick={() => setShowUnitProfileModal(false)}
               >
                 Cerrar
+              </Button>
+              <Button 
+                variant="outline"
+                className="text-yellow-600 border-yellow-600 hover:bg-yellow-50"
+              >
+                <i className="fas fa-edit mr-1.5"></i>
+                Editar
               </Button>
               <Button 
                 variant="primary"
