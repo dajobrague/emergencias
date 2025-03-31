@@ -8,9 +8,10 @@ import IncidentChart from '../../components/Dashboard/Charts/IncidentChart';
 // import AlertsChart from '../../components/Dashboard/Charts/AlertsChart';
 // import IncidentsVehicleChart from '../../components/Dashboard/Charts/IncidentsVehicleChart';
 // import PersonnelStatusChart from '../../components/Dashboard/Charts/PersonnelStatusChart';
-import IncidentsRouteChart from '../../components/Dashboard/Charts/IncidentsRouteChart';
+// import IncidentsRouteChart from '../../components/Dashboard/Charts/IncidentsRouteChart';
 import LatestAlerts from '../../components/Dashboard/LatestAlerts';
 import LatestIncidents from '../../components/Dashboard/LatestIncidents';
+import LatestTruckRecords from '../../components/Dashboard/LatestTruckRecords';
 import MainStats from '../../components/Dashboard/MainStats';
 import FilterPanel from '../../components/Dashboard/FilterPanel';
 // Importar los componentes de gráficos de barras
@@ -24,6 +25,9 @@ import TopIncidentsByCompanyChart from '../../components/Dashboard/Charts/TopInc
 import AlertsByTypeChart from '../../components/Dashboard/Charts/AlertsByTypeChart';
 // Importar el botón de generación de informes
 import ReportButton from '../../components/Dashboard/ReportButton';
+// Importar los nuevos gráficos
+import DangerousSubstancesChart from '../../components/Dashboard/Charts/DangerousSubstancesChart';
+import IncidentsActivityChart from '../../components/Dashboard/Charts/IncidentsActivityChart';
 
 // Registrar los componentes de Chart.js
 ChartJS.register(
@@ -104,6 +108,17 @@ const DashboardPanel = () => {
         <EmergenciesQuantityChart timeFilter={timeFilter} />
       </div>
       
+      {/* Nuevos gráficos agregados según la imagen proporcionada */}
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-6">
+        {/* Gráfico de Sustancias Peligrosas */}
+        <DangerousSubstancesChart timeFilter={timeFilter} />
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        {/* Cantidad de Incidentes (Actividad por Período) */}
+        <IncidentsActivityChart timeFilter={timeFilter} />
+      </div>
+      
       {/* Gráficos de Torta - Primera Fila */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         {/* Top 5 de Incidentes por Tipo */}
@@ -125,16 +140,19 @@ const DashboardPanel = () => {
         <AlertsByTypeChart timeFilter={timeFilter} />
       </div>
       
-      {/* Incidentes por Ruta */}
-      <IncidentsRouteChart />
+      {/* Se elimina el gráfico de Incidentes por Ruta */}
+      {/* <IncidentsRouteChart /> */}
       
-      {/* Últimas Alertas e Incidentes */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Últimas Alertas, Incidentes y Registros de Camiones */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Últimas Alertas */}
         <LatestAlerts />
         
         {/* Últimos Incidentes */}
         <LatestIncidents />
+        
+        {/* Últimos Registro de Camiones */}
+        <LatestTruckRecords />
       </div>
       
       {/* Información de pie de página para el informe (solo visible al imprimir) */}
