@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const CirculationForm = ({ onSubmit, onCancel }) => {
+  const [empresaSeleccionada, setEmpresaSeleccionada] = useState('');
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aquí se procesaría el formulario
@@ -9,115 +11,234 @@ const CirculationForm = ({ onSubmit, onCancel }) => {
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Fecha */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Fecha y Hora de Salida
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Fecha
           </label>
           <input
-            type="datetime-local"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 modal-input"
+            type="date"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
           />
         </div>
+        
+        {/* Hora */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            ID del Camión
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Hora
           </label>
           <input
-            type="text"
-            placeholder="Ej: CAM-123"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 modal-input"
+            type="time"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Sentido */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Conductor
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Sentido
           </label>
-          <input
-            type="text"
-            placeholder="Nombre del conductor"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 modal-input"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Ruta Asignada
-          </label>
-          <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 modal-input">
-            <option value="">Seleccione una ruta</option>
-            <option value="route1">Ruta Norte</option>
-            <option value="route2">Ruta Sur</option>
-            <option value="route3">Ruta Este</option>
-            <option value="route4">Ruta Oeste</option>
+          <select 
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          >
+            <option value="">Seleccione sentido</option>
+            <option value="Bajada">Bajada</option>
+            <option value="Subida">Subida</option>
           </select>
         </div>
+        
+        {/* Patente */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Patente
+          </label>
+          <input
+            type="text"
+            placeholder="Ej: ABCD12"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Escolta Convoy */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Escolta Convoy
+          </label>
+          <input
+            type="number"
+            placeholder="Ingrese número"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+        
+        {/* N° Escolta */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            N° Escolta
+          </label>
+          <input
+            type="number"
+            placeholder="Ingrese número"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Rut Conductor */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Rut Conductor
+          </label>
+          <input
+            type="text"
+            placeholder="Ej: 12345678-9"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+        
+        {/* Nombre Conductor */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Nombre Conductor
+          </label>
+          <input
+            type="text"
+            placeholder="Ingrese nombre"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+        
+        {/* Apellido Conductor */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Apellido Conductor
+          </label>
+          <input
+            type="text"
+            placeholder="Ingrese apellido"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+      </div>
+      
+      {/* Empresa */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Tipo de Carga
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Empresa
         </label>
-        <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 modal-input">
-          <option value="">Seleccione tipo de carga</option>
-          <option value="type1">Materiales de Construcción</option>
-          <option value="type2">Alimentos</option>
-          <option value="type3">Combustible</option>
-          <option value="type4">Otros</option>
+        <select 
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          value={empresaSeleccionada}
+          onChange={(e) => setEmpresaSeleccionada(e.target.value)}
+          required
+        >
+          <option value="">Seleccione empresa</option>
+          <option value="RESITER">RESITER</option>
+          <option value="SOTRASER">SOTRASER</option>
+          <option value="COPEC">COPEC</option>
+          <option value="TRANSCARGO">TRANSCARGO</option>
+          <option value="GEOBARRA">GEOBARRA</option>
+          <option value="TRANSPORTE NAVARRO">TRANSPORTE NAVARRO</option>
+          <option value="TRANSPORTE BELLO">TRANSPORTE BELLO</option>
+          <option value="ENAEX">ENAEX</option>
+          <option value="TRANSPORTE BSM">TRANSPORTE BSM</option>
+          <option value="ELIS">ELIS</option>
+          <option value="BESALCO">BESALCO</option>
+          <option value="OTROS">OTROS</option>
         </select>
       </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Peso de Carga (kg)
-        </label>
-        <input
-          type="number"
-          placeholder="Ej: 5000"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 modal-input"
-        />
+      
+      {/* Campo Otros para Empresa */}
+      {empresaSeleccionada === 'OTROS' && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Especifique Empresa
+          </label>
+          <input
+            type="text"
+            placeholder="Ingrese nombre de empresa"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+      )}
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Tipo Camión */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Tipo Camión
+          </label>
+          <select 
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          >
+            <option value="">Seleccione tipo de camión</option>
+            <option value="Sustancias Peligrosas">Sustancias Peligrosas</option>
+            <option value="Menor a 10 Metros">Menor a 10 Metros</option>
+            <option value="Mayor a 10 Metros">Mayor a 10 Metros</option>
+            <option value="MOP">MOP</option>
+          </select>
+        </div>
+        
+        {/* Carga */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Carga
+          </label>
+          <input
+            type="text"
+            placeholder="Describa la carga"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
       </div>
-
+      
+      {/* Gerencia */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Destino
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Gerencia
         </label>
         <input
           type="text"
-          placeholder="Lugar de destino"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 modal-input"
+          placeholder="Ingrese gerencia"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          required
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Observaciones
-        </label>
-        <textarea
-          rows="3"
-          placeholder="Observaciones adicionales..."
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 modal-input"
-        ></textarea>
-      </div>
-
-      <div className="flex justify-end space-x-3">
+      <div className="flex justify-end space-x-3 pt-2">
         {onCancel && (
           <button
             type="button"
             onClick={onCancel}
-            className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors modal-btn"
+            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
           >
             Cancelar
           </button>
         )}
         <button
           type="submit"
-          className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors modal-btn"
+          className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
         >
           <i className="fas fa-truck mr-2"></i>
-          Registrar Circulación
+          Registrar Control de Camiones
         </button>
       </div>
     </form>

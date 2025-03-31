@@ -1,20 +1,19 @@
-import React, { useState, useRef } from 'react';
-import Card from '../../components/UI/Card';
-import Button from '../../components/UI/Button';
+import React, { useState, useEffect, useRef } from 'react';
+// import Card from '../../components/UI/Card';
+// import Button from '../../components/UI/Button';
+import Modal from '../../components/UI/Modal';
+import UnitDetails from '../../components/Emergency/UnitDetails';
 import EmergencyMap from '../../components/Maps/EmergencyMap';
 import AlertForm from '../../components/Emergency/AlertForm';
-import Modal from '../../components/UI/Modal';
 import BrigadeDetails from '../../components/Emergency/BrigadeDetails';
-import UnitDetails from '../../components/Emergency/UnitDetails';
 
 const EmergencyPanel = () => {
-  const [activeTab, setActiveTab] = useState('current');
   const [showAlertForm, setShowAlertForm] = useState(false);
   const newEmergencyBtnRef = useRef(null);
   
   // Estados para el modal de detalles de brigada
-  const [selectedBrigade, setSelectedBrigade] = useState(null);
   const [showBrigadeDetails, setShowBrigadeDetails] = useState(false);
+  const [selectedBrigade, setSelectedBrigade] = useState(null);
 
   // Estados para el modal de detalles de unidad
   const [selectedUnit, setSelectedUnit] = useState(null);
@@ -22,13 +21,125 @@ const EmergencyPanel = () => {
 
   // Datos de ejemplo
   const emergencyUnits = [
-    { id: 1, name: 'Los Bronce', type: 'fire', status: 'active', icon: 'fa-fire-extinguisher' },
-    { id: 2, name: 'Las Tórtola', type: 'fire', status: 'active', icon: 'fa-fire-extinguisher' },
-    { id: 3, name: 'La Ermita', type: 'rescue', status: 'active', icon: 'fa-truck' },
-    { id: 4, name: 'STP', type: 'rescue', status: 'standby', icon: 'fa-truck' },
-    { id: 5, name: 'Mina', type: 'tactical', status: 'active', icon: 'fa-shield-alt' },
-    { id: 6, name: 'Ambulancia', type: 'ambulance', status: 'standby', icon: 'fa-ambulance' },
-    { id: 7, name: 'Helicóptero', type: 'helicopter', status: 'active', icon: 'fa-helicopter' },
+    { 
+      id: 1, 
+      name: 'Los Bronces', 
+      type: 'fire', 
+      status: 'active', 
+      icon: 'fa-fire-extinguisher',
+      details: {
+        fullName: 'Los Bronces',
+        subtype: 'Camión de Bomberos',
+        checklist: 'Completo',
+        lastRevision: '15/05/2023',
+        phone: '+56953673934',
+        plate: 'RGBD50',
+        location: 'Camino Industrial Los Bronces',
+        observations: 'Equipo en perfectas condiciones'
+      } 
+    },
+    { 
+      id: 2, 
+      name: 'Las Tórtolas', 
+      type: 'fire', 
+      status: 'en-route', 
+      icon: 'fa-fire-extinguisher',
+      details: {
+        fullName: 'Las Tórtolas',
+        subtype: 'Camión de Bomberos',
+        checklist: 'Pendiente',
+        lastRevision: '10/05/2023',
+        phone: '+56946453178',
+        plate: 'GXPG50',
+        location: 'Las Tórtolas',
+        observations: 'Nivel de agua al 75%'
+      }
+    },
+    { 
+      id: 3, 
+      name: 'La Ermita', 
+      type: 'rescue', 
+      status: 'active', 
+      icon: 'fa-truck',
+      details: {
+        fullName: 'La Ermita',
+        subtype: 'Vehículo de Rescate',
+        checklist: 'Completo',
+        lastRevision: '12/05/2023',
+        phone: '+56965944839',
+        plate: 'LJTD55',
+        location: 'Ruta G21 y G245',
+        observations: 'Equipamiento completo y verificado'
+      }
+    },
+    { 
+      id: 4, 
+      name: 'STP', 
+      type: 'rescue', 
+      status: 'maintenance', 
+      icon: 'fa-truck',
+      details: {
+        fullName: 'STP',
+        subtype: 'Vehículo de Rescate',
+        checklist: 'No aplica',
+        lastRevision: '05/05/2023',
+        phone: '+569582128773',
+        plate: 'LVFW73',
+        location: 'Mineroducto',
+        observations: 'En revisión mecánica programada'
+      }
+    },
+    { 
+      id: 5, 
+      name: 'Mina', 
+      type: 'tactical', 
+      status: 'active', 
+      icon: 'fa-shield-alt',
+      details: {
+        fullName: 'Mina',
+        subtype: 'Unidad Táctica',
+        checklist: 'Completo',
+        lastRevision: '14/05/2023',
+        phone: '+56961176944',
+        plate: 'Mina',
+        location: 'Interior Mina',
+        observations: 'Sin observaciones'
+      }
+    },
+    { 
+      id: 6, 
+      name: 'Ambulancia', 
+      type: 'ambulance', 
+      status: 'active', 
+      icon: 'fa-ambulance',
+      details: {
+        fullName: 'Ambulancia',
+        subtype: 'Ambulancia',
+        checklist: 'Completo',
+        lastRevision: '13/05/2023',
+        phone: 'Por Confirmar',
+        plate: 'AMB01',
+        location: 'Por confirmar',
+        observations: 'Equipamiento médico verificado'
+      }
+    },
+    { 
+      id: 7, 
+      name: 'Helicóptero', 
+      type: 'helicopter', 
+      status: 'active', 
+      icon: 'fa-helicopter',
+      details: {
+        fullName: 'Helicóptero',
+        subtype: 'Transporte Aéreo',
+        checklist: 'Completo',
+        lastRevision: '10/05/2023',
+        phone: 'N/A',
+        plate: 'HELI1',
+        location: 'Helipuerto Principal',
+        observations: 'Listo para despegue'
+      }
+    },
   ];
 
   // Datos de brigadas actualizados según requerimientos
@@ -39,12 +150,12 @@ const EmergencyPanel = () => {
         zone: 'Los Bronce', 
         dayShift: { 
           active: 8, 
-          leader: 'Carlos Pérez', 
+          leader: 'Jaime Astroza', 
           leaderId: 'AA-123' 
         },
         nightShift: { 
           active: 6, 
-          leader: 'Ana García', 
+          leader: 'Francisco Cortés', 
           leaderId: 'AA-456' 
         }
       },
@@ -53,27 +164,13 @@ const EmergencyPanel = () => {
         zone: 'Las Tórtola', 
         dayShift: { 
           active: 10, 
-          leader: 'Manuel Rodríguez', 
+          leader: 'José Riquelme', 
           leaderId: 'AA-234' 
         },
         nightShift: { 
           active: 7, 
-          leader: 'Laura Martínez', 
+          leader: 'Pablo Cima', 
           leaderId: 'AA-567' 
-        }
-      },
-      { 
-        id: 3, 
-        zone: 'La Ermita', 
-        dayShift: { 
-          active: 12, 
-          leader: 'Roberto Sánchez', 
-          leaderId: 'AA-345' 
-        },
-        nightShift: { 
-          active: 9, 
-          leader: 'Carmen López', 
-          leaderId: 'AA-678' 
         }
       },
       { 
@@ -81,12 +178,12 @@ const EmergencyPanel = () => {
         zone: 'STP', 
         dayShift: { 
           active: 9, 
-          leader: 'Javier Torres', 
+          leader: 'Carlos Bravo', 
           leaderId: 'AA-456' 
         },
         nightShift: { 
           active: 8, 
-          leader: 'Elena Flores', 
+          leader: 'Mario Guajardo', 
           leaderId: 'AA-789' 
         }
       },
@@ -95,12 +192,12 @@ const EmergencyPanel = () => {
         zone: 'Mina', 
         dayShift: { 
           active: 7, 
-          leader: 'Antonio Díaz', 
+          leader: 'Luis Cuello', 
           leaderId: 'AA-567' 
         },
         nightShift: { 
           active: 5, 
-          leader: 'Isabel Ruiz', 
+          leader: 'Luis Carrasco', 
           leaderId: 'AA-890' 
         }
       }
@@ -111,12 +208,12 @@ const EmergencyPanel = () => {
         zone: 'Los Bronce', 
         dayShift: { 
           active: 5, 
-          leader: 'Miguel Vargas', 
+          leader: 'Por Confirmar', 
           leaderId: 'EX-123' 
         },
         nightShift: { 
           active: 4, 
-          leader: 'Lucía Romero', 
+          leader: 'Por Confirmar', 
           leaderId: 'EX-456' 
         }
       },
@@ -125,12 +222,12 @@ const EmergencyPanel = () => {
         zone: 'Las Tórtola', 
         dayShift: { 
           active: 6, 
-          leader: 'Pablo Morales', 
+          leader: 'Por Confirmar', 
           leaderId: 'EX-234' 
         },
         nightShift: { 
           active: 5, 
-          leader: 'Sofía Jiménez', 
+          leader: 'Por Confirmar', 
           leaderId: 'EX-567' 
         }
       },
@@ -139,12 +236,12 @@ const EmergencyPanel = () => {
         zone: 'La Ermita', 
         dayShift: { 
           active: 7, 
-          leader: 'David Gutiérrez', 
+          leader: 'Por Confirmar', 
           leaderId: 'EX-345' 
         },
         nightShift: { 
           active: 6, 
-          leader: 'Marta Álvarez', 
+          leader: 'Por Confirmar', 
           leaderId: 'EX-678' 
         }
       },
@@ -153,12 +250,12 @@ const EmergencyPanel = () => {
         zone: 'STP', 
         dayShift: { 
           active: 5, 
-          leader: 'Alejandro Méndez', 
+          leader: 'Por Confirmar', 
           leaderId: 'EX-456' 
         },
         nightShift: { 
           active: 4, 
-          leader: 'Patricia Domínguez', 
+          leader: 'Por Confirmar', 
           leaderId: 'EX-789' 
         }
       },
@@ -167,12 +264,12 @@ const EmergencyPanel = () => {
         zone: 'Mina', 
         dayShift: { 
           active: 4, 
-          leader: 'Fernando Castro', 
+          leader: 'Por Confirmar', 
           leaderId: 'EX-567' 
         },
         nightShift: { 
           active: 3, 
-          leader: 'Raquel Navarro', 
+          leader: 'Por Confirmar', 
           leaderId: 'EX-890' 
         }
       }
@@ -199,15 +296,6 @@ const EmergencyPanel = () => {
       time: '45 minutos',
       coords: [-33.0153, -71.5521] // Valparaíso
     }
-  ];
-
-  // Datos de ejemplo para los contactos
-  const contacts = [
-    { id: 1, name: 'Policlínico Los Bronce', role: 'Médico de Turno', phone: '123-456-7890', icon: 'fas fa-user-md' },
-    { id: 2, name: 'Policlínico Las Tórtolas', role: 'Médico de Turno', phone: '123-456-7891', icon: 'fas fa-user-md' },
-    { id: 3, name: 'Control Paso Marchant', role: 'Jefe de Turno', phone: '123-456-7892', icon: 'fas fa-hard-hat' },
-    { id: 4, name: 'Control La Ermita', role: 'Supervisor de Turno', phone: '123-456-7893', icon: 'fas fa-id-badge' },
-    { id: 5, name: 'Control Las Puertas', role: 'Control de Acceso', phone: '123-456-7894', icon: 'fas fa-door-open' }
   ];
 
   // Función para obtener el color según el estado
@@ -280,6 +368,26 @@ const EmergencyPanel = () => {
     setSelectedUnit(null);
   };
   
+  // Función para cerrar dropdown al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const dropdowns = document.querySelectorAll('.dropdown');
+      dropdowns.forEach(dropdown => {
+        if (!dropdown.contains(event.target)) {
+          const menu = dropdown.querySelector('.dropdown-menu');
+          if (menu) {
+            menu.classList.add('hidden');
+          }
+        }
+      });
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+  
   // Exponer funciones para el tour
   React.useEffect(() => {
     // Exportar las funciones al objeto window para que puedan ser utilizadas desde el tour
@@ -296,13 +404,23 @@ const EmergencyPanel = () => {
   }, []);
 
   return (
-    <div id="emergency-panel">
-      <h2 className="text-2xl font-bold text-dark mb-2">Panel de Emergencias</h2>
-      <p className="text-gray-600 mb-8">Estado actual de las operaciones de emergencia</p>
-      
-      {/* Estadísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-xl shadow-sm p-6 flex items-center">
+    <div className="p-4">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">Panel de Emergencias</h1>
+        
+        <button
+          ref={newEmergencyBtnRef}
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-md transition-colors"
+          onClick={handleOpenAlertForm}
+        >
+          <i className="fas fa-plus-circle mr-2"></i>
+          Nueva Emergencia
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Estadísticas */}
+        <div className="bg-white rounded-xl shadow-sm p-4 flex items-center">
           <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mr-4">
             <i className="fas fa-exclamation-triangle text-red-500 text-xl"></i>
           </div>
@@ -312,7 +430,7 @@ const EmergencyPanel = () => {
           </div>
         </div>
         
-        <div className="bg-white rounded-xl shadow-sm p-6 flex items-center">
+        <div className="bg-white rounded-xl shadow-sm p-4 flex items-center">
           <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
             <i className="fas fa-users text-blue-500 text-xl"></i>
           </div>
@@ -322,7 +440,7 @@ const EmergencyPanel = () => {
           </div>
         </div>
         
-        <div className="bg-white rounded-xl shadow-sm p-6 flex items-center">
+        <div className="bg-white rounded-xl shadow-sm p-4 flex items-center">
           <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
             <i className="fas fa-ambulance text-green-500 text-xl"></i>
           </div>
@@ -332,7 +450,7 @@ const EmergencyPanel = () => {
           </div>
         </div>
         
-        <div className="bg-white rounded-xl shadow-sm p-6 flex items-center">
+        <div className="bg-white rounded-xl shadow-sm p-4 flex items-center">
           <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mr-4">
             <i className="fas fa-bell text-orange-500 text-xl"></i>
           </div>
@@ -357,14 +475,6 @@ const EmergencyPanel = () => {
             <button className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors">
               <i className="fas fa-history mr-1"></i> Historial
             </button>
-            <button 
-              id="new-emergency-btn"
-              ref={newEmergencyBtnRef}
-              className="px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors"
-              onClick={handleOpenAlertForm}
-            >
-              <i className="fas fa-plus mr-1"></i> Nueva Emergencia
-            </button>
           </div>
         </div>
         
@@ -384,9 +494,21 @@ const EmergencyPanel = () => {
         </div>
         
         {/* Mapa de Emergencias con controles mejorados */}
-        <div className="mb-4 w-full">
-          <EmergencyMap />
+        <div className="mb-4 w-full h-[700px] overflow-hidden rounded-lg">
+          <EmergencyMap emergencies={alerts} />
         </div>
+      </div>
+      
+      {/* Vista de monitoreo detallado */}
+      <div className="p-4 mb-8 bg-white rounded-lg shadow-sm">
+        <h3 className="text-2xl font-bold text-dark mb-4">Monitoreo Detallado</h3>
+        <p className="text-gray-600 mb-4">Información detallada del estado operacional</p>
+        
+        {/* Eliminar esta instancia duplicada del mapa */}
+        {/* <div className="mb-4 w-full">
+          <EmergencyMap />
+        </div> */}
+        
       </div>
       
       {/* Brigadas */}
@@ -531,19 +653,29 @@ const EmergencyPanel = () => {
                   } text-xl`}></i>
                 </div>
                 <h4 className="text-base font-semibold mb-1 text-center">{unit.name}</h4>
+                <p className="text-xs text-gray-500 mb-2 text-center">{unit.details.subtype}</p>
                 
                 <div className="flex flex-col items-center mt-1 w-full">
                   <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(unit.status)} mb-2 w-full text-center`}>
                     {getStatusText(unit.status)}
                   </span>
                   
-                  <span className="text-xs text-gray-500 mb-2">
-                    {unit.type === 'fire' ? 'Unidad contra incendios' : 
-                     unit.type === 'rescue' ? 'Unidad de rescate' :
-                     unit.type === 'tactical' ? 'Unidad táctica' :
-                     unit.type === 'ambulance' ? 'Ambulancia' :
-                     unit.type === 'helicopter' ? 'Helicóptero' : 'Vehículo de emergencia'}
-                  </span>
+                  <div className="w-full mb-2">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-gray-500">Checklist:</span>
+                      <span className={`
+                        ${unit.details.checklist === 'Completo' ? 'text-green-600' : 
+                          unit.details.checklist === 'Pendiente' ? 'text-yellow-600' : 
+                          'text-gray-600'}
+                      `}>
+                        {unit.details.checklist}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-xs mt-1">
+                      <span className="text-gray-500">Revisión:</span>
+                      <span className="text-gray-600">{unit.details.lastRevision}</span>
+                    </div>
+                  </div>
                   
                   <button 
                     className="w-full mt-2 px-3 py-1.5 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-md transition-colors flex items-center justify-center"
@@ -596,28 +728,563 @@ const EmergencyPanel = () => {
       
       {/* Contactos de Emergencia */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold mb-4">Contactos de Emergencia</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-          {contacts.map(contact => (
-            <div key={contact.id} className="bg-white rounded-lg shadow-sm p-3">
-              <div className="flex items-center mb-2">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
-                  <i className={`${contact.icon} text-blue-500 text-sm`}></i>
-                </div>
-                <div className="overflow-hidden">
-                  <h4 className="text-xs font-medium truncate">{contact.name}</h4>
-                  <p className="text-xs text-gray-500 truncate">{contact.role}</p>
-                </div>
+        <h3 className="text-2xl font-bold text-dark mb-6">Equipo de Salud</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Sala Primeros Auxilios */}
+          <div className="bg-white rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow h-full flex flex-col">
+            <div className="flex items-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <i className="fas fa-user-md text-blue-500 text-xl"></i>
               </div>
-              <a 
-                href={`tel:${contact.phone}`} 
-                className="flex items-center justify-center w-full px-2 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-md transition-colors text-xs"
-              >
-                <i className="fas fa-phone-alt mr-1.5"></i>
-                Llamar
-              </a>
+              <div>
+                <h4 className="font-semibold text-gray-800">Sala Primeros Auxilios 220</h4>
+                <p className="text-sm text-gray-600">Desde Km 40 hacia la Mina</p>
+              </div>
             </div>
-          ))}
+            <div className="space-y-2 mb-4 flex-grow">
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-phone-alt text-blue-500 mr-3"></i>
+                <span>+56222307721</span>
+              </div>
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-mobile-alt text-blue-500 mr-3"></i>
+                <span>+56985951556</span>
+              </div>
+            </div>
+            <div className="dropdown relative">
+              <button 
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                onClick={(e) => {
+                  // Cerrar todos los otros dropdowns primero
+                  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== e.currentTarget.nextElementSibling) {
+                      menu.classList.add('hidden');
+                    }
+                  });
+                  // Alternar este dropdown
+                  e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                }}
+              >
+                <i className="fas fa-phone-alt mr-2"></i>
+                Llamar
+              </button>
+              <div className="dropdown-menu hidden absolute bottom-full left-0 right-0 mb-1 bg-white rounded-lg shadow-lg overflow-hidden z-20 transform origin-bottom transition-transform duration-150">
+                <div className="py-1.5 px-3 bg-blue-50 border-b border-blue-100">
+                  <span className="text-xs font-medium text-blue-700">Seleccione un número</span>
+                </div>
+                <a 
+                  href="tel:+56222307721" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-phone-alt text-blue-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56222307721</p>
+                    <p className="text-xs text-gray-500">Teléfono Fijo</p>
+                  </div>
+                </a>
+                <a 
+                  href="tel:+56985951556" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-mobile-alt text-green-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56985951556</p>
+                    <p className="text-xs text-gray-500">Teléfono Móvil</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Servicio Médico Pérez Caldera */}
+          <div className="bg-white rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow h-full flex flex-col">
+            <div className="flex items-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <i className="fas fa-user-md text-blue-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Servicio Médico Pérez Caldera</h4>
+                <p className="text-sm text-gray-600">Desde ruta G245 hasta Km 40</p>
+              </div>
+            </div>
+            <div className="space-y-2 mb-4 flex-grow">
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-phone-alt text-blue-500 mr-3"></i>
+                <span>+56222307080</span>
+              </div>
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-mobile-alt text-blue-500 mr-3"></i>
+                <span>+56958379444</span>
+              </div>
+            </div>
+            <div className="dropdown relative">
+              <button 
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                onClick={(e) => {
+                  // Cerrar todos los otros dropdowns primero
+                  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== e.currentTarget.nextElementSibling) {
+                      menu.classList.add('hidden');
+                    }
+                  });
+                  // Alternar este dropdown
+                  e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                }}
+              >
+                <i className="fas fa-phone-alt mr-2"></i>
+                Llamar
+              </button>
+              <div className="dropdown-menu hidden absolute bottom-full left-0 right-0 mb-1 bg-white rounded-lg shadow-lg overflow-hidden z-20 transform origin-bottom transition-transform duration-150">
+                <div className="py-1.5 px-3 bg-blue-50 border-b border-blue-100">
+                  <span className="text-xs font-medium text-blue-700">Seleccione un número</span>
+                </div>
+                <a 
+                  href="tel:+56222307080" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-phone-alt text-blue-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56222307080</p>
+                    <p className="text-xs text-gray-500">Teléfono Fijo</p>
+                  </div>
+                </a>
+                <a 
+                  href="tel:+56958379444" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-mobile-alt text-green-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56958379444</p>
+                    <p className="text-xs text-gray-500">Teléfono Móvil</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Servicio Médico Las Tórtolas 1 */}
+          <div className="bg-white rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow h-full flex flex-col">
+            <div className="flex items-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <i className="fas fa-user-md text-blue-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Servicio Médico Las Tórtolas</h4>
+                <p className="text-sm text-gray-600">Las Tótolas & STP</p>
+              </div>
+            </div>
+            <div className="space-y-2 mb-4 flex-grow">
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-phone-alt text-blue-500 mr-3"></i>
+                <span>+56222306809</span>
+              </div>
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-mobile-alt text-blue-500 mr-3"></i>
+                <span>+56983618664</span>
+              </div>
+            </div>
+            <div className="dropdown relative">
+              <button 
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                onClick={(e) => {
+                  // Cerrar todos los otros dropdowns primero
+                  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== e.currentTarget.nextElementSibling) {
+                      menu.classList.add('hidden');
+                    }
+                  });
+                  // Alternar este dropdown
+                  e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                }}
+              >
+                <i className="fas fa-phone-alt mr-2"></i>
+                Llamar
+              </button>
+              <div className="dropdown-menu hidden absolute bottom-full left-0 right-0 mb-1 bg-white rounded-lg shadow-lg overflow-hidden z-20 transform origin-bottom transition-transform duration-150">
+                <div className="py-1.5 px-3 bg-blue-50 border-b border-blue-100">
+                  <span className="text-xs font-medium text-blue-700">Seleccione un número</span>
+                </div>
+                <a 
+                  href="tel:+56222306809" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-phone-alt text-blue-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56222306809</p>
+                    <p className="text-xs text-gray-500">Teléfono Fijo</p>
+                  </div>
+                </a>
+                <a 
+                  href="tel:+56983618664" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-mobile-alt text-green-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56983618664</p>
+                    <p className="text-xs text-gray-500">Teléfono Móvil</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Servicio Médico Las Tórtolas 2 */}
+          <div className="bg-white rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow h-full flex flex-col">
+            <div className="flex items-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <i className="fas fa-user-md text-blue-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Servicio Médico Las Tórtolas</h4>
+                <p className="text-sm text-gray-600">Las Tótolas & STP</p>
+              </div>
+            </div>
+            <div className="space-y-2 mb-4 flex-grow">
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-phone-alt text-blue-500 mr-3"></i>
+                <span>+56222306809</span>
+              </div>
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-mobile-alt text-blue-500 mr-3"></i>
+                <span>+56983618664</span>
+              </div>
+            </div>
+            <div className="dropdown relative">
+              <button 
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                onClick={(e) => {
+                  // Cerrar todos los otros dropdowns primero
+                  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== e.currentTarget.nextElementSibling) {
+                      menu.classList.add('hidden');
+                    }
+                  });
+                  // Alternar este dropdown
+                  e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                }}
+              >
+                <i className="fas fa-phone-alt mr-2"></i>
+                Llamar
+              </button>
+              <div className="dropdown-menu hidden absolute bottom-full left-0 right-0 mb-1 bg-white rounded-lg shadow-lg overflow-hidden z-20 transform origin-bottom transition-transform duration-150">
+                <div className="py-1.5 px-3 bg-blue-50 border-b border-blue-100">
+                  <span className="text-xs font-medium text-blue-700">Seleccione un número</span>
+                </div>
+                <a 
+                  href="tel:+56222306809" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-phone-alt text-blue-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56222306809</p>
+                    <p className="text-xs text-gray-500">Teléfono Fijo</p>
+                  </div>
+                </a>
+                <a 
+                  href="tel:+56983618664" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-mobile-alt text-green-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56983618664</p>
+                    <p className="text-xs text-gray-500">Teléfono Móvil</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Brigada de Emergencia */}
+      <div className="mb-8">
+        <h3 className="text-2xl font-bold text-dark mb-6">Brigada de Emergencia</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {/* Las Tórtolas */}
+          <div className="bg-white rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow h-full flex flex-col">
+            <div className="flex items-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <i className="fas fa-user text-blue-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Las Tórtolas</h4>
+                <p className="text-sm text-gray-600">Las Tórtolas</p>
+              </div>
+            </div>
+            <div className="space-y-2 mb-4 flex-grow">
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-phone-alt text-blue-500 mr-3"></i>
+                <span>+56946453178</span>
+              </div>
+            </div>
+            <div className="dropdown relative">
+              <button 
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                onClick={(e) => {
+                  // Cerrar todos los otros dropdowns primero
+                  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== e.currentTarget.nextElementSibling) {
+                      menu.classList.add('hidden');
+                    }
+                  });
+                  // Alternar este dropdown
+                  e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                }}
+              >
+                <i className="fas fa-phone-alt mr-2"></i>
+                Llamar
+              </button>
+              <div className="dropdown-menu hidden absolute bottom-full left-0 right-0 mb-1 bg-white rounded-lg shadow-lg overflow-hidden z-20 transform origin-bottom transition-transform duration-150">
+                <div className="py-1.5 px-3 bg-blue-50 border-b border-blue-100">
+                  <span className="text-xs font-medium text-blue-700">Seleccione un número</span>
+                </div>
+                <a 
+                  href="tel:+56946453178" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-phone-alt text-blue-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56946453178</p>
+                    <p className="text-xs text-gray-500">Brigada de Emergencia</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Mineroducto (STP) */}
+          <div className="bg-white rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow h-full flex flex-col">
+            <div className="flex items-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <i className="fas fa-user text-blue-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Mineroducto (STP)</h4>
+                <p className="text-sm text-gray-600">Mineroducto</p>
+              </div>
+            </div>
+            <div className="space-y-2 mb-4 flex-grow">
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-phone-alt text-blue-500 mr-3"></i>
+                <span>+56958128773</span>
+              </div>
+            </div>
+            <div className="dropdown relative">
+              <button 
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                onClick={(e) => {
+                  // Cerrar todos los otros dropdowns primero
+                  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== e.currentTarget.nextElementSibling) {
+                      menu.classList.add('hidden');
+                    }
+                  });
+                  // Alternar este dropdown
+                  e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                }}
+              >
+                <i className="fas fa-phone-alt mr-2"></i>
+                Llamar
+              </button>
+              <div className="dropdown-menu hidden absolute bottom-full left-0 right-0 mb-1 bg-white rounded-lg shadow-lg overflow-hidden z-20 transform origin-bottom transition-transform duration-150">
+                <div className="py-1.5 px-3 bg-blue-50 border-b border-blue-100">
+                  <span className="text-xs font-medium text-blue-700">Seleccione un número</span>
+                </div>
+                <a 
+                  href="tel:+56958128773" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-phone-alt text-blue-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56958128773</p>
+                    <p className="text-xs text-gray-500">Brigada de Emergencia</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* La Ermita */}
+          <div className="bg-white rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow h-full flex flex-col">
+            <div className="flex items-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <i className="fas fa-user text-blue-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">La Ermita</h4>
+                <p className="text-sm text-gray-600">Ruta G21 y G245</p>
+              </div>
+            </div>
+            <div className="space-y-2 mb-4 flex-grow">
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-phone-alt text-blue-500 mr-3"></i>
+                <span>+56965944839</span>
+              </div>
+            </div>
+            <div className="dropdown relative">
+              <button 
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                onClick={(e) => {
+                  // Cerrar todos los otros dropdowns primero
+                  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== e.currentTarget.nextElementSibling) {
+                      menu.classList.add('hidden');
+                    }
+                  });
+                  // Alternar este dropdown
+                  e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                }}
+              >
+                <i className="fas fa-phone-alt mr-2"></i>
+                Llamar
+              </button>
+              <div className="dropdown-menu hidden absolute bottom-full left-0 right-0 mb-1 bg-white rounded-lg shadow-lg overflow-hidden z-20 transform origin-bottom transition-transform duration-150">
+                <div className="py-1.5 px-3 bg-blue-50 border-b border-blue-100">
+                  <span className="text-xs font-medium text-blue-700">Seleccione un número</span>
+                </div>
+                <a 
+                  href="tel:+56965944839" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-phone-alt text-blue-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56965944839</p>
+                    <p className="text-xs text-gray-500">Brigada de Emergencia</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Los Bronces */}
+          <div className="bg-white rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow h-full flex flex-col">
+            <div className="flex items-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <i className="fas fa-user text-blue-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Los Bronces</h4>
+                <p className="text-sm text-gray-600">Camino Industrial Los Bronces</p>
+              </div>
+            </div>
+            <div className="space-y-2 mb-4 flex-grow">
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-phone-alt text-blue-500 mr-3"></i>
+                <span>+56953673934</span>
+              </div>
+            </div>
+            <div className="dropdown relative">
+              <button 
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                onClick={(e) => {
+                  // Cerrar todos los otros dropdowns primero
+                  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== e.currentTarget.nextElementSibling) {
+                      menu.classList.add('hidden');
+                    }
+                  });
+                  // Alternar este dropdown
+                  e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                }}
+              >
+                <i className="fas fa-phone-alt mr-2"></i>
+                Llamar
+              </button>
+              <div className="dropdown-menu hidden absolute bottom-full left-0 right-0 mb-1 bg-white rounded-lg shadow-lg overflow-hidden z-20 transform origin-bottom transition-transform duration-150">
+                <div className="py-1.5 px-3 bg-blue-50 border-b border-blue-100">
+                  <span className="text-xs font-medium text-blue-700">Seleccione un número</span>
+                </div>
+                <a 
+                  href="tel:+56953673934" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-phone-alt text-blue-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56953673934</p>
+                    <p className="text-xs text-gray-500">Brigada de Emergencia</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Mina */}
+          <div className="bg-white rounded-lg shadow-sm p-5 hover:shadow-md transition-shadow h-full flex flex-col">
+            <div className="flex items-center mb-3">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <i className="fas fa-user text-blue-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Mina</h4>
+                <p className="text-sm text-gray-600">Interior Mina</p>
+              </div>
+            </div>
+            <div className="space-y-2 mb-4 flex-grow">
+              <div className="flex items-center text-gray-700">
+                <i className="fas fa-phone-alt text-blue-500 mr-3"></i>
+                <span>+56961176944</span>
+              </div>
+            </div>
+            <div className="dropdown relative">
+              <button 
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+                onClick={(e) => {
+                  // Cerrar todos los otros dropdowns primero
+                  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== e.currentTarget.nextElementSibling) {
+                      menu.classList.add('hidden');
+                    }
+                  });
+                  // Alternar este dropdown
+                  e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                }}
+              >
+                <i className="fas fa-phone-alt mr-2"></i>
+                Llamar
+              </button>
+              <div className="dropdown-menu hidden absolute bottom-full left-0 right-0 mb-1 bg-white rounded-lg shadow-lg overflow-hidden z-20 transform origin-bottom transition-transform duration-150">
+                <div className="py-1.5 px-3 bg-blue-50 border-b border-blue-100">
+                  <span className="text-xs font-medium text-blue-700">Seleccione un número</span>
+                </div>
+                <a 
+                  href="tel:+56961176944" 
+                  className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                    <i className="fas fa-phone-alt text-blue-500"></i>
+                  </div>
+                  <div>
+                    <p className="font-medium">+56961176944</p>
+                    <p className="text-xs text-gray-500">Brigada de Emergencia</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       

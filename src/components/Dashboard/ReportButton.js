@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFilePdf, FaPrint } from 'react-icons/fa';
+import { FaFilePdf } from 'react-icons/fa';
 
 const ReportButton = ({ timeFilter, vehicleFilter, incidentFilter }) => {
   // Función para imprimir la página actual

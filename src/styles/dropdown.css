@@ -1,0 +1,64 @@
+/* Estilos para el menú desplegable */
+.dropdown-menu {
+  animation: dropdownFadeIn 0.2s ease-out;
+  transform-origin: top right;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Estilos para el indicador triangular */
+.dropdown-arrow {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  right: 12px;
+  top: -6px;
+  transform: rotate(45deg);
+  background-color: white;
+  border-top: 1px solid #e5e7eb;
+  border-left: 1px solid #e5e7eb;
+  z-index: -1;
+}
+
+/* Estilos para los elementos del menú */
+.dropdown-item {
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(59, 130, 246, 0.08);
+}
+
+.dropdown-item:active {
+  background-color: rgba(59, 130, 246, 0.12);
+}
+
+/* Estilos para el encabezado del dropdown */
+.dropdown-header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  padding: 0.5rem 1rem;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Separador para elementos del dropdown */
+.dropdown-divider {
+  height: 1px;
+  margin: 0.25rem 0;
+  background-color: #e5e7eb;
+} 

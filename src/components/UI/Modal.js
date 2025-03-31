@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const Modal = ({ isOpen, onClose, title, children, size = 'md', verticalPosition = 'center' }) => {
+const Modal = ({ isOpen, onClose, title, children, size = 'md', verticalPosition = 'center', contentClass = '' }) => {
   const modalRef = useRef(null);
   const contentRef = useRef(null);
 
@@ -96,7 +96,7 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', verticalPosition
         onClick={(e) => e.stopPropagation()}
       >
         {/* Cabecera del modal */}
-        <div className="modal-header flex items-center justify-between">
+        <div className="modal-header flex items-center justify-between p-4 border-b">
           <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
           <button 
             onClick={onClose}
@@ -108,7 +108,7 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', verticalPosition
         </div>
         
         {/* Contenido del modal */}
-        <div ref={contentRef} className="modal-form-container">
+        <div ref={contentRef} className={`modal-form-container ${contentClass}`}>
           {children}
         </div>
       </div>

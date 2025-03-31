@@ -1,0 +1,164 @@
+# SISTEMA EMERGENCIAS - ESTRUCTURA DEL PROYECTO
+
+## INFORMACIÓN GENERAL
+Nombre del Proyecto: Fleet Management System / Sistema Emergencias
+Framework: React (v18.2.0)
+Estilizado: TailwindCSS (v3.3.0)
+Gráficos: Chart.js (v4.4.1) con react-chartjs-2 (v5.2.0)
+Mapas: Leaflet (v1.9.4)
+Rutas: React Router DOM (v6.10.0)
+Tours Guiados: Intro.js (v7.2.0) con intro.js-react (v1.0.0)
+
+## ESTRUCTURA DE ARCHIVOS
+
+### Estructura Principal
+```
+|- public/                    # Recursos públicos estáticos
+|- src/                       # Código fuente principal
+|  |- assets/                 # Imágenes y otros recursos
+|  |- components/             # Componentes reutilizables
+|  |- context/                # Context API de React
+|  |- data/                   # Datos estáticos y mock data
+|  |- pages/                  # Páginas principales
+|  |- styles/                 # Estilos CSS
+|  |- App.js                  # Componente principal de la aplicación
+|  |- index.js                # Punto de entrada de React
+|  |- index.css               # Estilos globales
+|- package.json               # Dependencias y scripts
+|- tailwind.config.js         # Configuración de TailwindCSS
+|- vercel.json                # Configuración de despliegue en Vercel
+```
+
+### Estructura de Páginas
+```
+|- src/pages/
+|  |- Dashboard/              # Panel principal
+|  |- Document/               # Gestión de documentos
+|     |- DocumentPanel.js     # Panel principal de documentos
+|  |- Emergency/              # Gestión de emergencias
+|     |- EmergencyPanel.js    # Panel principal de emergencias
+|     |- EmergencyUnitsPanel.js # Panel de unidades de emergencia
+|  |- Fleet/                  # Gestión de flota
+|     |- SimulatorsPanel.js   # Panel de simuladores
+|  |- Personnel/              # Gestión de personal
+|     |- PersonnelPanel.js    # Panel principal de personal
+```
+
+### Estructura de Componentes
+```
+|- src/components/
+|  |- common/                 # Componentes comunes
+|  |- Dashboard/              # Componentes del dashboard
+|     |- Charts/              # Gráficos y visualizaciones
+|     |- FilterPanel.js       # Panel de filtros
+|     |- LatestAlerts.js      # Últimas alertas
+|     |- LatestIncidents.js   # Últimos incidentes
+|     |- MainStats.js         # Estadísticas principales
+|     |- ReportButton.js      # Botón de reporte
+|  |- Emergency/              # Componentes de emergencias
+|  |- Forms/                  # Formularios reutilizables
+|  |- Layout/                 # Componentes de estructura
+|  |- Maps/                   # Componentes de mapas
+|  |- Tours/                  # Tours guiados
+|  |- UI/                     # Componentes de interfaz
+|     |- Button.js            # Botón personalizado
+|     |- Card.js              # Tarjeta personalizada
+|     |- DemoControls.js      # Controles de demostración
+|     |- HelpButton.js        # Botón de ayuda
+|     |- Modal.js             # Ventana modal
+|     |- ServiceCard.js       # Tarjeta de servicio
+|     |- TwitterTimeline.js   # Timeline de Twitter
+```
+
+## FUNCIONALIDADES IMPLEMENTADAS
+
+### Panel de Unidades de Emergencia (EmergencyUnitsPanel.js)
+- Visualización de unidades de emergencia en tarjetas
+- Estado de cada unidad (Activo, En ruta, En mantenimiento, En espera)
+- Tipo de unidad con iconos personalizados (Bomberos, Ambulancia, Rescate, etc.)
+- Filtros para tipo de unidad, estado y checklist
+- Adición de nuevas unidades mediante formulario modal
+- Visualización de perfil detallado de cada unidad
+- Historial de checklists recientes en tabla
+- Información detallada sobre cada unidad:
+  - Número/patente
+  - Tipo
+  - Estado
+  - Zona de operación
+  - Observaciones
+  - Contacto
+  - Personal asignado
+
+### Panel de Simuladores (SimulatorsPanel.js)
+- Gestión de contenido de simulación
+- Categorización de contenido (Videos, Campañas, Aprendizaje)
+- Filtros por categoría y fecha
+- Búsqueda de contenido
+- Visualización de contenido en tarjetas
+- Gestión de estados y filtros
+
+### Componentes UI
+- Button.js: Botón personalizable con variantes y tamaños
+- Card.js: Tarjeta con estilos personalizados
+- Modal.js: Ventana modal para formularios y vistas detalladas
+- ServiceCard.js: Tarjeta específica para servicios
+- DemoControls.js: Controles de demostración
+- HelpButton.js: Botón de ayuda con información contextual
+
+## TECNOLOGÍAS Y PATRONES
+
+### Estado y Gestión de Datos
+- useState para manejo de estado local
+- Componentes funcionales con Hooks
+- Datos de prueba (mock data) incorporados para demostración
+
+### Estilos
+- TailwindCSS para todo el estilizado
+- Diseño responsive con clases condicionales
+- Sistema de colores consistente por tipo de unidad/estado
+
+### Interacción
+- Modales para formularios y vistas detalladas
+- Filtros interactivos
+- Interfaz de usuario moderna con animaciones sutiles
+
+### Visualización de Datos
+- Tablas para mostrar datos estructurados (checklists)
+- Tarjetas para visualización de unidades
+- Badges para estados (Activo, En ruta, etc.)
+
+## PRÓXIMOS PASOS SUGERIDOS
+
+1. Implementar persistencia de datos (backend o almacenamiento local)
+2. Añadir validación de formularios
+3. Implementar gestión de usuario y autenticación
+4. Mejorar la navegación entre diferentes módulos
+5. Añadir funcionalidad de búsqueda global
+6. Implementar notificaciones en tiempo real
+7. Conectar con APIs externas (clima, tráfico, etc.)
+8. Añadir modo oscuro
+9. Optimizar rendimiento para dispositivos móviles
+10. Implementar pruebas automatizadas
+
+## METADATOS DE COMPONENTES CLAVE
+
+### EmergencyUnitsPanel.js
+- Componente principal para gestión de unidades de emergencia
+- Estados principales:
+  - showAddUnitModal: control de modal para añadir unidades
+  - showUnitProfileModal: control de modal para perfil de unidad
+  - selectedUnit: unidad seleccionada para ver detalles
+  - formData: datos del formulario para nueva unidad
+  - units: lista de unidades existentes
+  - recentChecklists: lista de checklists recientes
+
+### SimulatorsPanel.js
+- Componente para gestión de contenido de simulación
+- Estados principales:
+  - activeTab: control de pestañas activas
+  - searchTerm: término de búsqueda
+  - selectedCategories: categorías seleccionadas
+  - dateFilter: filtro de fechas
+  - filteredContent: contenido filtrado
+
+Este documento representa la estructura y funcionalidades actuales del proyecto Sistema Emergencias a la fecha de su actualización. 

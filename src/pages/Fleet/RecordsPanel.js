@@ -1,266 +1,210 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import IncidentCard from '../../components/Records/IncidentCard';
+import VehicleCard from '../../components/Records/VehicleCard';
+import RecordFilterBar from '../../components/Records/RecordFilterBar';
+import HistoricalRecords from '../../components/Records/HistoricalRecords';
+import Modal from '../../components/UI/Modal';
+import IncidentForm from '../../components/Forms/IncidentForm';
+import CirculationForm from '../../components/Forms/CirculationForm';
 
 const RecordsPanel = () => {
-  const [activeForm, setActiveForm] = useState('incidents'); // 'incidents' o 'circulation'
-
-  // Escuchar eventos para cambiar de formulario desde otras partes de la aplicación
+  const [activeTab, setActiveTab] = useState('incidents'); // 'incidents' o 'vehicles'
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showIncidentModal, setShowIncidentModal] = useState(false);
+  const [showVehicleModal, setShowVehicleModal] = useState(false);
+  const dropdownRef = useRef(null);
+  
+  // Cerrar el dropdown cuando se hace clic fuera
   useEffect(() => {
-    const handleFormChange = (e) => {
-      if (e.detail === 'circulation') {
-        setActiveForm('circulation');
-      } else if (e.detail === 'incidents') {
-        setActiveForm('incidents');
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
       }
-    };
-
-    window.addEventListener('change-records-form', handleFormChange);
+    }
     
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      window.removeEventListener('change-records-form', handleFormChange);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [dropdownRef]);
+
+  // Funciones para manejar los modales
+  const handleOpenIncidentModal = () => {
+    setShowDropdown(false);
+    setShowIncidentModal(true);
+  };
+
+  const handleOpenVehicleModal = () => {
+    setShowDropdown(false);
+    setShowVehicleModal(true);
+  };
+
+  const handleIncidentSubmit = () => {
+    alert('Incidente registrado con éxito');
+    setShowIncidentModal(false);
+  };
+
+  const handleVehicleSubmit = () => {
+    alert('Control de camiones registrado con éxito');
+    setShowVehicleModal(false);
+  };
+  
+  // Datos de ejemplo para los últimos incidentes
+  const recentIncidents = [
+    {
+      id: 1,
+      type: 'Accidente',
+      location: 'Ruta G21 Km 34',
+      details: 'Camión y vehículo particular',
+      time: '11:13 AM',
+      date: '2023-04-15'
+    },
+    {
+      id: 2,
+      type: 'Avería',
+      location: 'Los Bronces',
+      details: 'Ambulancia #1',
+      time: '10:05 AM',
+      date: '2023-04-15'
+    },
+    {
+      id: 3,
+      type: 'Emergencia Médica',
+      location: 'Las Tórtolas',
+      details: 'N/A',
+      time: '09:22 AM',
+      date: '2023-04-15'
+    }
+  ];
+
+  // Datos de ejemplo para los últimos registros de camiones
+  const recentVehicles = [
+    {
+      id: 1,
+      type: 'Mayor a 10 Metros',
+      operator: 'GOTRANS01',
+      license: 'SJFD43',
+      status: 'Activo',
+      time: '21:15'
+    },
+    {
+      id: 2,
+      type: 'Menor a 10 Metros',
+      operator: 'GOTRANS02',
+      license: 'RTJG65',
+      status: 'Mantenimiento',
+      time: '22:40'
+    },
+    {
+      id: 3,
+      type: 'Sustancias Peligrosas',
+      operator: 'CELTRANS',
+      license: 'RSJD65',
+      status: 'Construcción',
+      time: '00:05'
+    }
+  ];
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold text-dark mb-6">Registros</h2>
-      <p className="text-gray-600 mb-8">
-        Utilice los siguientes formularios para registrar incidentes o circulación de camiones.
-      </p>
-
-      {/* Selector de formulario */}
-      <div className="flex space-x-4 mb-8">
-        <button
-          data-form="incidents"
-          className={`px-6 py-3 rounded-lg transition-colors ${
-            activeForm === 'incidents'
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-          onClick={() => setActiveForm('incidents')}
-        >
-          <i className="fas fa-exclamation-triangle mr-2"></i>
-          Registro de Incidentes
-        </button>
-        <button
-          data-form="circulation"
-          className={`px-6 py-3 rounded-lg transition-colors ${
-            activeForm === 'circulation'
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-          onClick={() => setActiveForm('circulation')}
-        >
-          <i className="fas fa-truck mr-2"></i>
-          Circulación de Camiones
-        </button>
+      <div className="flex flex-wrap justify-between items-center mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">Registros</h1>
+          <p className="text-gray-600">Base de Datos de Incidentes y Camiones</p>
+        </div>
+        
+        {/* Botón Nuevo con desplegable */}
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <i className="fas fa-plus mr-2"></i>
+            Nuevo
+            <i className={`fas fa-chevron-down ml-2 text-xs transition-transform ${showDropdown ? 'rotate-180' : ''}`}></i>
+          </button>
+          
+          {/* Menú desplegable */}
+          {showDropdown && (
+            <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-10 border border-gray-200 overflow-hidden dropdown-menu">
+              {/* Indicador triangular */}
+              <div className="dropdown-arrow"></div>
+              
+              <div className="relative">
+                <h4 className="dropdown-header">
+                  Crear nuevo
+                </h4>
+                <button
+                  onClick={handleOpenIncidentModal}
+                  className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors border-b border-gray-100 dropdown-item"
+                >
+                  <i className="fas fa-exclamation-triangle mr-2 text-orange-500"></i>
+                  Registro de Incidentes
+                </button>
+                <button
+                  onClick={handleOpenVehicleModal}
+                  className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors dropdown-item"
+                >
+                  <i className="fas fa-truck mr-2 text-green-500"></i>
+                  Control de Camiones
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Formulario de Incidentes */}
-      {activeForm === 'incidents' && (
-        <div className="bg-white rounded-xl shadow-sm p-8">
-          <h3 className="text-xl font-semibold mb-6">Registro de Incidentes</h3>
-          <form className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Fecha y Hora del Incidente
-                </label>
-                <input
-                  type="datetime-local"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Ubicación
-                </label>
-                <input
-                  type="text"
-                  placeholder="Ej: Ruta 5 Sur Km 123"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Tipo de Incidente
-              </label>
-              <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option value="">Seleccione un tipo</option>
-                <option value="accident">Accidente</option>
-                <option value="breakdown">Avería</option>
-                <option value="delay">Retraso</option>
-                <option value="other">Otro</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Vehículo Involucrado
-              </label>
-              <input
-                type="text"
-                placeholder="Ej: Camión #123"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Descripción del Incidente
-              </label>
-              <textarea
-                rows="4"
-                placeholder="Describa el incidente con detalle..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              ></textarea>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Acciones Tomadas
-              </label>
-              <textarea
-                rows="3"
-                placeholder="Describa las acciones tomadas..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              ></textarea>
-            </div>
-
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
-              >
-                <i className="fas fa-save mr-2"></i>
-                Registrar Incidente
-              </button>
-            </div>
-          </form>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {/* Columna de Últimos Incidentes */}
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold mb-4">Últimos Incidentes</h2>
+          <div className="space-y-4">
+            {recentIncidents.map(incident => (
+              <IncidentCard key={incident.id} incident={incident} />
+            ))}
+          </div>
         </div>
-      )}
 
-      {/* Formulario de Circulación de Camiones */}
-      {activeForm === 'circulation' && (
-        <div className="bg-white rounded-xl shadow-sm p-8">
-          <h3 className="text-xl font-semibold mb-6">Circulación de Camiones</h3>
-          <form className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Fecha de Salida
-                </label>
-                <input
-                  type="date"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hora de Salida
-                </label>
-                <input
-                  type="time"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  ID del Vehículo
-                </label>
-                <input
-                  type="text"
-                  placeholder="Ej: CAM-123"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Conductor
-                </label>
-                <input
-                  type="text"
-                  placeholder="Nombre del conductor"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Origen
-                </label>
-                <input
-                  type="text"
-                  placeholder="Lugar de origen"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Destino
-                </label>
-                <input
-                  type="text"
-                  placeholder="Lugar de destino"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Tipo de Carga
-              </label>
-              <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option value="">Seleccione un tipo</option>
-                <option value="general">Carga General</option>
-                <option value="hazardous">Materiales Peligrosos</option>
-                <option value="refrigerated">Refrigerada</option>
-                <option value="bulk">A Granel</option>
-                <option value="other">Otra</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Kilometraje Inicial
-              </label>
-              <input
-                type="number"
-                placeholder="Ej: 12500"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Observaciones
-              </label>
-              <textarea
-                rows="3"
-                placeholder="Observaciones adicionales..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              ></textarea>
-            </div>
-
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
-              >
-                <i className="fas fa-save mr-2"></i>
-                Registrar Circulación
-              </button>
-            </div>
-          </form>
+        {/* Columna de Últimos Registros de Camiones */}
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold mb-4">Últimos Registro de Camiones</h2>
+          <div className="space-y-4">
+            {recentVehicles.map(vehicle => (
+              <VehicleCard key={vehicle.id} vehicle={vehicle} />
+            ))}
+          </div>
         </div>
-      )}
+      </div>
+
+      {/* Barra de filtros */}
+      <RecordFilterBar />
+
+      {/* Registros históricos con pestañas */}
+      <HistoricalRecords activeTab={activeTab} onTabChange={setActiveTab} />
+      
+      {/* Modal para Registro de Incidentes */}
+      <Modal 
+        isOpen={showIncidentModal} 
+        onClose={() => setShowIncidentModal(false)}
+        title="Registro de Incidentes"
+        contentClass="p-6"
+      >
+        <div className="p-2">
+          <IncidentForm onSubmit={handleIncidentSubmit} />
+        </div>
+      </Modal>
+      
+      {/* Modal para Control de Camiones */}
+      <Modal 
+        isOpen={showVehicleModal} 
+        onClose={() => setShowVehicleModal(false)}
+        title="Control de Camiones"
+        contentClass="p-6"
+      >
+        <div className="p-2">
+          <CirculationForm onSubmit={handleVehicleSubmit} />
+        </div>
+      </Modal>
     </div>
   );
 };

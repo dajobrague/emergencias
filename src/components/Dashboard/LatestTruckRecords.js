@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LatestTruckRecords = () => {
+  const navigate = useNavigate();
+
   // Datos de ejemplo para los últimos registros de camiones
   const truckRecords = [
     {
@@ -66,10 +69,13 @@ const LatestTruckRecords = () => {
         ))}
       </div>
       <div className="text-center mt-4">
-        <a href="#" className="text-sm text-blue-600 hover:text-blue-800 inline-flex items-center">
+        <button 
+          onClick={() => navigate('/records-panel')}
+          className="text-sm text-blue-600 hover:text-blue-800 inline-flex items-center bg-transparent border-none cursor-pointer"
+        >
           <span>Ver todos los registros</span>
           <i className="fas fa-chevron-right ml-1 text-xs"></i>
-        </a>
+        </button>
       </div>
     </div>
   );
