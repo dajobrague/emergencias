@@ -93,10 +93,30 @@ const DashboardPanel = () => {
       {/* Gráficos Principales */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         {/* Gráfico de Camiones */}
-        <TruckChart timeFilter={timeFilter} />
+        <div>
+          <TruckChart 
+            timeFilter={timeFilter} 
+            onTruckTypeChange={(type) => setVehicleFilter(type)} 
+          />
+          
+          {/* Gráfico de Sustancias Peligrosas asociado a Cantidad de Camiones */}
+          <div className="mt-6">
+            <DangerousSubstancesChart 
+              timeFilter={timeFilter} 
+              truckType={vehicleFilter} 
+            />
+          </div>
+        </div>
         
-        {/* Gráfico de Incidentes */}
-        <IncidentChart timeFilter={timeFilter} />
+        {/* Gráfico de Incidentes con gráfico de actividad por período asociado */}
+        <div>
+          <IncidentChart timeFilter={timeFilter} />
+          
+          {/* Cantidad de Incidentes (Actividad por Período) */}
+          <div className="mt-6">
+            <IncidentsActivityChart timeFilter={timeFilter} />
+          </div>
+        </div>
       </div>
       
       {/* Gráficos de Alertas y Emergencias */}
@@ -106,17 +126,6 @@ const DashboardPanel = () => {
         
         {/* Gráfico de Cantidad de Emergencias */}
         <EmergenciesQuantityChart timeFilter={timeFilter} />
-      </div>
-      
-      {/* Nuevos gráficos agregados según la imagen proporcionada */}
-      <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-6">
-        {/* Gráfico de Sustancias Peligrosas */}
-        <DangerousSubstancesChart timeFilter={timeFilter} />
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        {/* Cantidad de Incidentes (Actividad por Período) */}
-        <IncidentsActivityChart timeFilter={timeFilter} />
       </div>
       
       {/* Gráficos de Torta - Primera Fila */}

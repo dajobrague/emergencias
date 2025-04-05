@@ -81,27 +81,30 @@ const RecordsPanel = () => {
   const recentVehicles = [
     {
       id: 1,
-      type: 'Mayor a 10 Metros',
-      operator: 'GOTRANS01',
-      license: 'SJFD43',
-      status: 'Activo',
-      time: '21:15'
+      type: 'MAYOR A 10 METROS',
+      operator: 'FRANCISCO HERRADA',
+      company: 'SOTRASER',
+      license: 'PYWH62',
+      direction: 'SUBIDA',
+      time: '21:00'
     },
     {
       id: 2,
-      type: 'Menor a 10 Metros',
-      operator: 'GOTRANS02',
-      license: 'RTJG65',
-      status: 'Mantenimiento',
-      time: '22:40'
+      type: 'MENOR A 10 METROS',
+      operator: 'RANDALL GARCES',
+      company: 'RESITER',
+      license: 'RRGV95',
+      direction: 'SUBIDA',
+      time: '21:05'
     },
     {
       id: 3,
-      type: 'Sustancias Peligrosas',
-      operator: 'CELTRANS',
-      license: 'RSJD65',
-      status: 'Construcción',
-      time: '00:05'
+      type: 'MAYOR A 10 METROS',
+      operator: 'HUGO CARRASCO',
+      company: 'T. NAVARRO',
+      license: 'RXDX27',
+      direction: 'BAJADA',
+      time: '22:00'
     }
   ];
 
@@ -167,7 +170,7 @@ const RecordsPanel = () => {
 
         {/* Columna de Últimos Registros de Camiones */}
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Últimos Registro de Camiones</h2>
+          <h2 className="text-lg font-semibold mb-4">Últimos Registros de Camiones</h2>
           <div className="space-y-4">
             {recentVehicles.map(vehicle => (
               <VehicleCard key={vehicle.id} vehicle={vehicle} />

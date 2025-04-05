@@ -1,106 +1,82 @@
 import React, { useEffect, useRef } from 'react';
 
-const Modal = ({ isOpen, onClose, title, children, size = 'md', verticalPosition = 'center', contentClass = '' }) => {
+const Modal = ({ isOpen, onClose, title, children, size = 'md', contentClass = '' }) => {
   const modalRef = useRef(null);
   const contentRef = useRef(null);
 
-  // Prevenir scroll del body cuando el modal está abierto
+  // Control del scroll del body cuando el modal está abierto
   useEffect(() => {
     if (isOpen) {
+      // Guardar la posición actual del scroll
+      const scrollY = window.scrollY;
+      
+      // Deshabilitar el scroll y fijar la posición del body
       document.body.style.overflow = 'hidden';
-      
-      // Asegurar que el modal se ajuste correctamente
-      const checkSize = () => {
-        if (contentRef.current && modalRef.current) {
-          // Resetear el scroll
-          modalRef.current.scrollTop = 0;
-          contentRef.current.scrollTop = 0;
-        }
-      };
-      
-      // Verificar el tamaño después de un breve retraso para asegurar que todo se ha renderizado
-      setTimeout(checkSize, 100);
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
       
       return () => {
-        document.body.style.overflow = 'auto';
+        // Restaurar el estado del body al cerrar
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.overflow = '';
+        document.body.style.width = '';
+        
+        // Restaurar la posición del scroll
+        window.scrollTo(0, scrollY);
       };
-    } else {
-      document.body.style.overflow = 'auto';
     }
+    
+    return () => {
+      // Limpiar los estilos si el componente se desmonta
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.overflow = '';
+      document.body.style.width = '';
+    };
   }, [isOpen]);
-
-  // Determinar si necesitamos aplicar estilos especiales para el modal de Nueva Alerta
-  const isNuevaAlertaModal = title === "Nueva Alerta";
-  
-  // Efecto para centrar horizontalmente el modal de Nueva Alerta
-  useEffect(() => {
-    if (isOpen && isNuevaAlertaModal && modalRef.current) {
-      // Centrar modal horizontalmente
-      const centerModal = () => {
-        modalRef.current.style.margin = '0 auto';
-        modalRef.current.style.left = '50%';
-        modalRef.current.style.transform = 'translate(-50%, -50%)';
-      };
-      
-      // Aplicar centrado después de renderizar
-      setTimeout(centerModal, 100);
-    }
-  }, [isOpen, isNuevaAlertaModal]);
 
   // Si el modal no está abierto, no renderizar nada
   if (!isOpen) return null;
 
   // Determinar el tamaño del modal
-  const sizeClasses = {
-    sm: 'max-w-md',
-    md: 'max-w-2xl',
-    lg: 'max-w-4xl',
-    xl: 'max-w-6xl',
-    full: 'max-w-full'
-  };
-
-  // Manejar el cierre al hacer clic en el fondo
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
+  const getMaxWidth = () => {
+    switch (size) {
+      case 'sm': return '28rem';
+      case 'md': return '42rem';
+      case 'lg': return '56rem';
+      case 'xl': return '80rem';
+      case 'full': return '100%';
+      default: return '42rem';
     }
   };
-
-  // Determinar las clases de posicionamiento vertical
-  const getVerticalPositionClasses = () => {
-    switch (verticalPosition) {
-      case 'top':
-        return 'items-start pt-10';
-      case 'button-level':
-        return 'items-start emergency-modal-position'; // Clase específica para el modal de emergencia
-      case 'bottom':
-        return 'items-end pb-20';
-      case 'lower':
-        return 'items-center pt-20'; // Para posicionar más abajo que el centro
-      default:
-        return 'items-center'; // Centro (default)
-    }
-  };
-  
-  // Clase especial solo para el modal de Nueva Alerta
-  const nuevaAlertaClass = isNuevaAlertaModal ? 'nueva-alerta-modal-container-centered' : '';
 
   return (
-    <div 
-      className={`modal-backdrop ${getVerticalPositionClasses()}`}
-      onClick={handleBackdropClick}
-    >
+    <div className="fixed inset-0 flex items-center justify-center z-50" style={{ backdropFilter: 'blur(4px)' }}>
+      {/* Overlay (fondo oscuro) */}
+      <div 
+        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" 
+        onClick={onClose}
+      />
+      
+      {/* Contenedor del Modal */}
       <div 
         ref={modalRef}
-        className={`modal-container ${sizeClasses[size]} ${nuevaAlertaClass}`}
+        className="bg-white rounded-lg shadow-xl z-50 overflow-hidden flex flex-col"
+        style={{ 
+          maxWidth: getMaxWidth(),
+          width: '100%',
+          maxHeight: '90vh',
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Cabecera del modal */}
-        <div className="modal-header flex items-center justify-between p-4 border-b">
+        <div className="flex items-center justify-between p-4 border-b bg-white sticky top-0 z-10">
           <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
           <button 
             onClick={onClose}
-            className="modal-btn p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none"
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none"
             aria-label="Cerrar"
           >
             <i className="fas fa-times text-gray-500"></i>
@@ -108,7 +84,11 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', verticalPosition
         </div>
         
         {/* Contenido del modal */}
-        <div ref={contentRef} className={`modal-form-container ${contentClass}`}>
+        <div 
+          ref={contentRef}
+          className={`overflow-y-auto p-6 flex-1 ${contentClass}`}
+          style={{ maxHeight: '70vh' }}
+        >
           {children}
         </div>
       </div>

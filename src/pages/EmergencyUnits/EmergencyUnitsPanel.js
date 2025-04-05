@@ -20,21 +20,21 @@ const EmergencyUnitsPanel = () => {
   const recentChecklists = [
     {
       id: 1,
-      unitNumber: 'Los Bronce',
+      unitNumber: 'Los Bronces',
       unitType: 'Camión de Bomberos',
       date: '18/05/2023',
       time: '09:30',
-      responsable: 'Juan Pérez',
+      responsable: 'Jaime Astroza',
       status: 'Completo',
       observations: 'Equipo en condiciones óptimas'
     },
     {
       id: 2,
-      unitNumber: 'Las Tórtola',
+      unitNumber: 'Las Tórtolas',
       unitType: 'Camión de Bomberos',
       date: '17/05/2023',
       time: '14:15',
-      responsable: 'María Gómez',
+      responsable: 'Francisco Cortés',
       status: 'Completo',
       observations: 'Nivel de combustible al 75%'
     },
@@ -44,7 +44,7 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Ambulancia',
       date: '16/05/2023',
       time: '11:45',
-      responsable: 'Carlos Rodríguez',
+      responsable: 'José Riquelme',
       status: 'Completo',
       observations: 'Reposición de material médico realizada'
     },
@@ -54,7 +54,7 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Vehículo de Rescate',
       date: '16/05/2023',
       time: '08:20',
-      responsable: 'Ana Martínez',
+      responsable: 'Paolo Gima',
       status: 'Pendiente',
       observations: 'Pendiente revisión de equipo hidráulico'
     },
@@ -64,7 +64,7 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Unidad Aérea',
       date: '15/05/2023',
       time: '16:30',
-      responsable: 'Roberto Sánchez',
+      responsable: 'Luis Cuello',
       status: 'Completo',
       observations: 'Mantenimiento preventivo realizado'
     },
@@ -74,7 +74,7 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Unidad Táctica',
       date: '15/05/2023',
       time: '10:00',
-      responsable: 'Laura Torres',
+      responsable: 'Luis Carrasco',
       status: 'Completo',
       observations: 'Sin observaciones'
     },
@@ -84,17 +84,17 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Vehículo de Rescate',
       date: '14/05/2023',
       time: '15:45',
-      responsable: 'Daniel López',
+      responsable: 'Jaime Astroza',
       status: 'Completo',
       observations: 'Materiales reemplazados'
     },
     {
       id: 8,
-      unitNumber: 'Los Bronce',
+      unitNumber: 'Los Bronces',
       unitType: 'Camión de Bomberos',
       date: '13/05/2023',
       time: '09:15',
-      responsable: 'Juan Pérez',
+      responsable: 'Francisco Cortés',
       status: 'Completo',
       observations: 'Revisión de mangueras completada'
     },
@@ -104,17 +104,17 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Ambulancia',
       date: '12/05/2023',
       time: '13:20',
-      responsable: 'María Gómez',
+      responsable: 'José Riquelme',
       status: 'Completo',
       observations: 'Equipo médico verificado'
     },
     {
       id: 10,
-      unitNumber: 'Las Tórtola',
+      unitNumber: 'Las Tórtolas',
       unitType: 'Camión de Bomberos',
       date: '11/05/2023',
       time: '11:30',
-      responsable: 'Roberto Sánchez',
+      responsable: 'Paolo Gima',
       status: 'Completo',
       observations: 'Cambio de aceite realizado'
     }
@@ -123,7 +123,7 @@ const EmergencyUnitsPanel = () => {
   const [units, setUnits] = useState([
     {
       id: 1,
-      number: 'Los Bronce',
+      number: 'Los Bronces',
       type: 'Camión de Bomberos',
       status: 'Activo',
       zone: 'Zona Norte',
@@ -154,7 +154,7 @@ const EmergencyUnitsPanel = () => {
     },
     {
       id: 2,
-      number: 'Las Tórtola',
+      number: 'Las Tórtolas',
       type: 'Camión de Bomberos',
       status: 'En ruta',
       zone: 'Zona Centro',

@@ -48,8 +48,8 @@ const CirculationForm = ({ onSubmit, onCancel }) => {
             required
           >
             <option value="">Seleccione sentido</option>
-            <option value="Bajada">Bajada</option>
-            <option value="Subida">Subida</option>
+            <option value="SUBIDA">SUBIDA</option>
+            <option value="BAJADA">BAJADA</option>
           </select>
         </div>
         
@@ -60,7 +60,7 @@ const CirculationForm = ({ onSubmit, onCancel }) => {
           </label>
           <input
             type="text"
-            placeholder="Ej: ABCD12"
+            placeholder="Ej: PYWH62"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required
           />
@@ -150,10 +150,10 @@ const CirculationForm = ({ onSubmit, onCancel }) => {
           <option value="">Seleccione empresa</option>
           <option value="RESITER">RESITER</option>
           <option value="SOTRASER">SOTRASER</option>
+          <option value="T. NAVARRO">T. NAVARRO</option>
           <option value="COPEC">COPEC</option>
           <option value="TRANSCARGO">TRANSCARGO</option>
           <option value="GEOBARRA">GEOBARRA</option>
-          <option value="TRANSPORTE NAVARRO">TRANSPORTE NAVARRO</option>
           <option value="TRANSPORTE BELLO">TRANSPORTE BELLO</option>
           <option value="ENAEX">ENAEX</option>
           <option value="TRANSPORTE BSM">TRANSPORTE BSM</option>
@@ -189,9 +189,9 @@ const CirculationForm = ({ onSubmit, onCancel }) => {
             required
           >
             <option value="">Seleccione tipo de camión</option>
-            <option value="Sustancias Peligrosas">Sustancias Peligrosas</option>
-            <option value="Menor a 10 Metros">Menor a 10 Metros</option>
-            <option value="Mayor a 10 Metros">Mayor a 10 Metros</option>
+            <option value="SUSTANCIAS PELIGROSAS">SUSTANCIAS PELIGROSAS</option>
+            <option value="MENOR A 10 METROS">MENOR A 10 METROS</option>
+            <option value="MAYOR A 10 METROS">MAYOR A 10 METROS</option>
             <option value="MOP">MOP</option>
           </select>
         </div>
@@ -215,12 +215,17 @@ const CirculationForm = ({ onSubmit, onCancel }) => {
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Gerencia
         </label>
-        <input
-          type="text"
-          placeholder="Ingrese gerencia"
+        <select
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           required
-        />
+        >
+          <option value="">Seleccione gerencia</option>
+          <option value="LOGISTICA">LOGÍSTICA</option>
+          <option value="INFRAESTRUCTURA">INFRAESTRUCTURA</option>
+          <option value="MINA">MINA</option>
+          <option value="PLANTA">PLANTA</option>
+          <option value="OTRA">OTRA</option>
+        </select>
       </div>
 
       <div className="flex justify-end space-x-3 pt-2">

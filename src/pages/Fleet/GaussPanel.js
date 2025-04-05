@@ -13,8 +13,7 @@ const GaussPanel = () => {
         <h2 className="text-xl font-semibold mb-4">Acceder a Gauss Control</h2>
         
         <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-          Solución integral para control de combustible y mantenimiento. Optimiza el consumo y 
-          programa mantenimientos preventivos.
+          Sistema de Control y Gestión de Fatiga en la Conducción.
         </p>
         
         <p className="text-gray-600 mb-8">

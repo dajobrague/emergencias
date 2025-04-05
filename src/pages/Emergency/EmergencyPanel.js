@@ -147,7 +147,7 @@ const EmergencyPanel = () => {
     AA: [
       { 
         id: 1, 
-        zone: 'Los Bronce', 
+        zone: 'Los Bronces', 
         dayShift: { 
           active: 8, 
           leader: 'Jaime Astroza', 
@@ -161,7 +161,7 @@ const EmergencyPanel = () => {
       },
       { 
         id: 2, 
-        zone: 'Las Tórtola', 
+        zone: 'Las Tórtolas', 
         dayShift: { 
           active: 10, 
           leader: 'José Riquelme', 
@@ -205,7 +205,7 @@ const EmergencyPanel = () => {
     Externas: [
       { 
         id: 6, 
-        zone: 'Los Bronce', 
+        zone: 'Los Bronces', 
         dayShift: { 
           active: 5, 
           leader: 'Por Confirmar', 
@@ -219,7 +219,7 @@ const EmergencyPanel = () => {
       },
       { 
         id: 7, 
-        zone: 'Las Tórtola', 
+        zone: 'Las Tórtolas', 
         dayShift: { 
           active: 6, 
           leader: 'Por Confirmar', 
@@ -878,7 +878,7 @@ const EmergencyPanel = () => {
               </div>
               <div>
                 <h4 className="font-semibold text-gray-800">Servicio Médico Las Tórtolas</h4>
-                <p className="text-sm text-gray-600">Las Tótolas & STP</p>
+                <p className="text-sm text-gray-600">Las Tórtolas & STP</p>
               </div>
             </div>
             <div className="space-y-2 mb-4 flex-grow">
@@ -948,7 +948,7 @@ const EmergencyPanel = () => {
               </div>
               <div>
                 <h4 className="font-semibold text-gray-800">Servicio Médico Las Tórtolas</h4>
-                <p className="text-sm text-gray-600">Las Tótolas & STP</p>
+                <p className="text-sm text-gray-600">Las Tórtolas & STP</p>
               </div>
             </div>
             <div className="space-y-2 mb-4 flex-grow">

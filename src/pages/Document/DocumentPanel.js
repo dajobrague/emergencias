@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getThumbnail, documentosEstudiosTecnicos } from '../../data/documentData';
 import { documentosConThumbnail } from '../../data/documentosConThumbnail';
+import { documentosAuditorias } from '../../data/documentData';
 
 const DocumentPanel = () => {
   const [filter, setFilter] = useState('all');
@@ -28,7 +29,7 @@ const DocumentPanel = () => {
   );
   
   // Combinar ambas fuentes de documentos
-  const [documents, setDocuments] = useState([...validDocumentosConThumbnail, ...documentosEstudiosTecnicos]);
+  const [documents, setDocuments] = useState([...validDocumentosConThumbnail, ...documentosEstudiosTecnicos, ...documentosAuditorias]);
 
   // Extraer todas las etiquetas únicas de todos los documentos
   const [uniqueTags, setUniqueTags] = useState([]);
@@ -409,7 +410,9 @@ const DocumentPanel = () => {
                   <h3 className="text-lg font-semibold mb-2 line-clamp-2">{doc.title}</h3>
                   <div className="flex justify-between items-center text-sm text-gray-500 mb-3">
                     <span>{doc.author}</span>
-                    <span>{new Date(doc.date).toLocaleDateString()}</span>
+                    {doc.category === 'tecnicos' && (
+                      <span>{new Date(doc.date).toLocaleDateString()}</span>
+                    )}
                   </div>
                   {doc.tags && doc.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-3">

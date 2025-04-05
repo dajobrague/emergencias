@@ -13,8 +13,8 @@ const GPSChilePanel = () => {
         <h2 className="text-xl font-semibold mb-4">Acceder a GPSChile Navman</h2>
         
         <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-          Sistema avanzado de gestión de flotas y análisis de conducción. Monitorea el comportamiento 
-          de los conductores y optimiza las rutas.
+          Plataforma de seguimiento y monitoreo de flota en tiempo real. Visualiza ubicaciones, rutas y 
+          actualizaciones de estado de los vehículos.
         </p>
         
         <p className="text-gray-600 mb-8">

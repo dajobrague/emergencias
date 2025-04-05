@@ -150,9 +150,7 @@ const HistoricalRecords = ({ activeTab, onTabChange }) => {
       { id: 7, label: '07 JULIO 2024 BASE DE DATOS CAMIONES' },
       { id: 8, label: '08 AGOSTO 2024 BASE DE DATOS CAMIONES' },
       { id: 9, label: '09 SEPTIEMBRE 2024 BASE DE DATOS CAMIONES' },
-      { id: 10, label: '10 OCTUBRE 2024 BASE DE DATOS CAMIONES' },
-      { id: 11, label: '11 NOVIEMBRE 2024 BASE DE DATOS CAMIONES' },
-      { id: 12, label: '12 DICIEMBRE 2024 BASE DE DATOS CAMIONES' }
+      { id: 10, label: '10 OCTUBRE 2024 BASE DE DATOS CAMIONES' }
     ]
   };
 

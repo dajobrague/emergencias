@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2';
 const TopIncidentsByTypeChart = ({ timeFilter }) => {
   // Datos del gráfico
   const [chartData, setChartData] = useState({
-    labels: ['Colisión', 'Falla Mecánica', 'Exceso de Velocidad', 'Desvío de Ruta', 'Parada No Autorizada'],
+    labels: ['Sin Equipo Invierno', 'Falla Mecánica', 'Sin Neumático de Repuesto', 'Fuera de Horario', 'Sin Extintor'],
     datasets: [
       {
         data: [35, 25, 20, 15, 5],
@@ -31,7 +31,7 @@ const TopIncidentsByTypeChart = ({ timeFilter }) => {
     // Actualizar datos según el filtro de tiempo
     if (timeFilter === 'day') {
       setChartData({
-        labels: ['Colisión', 'Falla Mecánica', 'Exceso de Velocidad', 'Desvío de Ruta', 'Parada No Autorizada'],
+        labels: ['Sin Equipo Invierno', 'Falla Mecánica', 'Sin Neumático de Repuesto', 'Fuera de Horario', 'Sin Extintor'],
         datasets: [
           {
             data: [35, 25, 20, 15, 5],
@@ -55,10 +55,10 @@ const TopIncidentsByTypeChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'week') {
       setChartData({
-        labels: ['Colisión', 'Falla Mecánica', 'Exceso de Velocidad', 'Desvío de Ruta', 'Parada No Autorizada'],
+        labels: ['Sin Equipo Invierno', 'Falla Mecánica', 'Sin Neumático de Repuesto', 'Fuera de Horario', 'Sin Extintor'],
         datasets: [
           {
-            data: [32, 28, 18, 14, 8],
+            data: [32, 28, 18, 16, 6],
             backgroundColor: [
               'rgba(255, 99, 132, 0.7)',
               'rgba(54, 162, 235, 0.7)',
@@ -79,10 +79,10 @@ const TopIncidentsByTypeChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'month') {
       setChartData({
-        labels: ['Colisión', 'Falla Mecánica', 'Exceso de Velocidad', 'Desvío de Ruta', 'Parada No Autorizada'],
+        labels: ['Sin Equipo Invierno', 'Falla Mecánica', 'Sin Neumático de Repuesto', 'Fuera de Horario', 'Sin Extintor'],
         datasets: [
           {
-            data: [30, 25, 22, 15, 8],
+            data: [30, 28, 22, 14, 6],
             backgroundColor: [
               'rgba(255, 99, 132, 0.7)',
               'rgba(54, 162, 235, 0.7)',
@@ -103,10 +103,10 @@ const TopIncidentsByTypeChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'year') {
       setChartData({
-        labels: ['Colisión', 'Falla Mecánica', 'Exceso de Velocidad', 'Desvío de Ruta', 'Parada No Autorizada'],
+        labels: ['Sin Equipo Invierno', 'Falla Mecánica', 'Sin Neumático de Repuesto', 'Fuera de Horario', 'Sin Extintor'],
         datasets: [
           {
-            data: [28, 26, 24, 14, 8],
+            data: [28, 26, 24, 16, 6],
             backgroundColor: [
               'rgba(255, 99, 132, 0.7)',
               'rgba(54, 162, 235, 0.7)',

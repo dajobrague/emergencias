@@ -15,10 +15,12 @@ const FilterPanel = ({ vehicleFilter, setVehicleFilter, incidentFilter, setIncid
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="all">Todos</option>
-            <option value="trucks">Camiones</option>
-            <option value="ambulances">Ambulancias</option>
-            <option value="private">Vehículos Particulares</option>
-            <option value="others">Otros</option>
+            <option value="automovil">AUTOMÓVIL</option>
+            <option value="bus">BUS</option>
+            <option value="camabaja">CAMA BAJA</option>
+            <option value="camion">CAMIÓN</option>
+            <option value="camiongrua">CAMIÓN GRÚA</option>
+            <option value="camioneta">CAMIONETA</option>
           </select>
         </div>
         
@@ -32,10 +34,12 @@ const FilterPanel = ({ vehicleFilter, setVehicleFilter, incidentFilter, setIncid
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="all">Todos</option>
-            <option value="accidents">Accidentes</option>
-            <option value="breakdowns">Averías</option>
-            <option value="medical">Emergencias Médicas</option>
-            <option value="others">Otros</option>
+            <option value="choque">Choque</option>
+            <option value="colision">Colisión</option>
+            <option value="volcamiento">Volcamiento</option>
+            <option value="desbarrancamiento">Desbarrancamiento</option>
+            <option value="caida">Caída</option>
+            <option value="otro">Otro</option>
           </select>
         </div>
         
@@ -49,8 +53,7 @@ const FilterPanel = ({ vehicleFilter, setVehicleFilter, incidentFilter, setIncid
             <option value="all">Todas</option>
             <option value="g21">G21</option>
             <option value="g245">G245</option>
-            <option value="boldos">Los Boldos</option>
-            <option value="tortolas">Las Tórtolas</option>
+            <option value="otro">Otro</option>
           </select>
         </div>
       </div>

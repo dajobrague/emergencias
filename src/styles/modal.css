@@ -38,7 +38,10 @@
   justify-content: center !important;
   background-color: rgba(0, 0, 0, 0.5) !important;
   padding: 0 !important;
-  overflow: hidden !important;
+  overflow: hidden !important; /* Cambiar de auto a hidden para evitar scroll */
+  /* Asegurar que el backdrop cubra toda la pantalla visible */
+  width: 100vw !important;
+  height: 100vh !important;
 }
 
 /* Estilo específico para el modal de Nueva Emergencia */
@@ -62,8 +65,8 @@
 /* Clase super específica SOLO para centrar el modal de Nueva Alerta */
 /* Usar selección muy específica para evitar afectar otros elementos */
 .modal-backdrop .nueva-alerta-modal-container-centered {
-  position: absolute !important;
-  top: 50vh !important;
+  position: fixed !important;
+  top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
   margin: 0 !important;
@@ -138,7 +141,7 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-/* Asegurar que el modal esté por encima de todos los elementos */
+/* Asegurar que el modal esté por encima de todos los elementos y centrado */
 .modal-container {
   z-index: 10000 !important;
   background-color: white;
@@ -150,9 +153,14 @@
               0 10px 10px -5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   animation: modalFadeIn 0.3s ease forwards;
-  margin: auto;
+  margin: 0 auto !important; /* Cambiar de auto a 0 auto */
   max-height: 90vh;
   width: 100%;
+  /* Posición fija para TODOS los modales en el centro de la pantalla */
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
 }
 
 /* Tamaños de modal */
@@ -208,22 +216,9 @@
 @media (min-width: 768px) {
   .modal-backdrop {
     padding: 0 !important;
-    overflow-y: auto !important;
   }
   
   .modal-form-container {
     padding: 1rem;
-  }
-}
-
-/* Ajustes específicos para dispositivos iOS */
-@supports (-webkit-touch-callout: none) {
-  .modal-container {
-    max-height: 75vh;
-  }
-  
-  .modal-form-container {
-    max-height: 65vh;
-    padding-bottom: 1rem;
   }
 } 
