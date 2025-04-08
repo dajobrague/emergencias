@@ -503,10 +503,16 @@ const EmergencyMap = ({ emergencies = [] }) => {
     setActiveLocation(null);
   };
 
-  // Efecto para actualizar las opciones del mapa cuando cambia la ubicación activa
+  // Efecto para actualizar las opciones del mapa según la ubicación activa
   useEffect(() => {
     updateMapOptions();
-  }, [activeLocation, updateMapOptions]);
+  }, [updateMapOptions]);
+
+  /* NOTA: Se eliminó un useEffect que intentaba usar funciones no definidas 
+   * (createMarkers, createPolyline, iconMapping) que duplicaba la funcionalidad
+   * del efecto existente que ya maneja correctamente los marcadores y polilíneas
+   * basándose en el estado activeLocation 
+   */
 
   // Efecto para manejar la tecla Escape para salir del modo pantalla completa
   useEffect(() => {
@@ -623,7 +629,7 @@ const EmergencyMap = ({ emergencies = [] }) => {
             style={{
               ...locationButtonStyle,
               top: '25%',
-              right: '25%',
+              right: '20%',  // Cambiado de 25% a 20% para moverlo más a la derecha
             }}
               onClick={() => handleLocationClick("losBronces")}
           >
@@ -636,8 +642,8 @@ const EmergencyMap = ({ emergencies = [] }) => {
           <div 
             style={{
               ...locationButtonStyle,
-              top: '35%',
-              left: '40%',
+              top: '22%',  // Cambiado de 35% a 15% para moverlo mucho más arriba
+              left: '42%', 
             }}
               onClick={handleShowMineroducto}
           >

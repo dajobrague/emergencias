@@ -45,15 +45,15 @@ const VehicleCard = ({ vehicle }) => {
   const getTruckIcon = (type) => {
     switch (type.toLowerCase()) {
       case 'mayor a 10 metros':
-        return 'truck-moving';
+        return 'ticket-alt';
       case 'menor a 10 metros':
-        return 'truck';
+        return 'check';
       case 'sustancias peligrosas':
-        return 'biohazard';
+        return 'exclamation-triangle';
       case 'mop':
         return 'hard-hat';
       default:
-        return 'truck';
+        return 'ticket-alt';
     }
   };
 
@@ -66,7 +66,7 @@ const VehicleCard = ({ vehicle }) => {
         <div className="flex justify-between items-start">
           <div className="flex items-center">
             <div className={`w-8 h-8 ${directionStyle.bgColor} ${directionStyle.textColor} rounded-full flex items-center justify-center mr-3`}>
-              <i className={`fas fa-${directionStyle.icon}`}></i>
+              <i className={`fas fa-${truckIcon}`}></i>
             </div>
             <span className="text-sm font-semibold text-gray-800">{vehicle.operator}</span>
           </div>
@@ -87,7 +87,9 @@ const VehicleCard = ({ vehicle }) => {
           </span>
         </div>
         <div className="mt-2 pl-11">
-          <span className="text-xs text-gray-600">{vehicle.company}</span>
+          <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 font-semibold rounded-full text-sm">
+            <i className="fas fa-building mr-1"></i> {vehicle.company}
+          </span>
         </div>
       </div>
     </div>

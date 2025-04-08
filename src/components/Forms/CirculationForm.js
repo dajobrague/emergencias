@@ -242,7 +242,7 @@ const CirculationForm = ({ onSubmit, onCancel }) => {
           type="submit"
           className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
         >
-          <i className="fas fa-truck mr-2"></i>
+          <i className="fas fa-ticket-alt mr-2"></i>
           Registrar Control de Camiones
         </button>
       </div>

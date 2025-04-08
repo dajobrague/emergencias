@@ -148,7 +148,7 @@ const RecordsPanel = () => {
                   onClick={handleOpenVehicleModal}
                   className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors dropdown-item"
                 >
-                  <i className="fas fa-truck mr-2 text-green-500"></i>
+                  <i className="fas fa-ticket-alt mr-2 text-green-500"></i>
                   Control de Camiones
                 </button>
               </div>

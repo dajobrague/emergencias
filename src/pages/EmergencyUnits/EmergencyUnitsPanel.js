@@ -126,7 +126,7 @@ const EmergencyUnitsPanel = () => {
       number: 'Los Bronces',
       type: 'Camión de Bomberos',
       status: 'Activo',
-      zone: 'Zona Norte',
+      zone: 'Los Bronces',
       icon: 'fas fa-fire-extinguisher',
       bgColor: 'bg-red-100',
       iconColor: 'text-red-500',
@@ -157,7 +157,7 @@ const EmergencyUnitsPanel = () => {
       number: 'Las Tórtolas',
       type: 'Camión de Bomberos',
       status: 'En ruta',
-      zone: 'Zona Centro',
+      zone: 'Las Tórtolas',
       icon: 'fas fa-fire-extinguisher',
       bgColor: 'bg-red-100',
       iconColor: 'text-red-500',
@@ -181,7 +181,7 @@ const EmergencyUnitsPanel = () => {
       number: 'La Ermita',
       type: 'Vehículo de Rescate',
       status: 'Activo',
-      zone: 'Zona Sur',
+      zone: 'La Ermita',
       icon: 'fas fa-truck',
       bgColor: 'bg-orange-100',
       iconColor: 'text-orange-500',
@@ -197,7 +197,7 @@ const EmergencyUnitsPanel = () => {
       number: 'STP',
       type: 'Vehículo de Rescate',
       status: 'En mantenimiento',
-      zone: 'Zona Este',
+      zone: 'STP',
       icon: 'fas fa-truck',
       bgColor: 'bg-orange-100',
       iconColor: 'text-orange-500',
@@ -213,7 +213,7 @@ const EmergencyUnitsPanel = () => {
       number: 'Mina',
       type: 'Unidad Táctica',
       status: 'Activo',
-      zone: 'Zona Centro',
+      zone: 'Mina',
       icon: 'fas fa-shield-alt',
       bgColor: 'bg-purple-100',
       iconColor: 'text-purple-500',
@@ -229,7 +229,7 @@ const EmergencyUnitsPanel = () => {
       number: 'Ambulancia',
       type: 'Ambulancia',
       status: 'Activo',
-      zone: 'Zona Oeste',
+      zone: 'STP',
       icon: 'fas fa-ambulance',
       bgColor: 'bg-green-100',
       iconColor: 'text-green-500',
@@ -245,7 +245,7 @@ const EmergencyUnitsPanel = () => {
       number: 'Helicóptero',
       type: 'Unidad Aérea',
       status: 'En espera',
-      zone: 'Base Aérea',
+      zone: 'Los Bronces',
       icon: 'fas fa-helicopter',
       bgColor: 'bg-blue-100',
       iconColor: 'text-blue-500',
@@ -431,6 +431,18 @@ const EmergencyUnitsPanel = () => {
             <option>En ruta</option>
             <option>En mantenimiento</option>
             <option>En espera</option>
+          </select>
+        </div>
+        
+        <div className="flex-1 min-w-[200px]">
+          <label className="block text-sm text-gray-600 mb-1">Zona</label>
+          <select className="w-full p-2 border border-gray-200 rounded text-sm">
+            <option value="">Todas las zonas</option>
+            <option>Los Bronces</option>
+            <option>Las Tórtolas</option>
+            <option>STP</option>
+            <option>Mina</option>
+            <option>La Ermita</option>
           </select>
         </div>
         
@@ -694,12 +706,11 @@ const EmergencyUnitsPanel = () => {
                   required
                 >
                   <option value="">Seleccione una zona</option>
-                  <option value="Zona Norte">Zona Norte</option>
-                  <option value="Zona Sur">Zona Sur</option>
-                  <option value="Zona Este">Zona Este</option>
-                  <option value="Zona Oeste">Zona Oeste</option>
-                  <option value="Zona Centro">Zona Centro</option>
-                  <option value="Base Aérea">Base Aérea</option>
+                  <option value="Los Bronces">Los Bronces</option>
+                  <option value="Las Tórtolas">Las Tórtolas</option>
+                  <option value="STP">STP</option>
+                  <option value="Mina">Mina</option>
+                  <option value="La Ermita">La Ermita</option>
                 </select>
               </div>
             </div>

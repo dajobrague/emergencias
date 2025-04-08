@@ -187,7 +187,7 @@ const FleetPanel = () => {
                   className="bg-gray-50 hover:bg-gray-100 transition-colors p-4 rounded-lg text-center cursor-pointer"
                 >
                   <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-500 mx-auto mb-2">
-                    <i className="fas fa-traffic-light"></i>
+                    <i className="fas fa-ticket-alt"></i>
                   </div>
                   <h5 className="font-medium text-gray-800">Control de Camiones</h5>
                   <p className="text-sm text-gray-500 mt-1">Gestionar rutas y horarios</p>

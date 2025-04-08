@@ -18,7 +18,7 @@ const SimulatorsPanel = () => {
   const simulationVideos = useMemo(() => [
     {
       id: 1,
-      title: 'DEMOCO-2: Simulador de Conducción',
+      title: 'DEMO 1: Demo Control de Tráfico AA LB Versión 1',
       description: 'Simulador interactivo de conducción para entrenamiento en situaciones de emergencia y condiciones climáticas adversas.',
       oneDriveUrl: 'https://onedrive.live.com/?qt=allmyphotos&photosData=%2Fshare%2FC11B1CBF0DFA71E1%2190959%3Fithint%3Dvideo%26e%3DpY3dmk&sw=bypassConfig&cid=C11B1CBF0DFA71E1&id=C11B1CBF0DFA71E1%2190959&authkey=%21ALOgeVnKQW%5F%5FMso&v=photos',
       category: 'Simulador',
@@ -27,7 +27,7 @@ const SimulatorsPanel = () => {
     },
     {
       id: 2,
-      title: 'DEMOCO~1: Ejercicios de Conducción',
+      title: 'DEMO 2: Demo Control de Tráfico AA LB Versión 2',
       description: 'Módulo de ejercicios prácticos para mejorar técnicas de conducción segura en diferentes escenarios y condiciones.',
       oneDriveUrl: 'https://onedrive.live.com/?qt=allmyphotos&photosData=%2Fshare%2FC11B1CBF0DFA71E1%2190958%3Fithint%3Dvideo%26e%3DpIdqn2&sw=bypassConfig&cid=C11B1CBF0DFA71E1&id=C11B1CBF0DFA71E1%2190958&authkey=%21ACeIDT4QGwIbf84&v=photos',
       category: 'Simulador',
