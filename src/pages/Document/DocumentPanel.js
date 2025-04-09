@@ -197,6 +197,13 @@ const DocumentPanel = () => {
     }
   };
 
+  // Función para formatear fechas en formato DD-MM-YYYY
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const [year, month, day] = dateString.split('-');
+    return `${day}-${month}-${year}`;
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
@@ -411,7 +418,10 @@ const DocumentPanel = () => {
                   <div className="flex justify-between items-center text-sm text-gray-500 mb-3">
                     <span>{doc.author}</span>
                     {doc.category === 'tecnicos' && (
-                      <span>{new Date(doc.date).toLocaleDateString()}</span>
+                      <div className="flex items-center space-x-2">
+                        <i className="fas fa-calendar text-gray-400"></i>
+                        <span>{formatDate(doc.date)}</span>
+                      </div>
                     )}
                   </div>
                   {doc.tags && doc.tags.length > 0 && (
