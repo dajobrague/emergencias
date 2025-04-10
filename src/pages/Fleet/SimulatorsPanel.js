@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
+// Importar las imágenes directamente
+import simulator1Image from '../../assets/images/simulators/screenshot1.png';
+import simulator2Image from '../../assets/images/simulators/screenshot2.png';
+
 const SimulatorsPanel = () => {
   const [activeTab, setActiveTab] = useState('simulators');
   
@@ -23,7 +27,8 @@ const SimulatorsPanel = () => {
       oneDriveUrl: 'https://onedrive.live.com/?qt=allmyphotos&photosData=%2Fshare%2FC11B1CBF0DFA71E1%2190959%3Fithint%3Dvideo%26e%3DpY3dmk&sw=bypassConfig&cid=C11B1CBF0DFA71E1&id=C11B1CBF0DFA71E1%2190959&authkey=%21ALOgeVnKQW%5F%5FMso&v=photos',
       category: 'Simulador',
       date: '2023-11-15',
-      type: 'onedrive'
+      type: 'onedrive',
+      thumbnail: simulator1Image
     },
     {
       id: 2,
@@ -32,7 +37,8 @@ const SimulatorsPanel = () => {
       oneDriveUrl: 'https://onedrive.live.com/?qt=allmyphotos&photosData=%2Fshare%2FC11B1CBF0DFA71E1%2190958%3Fithint%3Dvideo%26e%3DpIdqn2&sw=bypassConfig&cid=C11B1CBF0DFA71E1&id=C11B1CBF0DFA71E1%2190958&authkey=%21ACeIDT4QGwIbf84&v=photos',
       category: 'Simulador',
       date: '2023-11-25',
-      type: 'onedrive'
+      type: 'onedrive',
+      thumbnail: simulator2Image
     }
   ], []);
 
@@ -298,20 +304,12 @@ const SimulatorsPanel = () => {
               {filteredSimulators.map(video => (
                 <div key={video.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                   {video.type === 'onedrive' ? (
-                    <div className="aspect-w-16 aspect-h-9 bg-gray-100 flex items-center justify-center">
-                      <div className="text-center p-4">
-                        <i className="fas fa-file-video text-blue-500 text-5xl mb-4"></i>
-                        <p className="text-gray-600 mb-4">Simulador disponible en OneDrive</p>
-                        <a 
-                          href={video.oneDriveUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors inline-flex items-center text-sm"
-                        >
-                          <i className="fab fa-microsoft mr-2"></i>
-                          Ver en OneDrive
-                        </a>
-                      </div>
+                    <div className="aspect-w-16 aspect-h-9 bg-[#0A2756] flex items-center justify-center relative">
+                      <img 
+                        src={video.thumbnail} 
+                        alt={video.title}
+                        className="w-full h-full object-contain"
+                      />
                     </div>
                   ) : (
                     <div className="aspect-w-16 aspect-h-9">
@@ -338,15 +336,12 @@ const SimulatorsPanel = () => {
                     <p className="text-gray-600 mb-4">{video.description}</p>
                     <div className="flex flex-wrap gap-3">
                       {video.type === 'onedrive' ? (
-                        <a 
-                          href={video.oneDriveUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center text-sm"
+                        <button 
+                          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center text-sm"
                         >
-                          <i className="fab fa-microsoft mr-2"></i>
+                          <i className="fas fa-cloud mr-2"></i>
                           Abrir Simulador
-                        </a>
+                        </button>
                       ) : (
                         <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center text-sm">
                           <i className="fas fa-play-circle mr-2"></i>
