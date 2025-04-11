@@ -670,8 +670,8 @@ const EmergencyMap = ({ emergencies = [] }) => {
               onClick={handleBackToMainMap}
             >
               <i className="fas fa-arrow-left mr-2"></i> Volver al mapa principal
-            </div>
-          )}
+          </div>
+        )}
         </GoogleMap>
       </div>
     </div>

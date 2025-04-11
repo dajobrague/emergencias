@@ -1,14 +1,123 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ServiceCard from '../../components/UI/ServiceCard';
 import TwitterTimeline from '../../components/UI/TwitterTimeline';
 import Modal from '../../components/UI/Modal';
 import IncidentForm from '../../components/Forms/IncidentForm';
 import CirculationForm from '../../components/Forms/CirculationForm';
+// Importar componentes del tutorial
+import { fleetPanelSteps, incidentFormSteps, circulationFormSteps } from '../../components/Tutorial/tutorialSteps';
+import { useTutorial } from '../../context/TutorialContext';
 
 const FleetPanel = () => {
   // Estados para controlar la visibilidad de los modales
   const [showIncidentModal, setShowIncidentModal] = useState(false);
   const [showCirculationModal, setShowCirculationModal] = useState(false);
+  
+  // Referencias a los botones para el tutorial
+  const incidentButtonRef = useRef(null);
+  const circulationButtonRef = useRef(null);
+  
+  // Acceder al contexto del tutorial
+  const { 
+    startTutorial, 
+    registerModalAction, 
+    isActive, 
+    currentPage, 
+    stepIndex 
+  } = useTutorial();
+
+  // Funciones para abrir modales
+  const openIncidentModal = () => {
+    setShowIncidentModal(true);
+  };
+
+  const openCirculationModal = () => {
+    setShowCirculationModal(true);
+  };
+
+  // Exponer las funciones de modales globalmente para el tutorial
+  useEffect(() => {
+    window.openIncidentModal = openIncidentModal;
+    window.openCirculationModal = openCirculationModal;
+    
+    return () => {
+      // Limpieza al desmontar
+      delete window.openIncidentModal;
+      delete window.openCirculationModal;
+    };
+  }, []);
+
+  // Registrar acciones de modales al iniciar el componente
+  useEffect(() => {
+    if (registerModalAction) {
+      registerModalAction('incident-modal', openIncidentModal);
+      registerModalAction('circulation-modal', openCirculationModal);
+    }
+  }, [registerModalAction]);
+
+  // Asegurar que los botones de registro estén disponibles para el tutorial
+  useEffect(() => {
+    // Asegurarse que los IDs están correctamente aplicados
+    if (incidentButtonRef.current) {
+      window.incidentButton = incidentButtonRef.current;
+      console.log("Botón de incidentes referenciado:", incidentButtonRef.current);
+    }
+    
+    if (circulationButtonRef.current) {
+      window.circulationButton = circulationButtonRef.current;
+      console.log("Botón de circulación referenciado:", circulationButtonRef.current);
+    }
+  }, []);
+
+  // Efecto para manejar la apertura de modales durante el tutorial
+  useEffect(() => {
+    if (isActive && currentPage === 'fleet-panel') {
+      // Paso 10 - Solo mostrar botón Registro de Incidentes (cerrar modales)
+      if (stepIndex === 9) {
+        setShowIncidentModal(false);
+        setShowCirculationModal(false);
+      }
+      // Paso 11 - Abrir modal de Registro de Incidentes
+      else if (stepIndex === 10) {
+        setShowCirculationModal(false);
+        setShowIncidentModal(true);
+      }
+      // Paso 12 - Solo mostrar botón Control de Camiones (cerrar modales)
+      else if (stepIndex === 11) {
+        setShowIncidentModal(false);
+        setShowCirculationModal(false);
+      }
+      // Paso 13 - Abrir modal Control de Camiones
+      else if (stepIndex === 12) {
+        setShowIncidentModal(false);
+        setShowCirculationModal(true);
+      }
+      // Cerrar modales para los demás pasos
+      else if (stepIndex > 12) {
+        setShowIncidentModal(false);
+        setShowCirculationModal(false);
+      }
+    }
+  }, [isActive, currentPage, stepIndex]);
+
+  // Efecto para iniciar los tutoriales de los formularios cuando se abren
+  useEffect(() => {
+    if (showIncidentModal && !isActive) {
+      const timer = setTimeout(() => {
+        startTutorial('incident-form', incidentFormSteps);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [showIncidentModal, startTutorial, isActive]);
+
+  useEffect(() => {
+    if (showCirculationModal && !isActive) {
+      const timer = setTimeout(() => {
+        startTutorial('circulation-form', circulationFormSteps);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [showCirculationModal, startTutorial, isActive]);
 
   const services = [
     {
@@ -126,9 +235,24 @@ const FleetPanel = () => {
     setShowCirculationModal(false);
   };
 
+  // Handler para el botón de tutorial
+  const handleStartTutorial = () => {
+    startTutorial('fleet-panel', fleetPanelSteps);
+  };
+
   return (
     <div id="fleet-panel" className="service-panel active">
-      <h2 className="text-2xl font-bold text-dark mb-6">Panel de Seguridad Vial</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-dark">Panel de Seguridad Vial</h2>
+        <button 
+          onClick={handleStartTutorial}
+          className="ml-2 flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-blue-700 bg-blue-100 hover:bg-blue-200"
+          aria-label="Iniciar tutorial"
+        >
+          <i className="fas fa-question-circle mr-2"></i>
+          <span>Ayuda</span>
+        </button>
+      </div>
       <p className="text-gray-600 mb-8">
         Seleccione uno de nuestros servicios de seguridad vial para acceder a información detallada sobre sus vehículos.
       </p>
@@ -170,11 +294,15 @@ const FleetPanel = () => {
           <div className="flex-grow flex flex-col">
             {/* Tarjetas de Registros */}
             <div className="mb-6">
-              <h4 className="text-md font-medium text-gray-700 mb-3">Registros</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <h4 className="text-md font-medium text-gray-700 mb-3 section-registros">Registros</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 container-registros">
                 <div 
-                  onClick={() => setShowIncidentModal(true)} 
-                  className="bg-gray-50 hover:bg-gray-100 transition-colors p-4 rounded-lg text-center cursor-pointer"
+                  onClick={openIncidentModal} 
+                  className="bg-gray-50 hover:bg-gray-100 transition-colors p-4 rounded-lg text-center cursor-pointer button-registro-incidente"
+                  id="incident-button"
+                  data-tutorial="true"
+                  ref={incidentButtonRef}
+                  style={{ position: 'relative', zIndex: 5 }}
                 >
                   <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 mx-auto mb-2">
                     <i className="fas fa-exclamation-triangle"></i>
@@ -183,8 +311,12 @@ const FleetPanel = () => {
                   <p className="text-sm text-gray-500 mt-1">Reportar y consultar incidentes</p>
                 </div>
                 <div 
-                  onClick={() => setShowCirculationModal(true)} 
-                  className="bg-gray-50 hover:bg-gray-100 transition-colors p-4 rounded-lg text-center cursor-pointer"
+                  onClick={openCirculationModal} 
+                  className="bg-gray-50 hover:bg-gray-100 transition-colors p-4 rounded-lg text-center cursor-pointer button-control-camiones"
+                  id="circulation-button"
+                  data-tutorial="true"
+                  ref={circulationButtonRef}
+                  style={{ position: 'relative', zIndex: 5 }}
                 >
                   <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-500 mx-auto mb-2">
                     <i className="fas fa-ticket-alt"></i>
@@ -279,6 +411,7 @@ const FleetPanel = () => {
         onClose={() => setShowIncidentModal(false)}
         title="Registro de Incidentes"
         size="lg"
+        id="incident-modal"
       >
         <IncidentForm 
           onSubmit={handleIncidentSubmit} 
@@ -290,8 +423,9 @@ const FleetPanel = () => {
       <Modal 
         isOpen={showCirculationModal} 
         onClose={() => setShowCirculationModal(false)}
-        title="Control de Camiones"
+        title="Control de Circulación de Camiones"
         size="lg"
+        id="circulation-modal"
       >
         <CirculationForm 
           onSubmit={handleCirculationSubmit} 

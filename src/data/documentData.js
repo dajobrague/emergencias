@@ -224,7 +224,7 @@ export const documentosEstudiosTecnicos = [
     id: 'ET-018',
     title: 'Auditorias Viales LB -LT (Caminos KM)',
     category: 'tecnicos',
-    date: '2023-03-06',
+    date: '2023-03-05',
     author: 'Superintendencia de Seguridad Vial',
     area: 'Control y Gestión Vial',
     type: 'PDF',

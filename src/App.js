@@ -16,6 +16,11 @@ import DocumentPanel from './pages/Document/DocumentPanel';
 import PersonnelPanel from './pages/Personnel/PersonnelPanel';
 import DashboardPanel from './pages/Dashboard/DashboardPanel';
 
+// Importaciones para el tutorial
+import { TutorialProvider } from './context/TutorialContext';
+import { TutorialConfigProvider } from './context/TutorialConfigContext';
+import TutorialComponent from './components/Tutorial/TutorialComponent';
+
 function App({ softrData }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activePanel, setActivePanel] = useState('fleet-panel');
@@ -82,28 +87,35 @@ function App({ softrData }) {
   };
 
   return (
-    <BrowserRouter>
-      <div className="flex h-screen bg-gray-50">
-        <Sidebar 
-          isCollapsed={isCollapsed} 
-          toggleSidebar={toggleSidebar} 
-          activePanel={activePanel} 
-          setActivePanel={handlePanelChange} 
-        />
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Título principal global */}
-          <div className="bg-gray-50 text-gray-700 py-2 px-6 shadow-sm z-10 border-b border-gray-200">
-            <h1 className="text-lg font-medium text-center">Plataforma de Seguridad Vial y Emergencia</h1>
+    <TutorialConfigProvider>
+      <TutorialProvider>
+        <BrowserRouter>
+          <div className="flex h-screen bg-gray-50">
+            <Sidebar 
+              isCollapsed={isCollapsed} 
+              toggleSidebar={toggleSidebar} 
+              activePanel={activePanel} 
+              setActivePanel={handlePanelChange} 
+            />
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {/* Título principal global */}
+              <div className="bg-gray-50 text-gray-700 py-2 px-6 shadow-sm z-10 border-b border-gray-200">
+                <h1 className="text-lg font-medium text-center">Plataforma de Seguridad Vial y Emergencia</h1>
+              </div>
+              
+              <main className={`flex-1 overflow-auto transition-all duration-300 ${isCollapsed ? 'ml-2' : 'ml-4'}`}>
+                <PanelTransition activePanel={activePanel} previousPanel={previousPanel}>
+                  {renderActivePanel()}
+                </PanelTransition>
+              </main>
+            </div>
           </div>
           
-          <main className={`flex-1 overflow-auto transition-all duration-300 ${isCollapsed ? 'ml-2' : 'ml-4'}`}>
-            <PanelTransition activePanel={activePanel} previousPanel={previousPanel}>
-              {renderActivePanel()}
-            </PanelTransition>
-          </main>
-        </div>
-      </div>
-    </BrowserRouter>
+          {/* Componente Tutorial */}
+          <TutorialComponent />
+        </BrowserRouter>
+      </TutorialProvider>
+    </TutorialConfigProvider>
   );
 }
 

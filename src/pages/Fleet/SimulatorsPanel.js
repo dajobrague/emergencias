@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
+// Importar el hook para el tutorial
+import { useTutorial } from '../../context/TutorialContext';
+import { simulatorsPanelSteps } from '../../components/Tutorial/tutorialSteps';
 
 // Importar las imágenes directamente
 import simulator1Image from '../../assets/images/simulators/screenshot1.png';
@@ -12,6 +15,14 @@ const SimulatorsPanel = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
+  
+  // Acceder al contexto del tutorial
+  const { startTutorial } = useTutorial();
+
+  // Manejar el inicio del tutorial
+  const handleStartTutorial = () => {
+    startTutorial('simulators-panel', simulatorsPanelSteps);
+  };
   
   // Estados para los resultados filtrados
   const [filteredSimulators, setFilteredSimulators] = useState([]);
@@ -165,14 +176,28 @@ const SimulatorsPanel = () => {
   }, [simulationVideos, campaignContent, learningContent]);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold text-dark mb-4">Centro de Simulación y Aprendizaje</h2>
-      <p className="text-gray-600 mb-6">
-        Explore nuestra colección de videos instructivos, simuladores y recursos educativos para mejorar sus habilidades y conocimientos en seguridad vial y operación de vehículos.
-      </p>
+    <div className="p-6" id="simulators-panel">
+      <div className="flex flex-wrap justify-between items-center mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-dark mb-4">Centro de Simulación y Aprendizaje</h2>
+          <p className="text-gray-600">
+            Explore nuestra colección de videos instructivos, simuladores y recursos educativos para mejorar sus habilidades y conocimientos en seguridad vial y operación de vehículos.
+          </p>
+        </div>
+        
+        {/* Botón de ayuda para el tutorial */}
+        <button 
+          onClick={handleStartTutorial}
+          className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-blue-700 bg-blue-100 hover:bg-blue-200"
+          aria-label="Iniciar tutorial"
+        >
+          <i className="fas fa-question-circle mr-2"></i>
+          <span>Ayuda</span>
+        </button>
+      </div>
 
       {/* Pestañas de navegación */}
-      <div className="flex flex-wrap border-b mb-8">
+      <div className="flex flex-wrap border-b mb-8 scenario-selector">
         <button
           onClick={() => setActiveTab('simulators')}
           className={`py-3 px-6 text-sm font-medium rounded-t-lg transition-colors ${
@@ -206,8 +231,8 @@ const SimulatorsPanel = () => {
       </div>
       
       {/* Barra de filtros */}
-      <div className="bg-gray-50 p-4 rounded-lg mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+      <div className="bg-gray-50 p-4 rounded-lg mb-8 simulation-controls">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end parameters-panel">
           {/* Filtro de búsqueda */}
           <div className="relative md:col-span-4">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -285,7 +310,7 @@ const SimulatorsPanel = () => {
 
       {/* Contenido de Simuladores */}
       {activeTab === 'simulators' && (
-        <div className="animate-fadeIn">
+        <div className="animate-fadeIn results-section">
           <h3 className="text-xl font-semibold text-gray-800 mb-6">Simuladores y Videos Instructivos</h3>
           
           {filteredSimulators.length === 0 ? (
@@ -512,7 +537,7 @@ const SimulatorsPanel = () => {
         </div>
       )}
 
-      <div className="mt-12 bg-blue-50 rounded-xl p-8">
+      <div className="mt-12 bg-blue-50 rounded-xl p-8 history-log">
         <h3 className="text-xl font-semibold mb-4">Recursos Adicionales</h3>
         <p className="text-gray-600 mb-6">
           Además de los videos de simulación, ofrecemos los siguientes recursos para mejorar su capacitación:

@@ -2,7 +2,7 @@ import React from 'react';
 
 const FilterPanel = ({ vehicleFilter, setVehicleFilter, incidentFilter, setIncidentFilter }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
+    <div className="bg-white rounded-xl shadow-sm p-4 mb-6 filter-panel">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">Filtros</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>

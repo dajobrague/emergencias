@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const Modal = ({ isOpen, onClose, title, children, size = 'md', contentClass = '' }) => {
+const Modal = ({ isOpen, onClose, title, children, size = 'md', contentClass = '', id = '' }) => {
   const modalRef = useRef(null);
   const contentRef = useRef(null);
 
@@ -63,7 +63,8 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', contentClass = '
       {/* Contenedor del Modal */}
       <div 
         ref={modalRef}
-        className="bg-white rounded-lg shadow-xl z-50 overflow-hidden flex flex-col"
+        id={id}
+        className="bg-white rounded-lg shadow-xl z-50 overflow-hidden flex flex-col modal-content"
         style={{ 
           maxWidth: getMaxWidth(),
           width: '100%',
@@ -91,6 +92,26 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', contentClass = '
         >
           {children}
         </div>
+        
+        {/* Pie del modal para formularios */}
+        {children && children.props && children.props.onSubmit && (
+          <div className="border-t p-4 bg-gray-50 flex justify-end space-x-2 modal-footer">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              form={children.props.id}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none"
+            >
+              Guardar
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -6,6 +6,9 @@ import UnitDetails from '../../components/Emergency/UnitDetails';
 import EmergencyMap from '../../components/Maps/EmergencyMap';
 import AlertForm from '../../components/Emergency/AlertForm';
 import BrigadeDetails from '../../components/Emergency/BrigadeDetails';
+// Importar el hook para el tutorial
+import { useTutorial } from '../../context/TutorialContext';
+import { emergencyPanelSteps } from '../../components/Tutorial/tutorialSteps';
 
 const EmergencyPanel = () => {
   const [showAlertForm, setShowAlertForm] = useState(false);
@@ -18,6 +21,14 @@ const EmergencyPanel = () => {
   // Estados para el modal de detalles de unidad
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [showUnitDetails, setShowUnitDetails] = useState(false);
+
+  // Acceder al contexto del tutorial
+  const { startTutorial } = useTutorial();
+
+  // Manejar el inicio del tutorial
+  const handleStartTutorial = () => {
+    startTutorial('emergency-panel', emergencyPanelSteps);
+  };
 
   // Datos de ejemplo
   const emergencyUnits = [
@@ -404,18 +415,29 @@ const EmergencyPanel = () => {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="p-4" id="emergency-panel">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Panel de Emergencias</h1>
         
-        <button
-          ref={newEmergencyBtnRef}
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-md transition-colors"
-          onClick={handleOpenAlertForm}
-        >
-          <i className="fas fa-plus-circle mr-2"></i>
-          Nueva Emergencia
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-blue-700 bg-blue-100 hover:bg-blue-200"
+            onClick={handleStartTutorial}
+            aria-label="Iniciar tutorial"
+          >
+            <i className="fas fa-question-circle mr-2"></i>
+            <span>Ayuda</span>
+          </button>
+          
+          <button
+            ref={newEmergencyBtnRef}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-md transition-colors emergency-form"
+            onClick={handleOpenAlertForm}
+          >
+            <i className="fas fa-plus-circle mr-2"></i>
+            Nueva Emergencia
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -461,46 +483,55 @@ const EmergencyPanel = () => {
         </div>
       </div>
       
+      {/* Alertas */}
+      <div className="space-y-4 mb-8 mt-8 emergency-timeline">
+        {alerts.map(alert => (
+          <div key={alert.id} className="bg-white rounded-xl shadow-sm p-6">
+            <div className="flex items-start">
+              <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3 mt-1">
+                <i className={`fas ${alert.type === 'fire' ? 'fa-fire' : 'fa-car-crash'} text-red-500`}></i>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg font-semibold">{alert.title}</h3>
+                  <span className="text-xs text-gray-500">Hace {alert.time}</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">{alert.description}</p>
+                <div className="flex items-center text-sm text-gray-500 mb-3">
+                  <i className="fas fa-map-marker-alt mr-2"></i>
+                  <span>{alert.location}</span>
+                </div>
+                <div className="flex justify-end space-x-2">
+                  <button className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors">
+                    Detalles
+                  </button>
+                  <button className="px-3 py-1 text-sm bg-green-500 hover:bg-green-600 text-white rounded-md transition-colors">
+                    Responder
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
       {/* Emergencia Actual */}
       <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
-              <i className="fas fa-exclamation-circle text-red-500"></i>
-            </div>
-            <h3 className="text-lg font-semibold">Emergencia Actual</h3>
+        <div className="flex items-center mb-4">
+          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+            <i className="fas fa-map-marked-alt text-blue-500"></i>
           </div>
-          
-          <div className="flex space-x-2">
-            <button className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors">
-              <i className="fas fa-history mr-1"></i> Historial
-            </button>
-          </div>
-        </div>
-        
-        {/* Título del mapa con instrucciones mejoradas */}
-        <div className="flex items-center mb-3">
-          <i className="fas fa-map-marked-alt text-blue-500 mr-2"></i>
-          <h4 className="text-md font-medium">Mapa de Emergencias</h4>
-        </div>
-        
-        <div className="bg-blue-50 p-3 rounded-lg mb-4 text-sm text-blue-700">
-          <p><i className="fas fa-info-circle mr-1"></i> Utilice los botones en la esquina inferior derecha para:</p>
-          <ul className="list-disc ml-6 mt-1">
-            <li>Expandir el mapa verticalmente <i className="fas fa-expand-alt text-blue-500 ml-1"></i></li>
-            <li>Ver el mapa en pantalla completa <i className="fas fa-expand text-blue-500 ml-1"></i></li>
-          </ul>
-          <p className="mt-1">Para cerrar el mapa expandido o en pantalla completa, use el botón <i className="fas fa-times text-blue-500 ml-1"></i> o presione ESC.</p>
+          <h3 className="text-lg font-semibold">Ubicación de Emergencias</h3>
         </div>
         
         {/* Mapa de Emergencias con controles mejorados */}
-        <div className="mb-4 w-full h-[700px] overflow-hidden rounded-lg">
+        <div className="mb-4 w-full h-[700px] overflow-hidden rounded-lg emergency-map">
           <EmergencyMap emergencies={alerts} />
         </div>
       </div>
       
       {/* Vista de monitoreo detallado */}
-      <div className="p-4 mb-8 bg-white rounded-lg shadow-sm">
+      <div className="p-4 mb-8 bg-white rounded-lg shadow-sm dashboard-status">
         <h3 className="text-2xl font-bold text-dark mb-4">Monitoreo Detallado</h3>
         <p className="text-gray-600 mb-4">Información detallada del estado operacional</p>
         
@@ -512,7 +543,7 @@ const EmergencyPanel = () => {
       </div>
       
       {/* Brigadas */}
-      <div className="mb-8">
+      <div className="mb-8 resources-panel">
         <h3 className="text-2xl font-bold text-dark mb-4">Brigadas Operativas</h3>
         
         {/* Brigadas AA */}
@@ -631,7 +662,7 @@ const EmergencyPanel = () => {
       </div>
       
       {/* Unidades de Emergencia */}
-      <div className="mb-8">
+      <div className="mb-8 protocol-section">
         <h3 className="text-2xl font-bold text-dark mb-4">Unidades de Emergencia</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
           {emergencyUnits.map(unit => (
@@ -694,40 +725,8 @@ const EmergencyPanel = () => {
         </div>
       </div>
       
-      {/* Alertas */}
-      <div className="space-y-4 mb-8">
-        {alerts.map(alert => (
-          <div key={alert.id} className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex items-start">
-              <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3 mt-1">
-                <i className={`fas ${alert.type === 'fire' ? 'fa-fire' : 'fa-car-crash'} text-red-500`}></i>
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-semibold">{alert.title}</h3>
-                  <span className="text-xs text-gray-500">Hace {alert.time}</span>
-                </div>
-                <p className="text-sm text-gray-600 mb-3">{alert.description}</p>
-                <div className="flex items-center text-sm text-gray-500 mb-3">
-                  <i className="fas fa-map-marker-alt mr-2"></i>
-                  <span>{alert.location}</span>
-                </div>
-                <div className="flex justify-end space-x-2">
-                  <button className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors">
-                    Detalles
-                  </button>
-                  <button className="px-3 py-1 text-sm bg-green-500 hover:bg-green-600 text-white rounded-md transition-colors">
-                    Responder
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      
       {/* Contactos de Emergencia */}
-      <div className="mb-8">
+      <div className="mb-8 notification-panel">
         <h3 className="text-2xl font-bold text-dark mb-6">Equipo de Salud</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Sala Primeros Auxilios */}

@@ -29,6 +29,10 @@ import ReportButton from '../../components/Dashboard/ReportButton';
 import DangerousSubstancesChart from '../../components/Dashboard/Charts/DangerousSubstancesChart';
 import IncidentsActivityChart from '../../components/Dashboard/Charts/IncidentsActivityChart';
 
+// Importar el hook para el tutorial
+import { useTutorial } from '../../context/TutorialContext';
+import { dashboardPanelSteps } from '../../components/Tutorial/tutorialSteps';
+
 // Registrar los componentes de Chart.js
 ChartJS.register(
   ArcElement, 
@@ -48,6 +52,14 @@ const DashboardPanel = () => {
   const [vehicleFilter, setVehicleFilter] = useState('all');
   const [incidentFilter, setIncidentFilter] = useState('all');
 
+  // Acceder al contexto del tutorial
+  const { startTutorial } = useTutorial();
+  
+  // Función para iniciar el tutorial
+  const handleStartTutorial = () => {
+    startTutorial('dashboard', dashboardPanelSteps);
+  };
+
   // Función para manejar el cambio de filtro de tiempo
   const handleTimeFilterChange = (e) => {
     setTimeFilter(e.target.value);
@@ -55,14 +67,14 @@ const DashboardPanel = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6" id="dashboard-panel">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
         <div className="flex items-center space-x-4">
           <select
             value={timeFilter}
             onChange={handleTimeFilterChange}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 time-filter"
           >
             <option value="day">Hoy</option>
             <option value="week">Esta Semana</option>
@@ -70,11 +82,22 @@ const DashboardPanel = () => {
             <option value="year">Este Año</option>
           </select>
           
+          {/* Botón de ayuda para iniciar el tutorial */}
+          <button 
+            onClick={handleStartTutorial}
+            className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-blue-700 bg-blue-100 hover:bg-blue-200"
+            aria-label="Iniciar tutorial"
+          >
+            <i className="fas fa-question-circle mr-2"></i>
+            <span>Ayuda</span>
+          </button>
+          
           {/* Botón de generación de informes */}
           <ReportButton 
             timeFilter={timeFilter} 
             vehicleFilter={vehicleFilter} 
-            incidentFilter={incidentFilter} 
+            incidentFilter={incidentFilter}
+            className="report-button"
           />
         </div>
       </div>
@@ -93,14 +116,14 @@ const DashboardPanel = () => {
       {/* Gráficos Principales */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         {/* Gráfico de Camiones */}
-        <div>
+        <div className="truck-chart">
           <TruckChart 
             timeFilter={timeFilter} 
             onTruckTypeChange={(type) => setVehicleFilter(type)} 
           />
           
           {/* Gráfico de Sustancias Peligrosas asociado a Cantidad de Camiones */}
-          <div className="mt-6">
+          <div className="mt-6 dangerous-substances-chart">
             <DangerousSubstancesChart 
               timeFilter={timeFilter} 
               truckType={vehicleFilter} 
@@ -109,11 +132,11 @@ const DashboardPanel = () => {
         </div>
         
         {/* Gráfico de Incidentes con gráfico de actividad por período asociado */}
-        <div>
+        <div className="incident-chart">
           <IncidentChart timeFilter={timeFilter} />
           
           {/* Cantidad de Incidentes (Actividad por Período) */}
-          <div className="mt-6">
+          <div className="mt-6 incidents-activity-chart">
             <IncidentsActivityChart timeFilter={timeFilter} />
           </div>
         </div>
@@ -122,38 +145,52 @@ const DashboardPanel = () => {
       {/* Gráficos de Alertas y Emergencias */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         {/* Gráfico de Cantidad de Alertas */}
-        <AlertsQuantityChart timeFilter={timeFilter} />
+        <div className="alerts-quantity-chart">
+          <AlertsQuantityChart timeFilter={timeFilter} />
+        </div>
         
         {/* Gráfico de Cantidad de Emergencias */}
-        <EmergenciesQuantityChart timeFilter={timeFilter} />
+        <div className="emergencies-quantity-chart">
+          <EmergenciesQuantityChart timeFilter={timeFilter} />
+        </div>
       </div>
       
       {/* Gráficos de Torta - Primera Fila */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         {/* Top 5 de Incidentes por Tipo */}
-        <TopIncidentsByTypeChart timeFilter={timeFilter} />
+        <div className="top-incidents-by-type-chart">
+          <TopIncidentsByTypeChart timeFilter={timeFilter} />
+        </div>
         
         {/* Top 5 de Incidentes por Tipo de Vehículo */}
-        <TopIncidentsByVehicleChart timeFilter={timeFilter} />
+        <div className="top-incidents-by-vehicle-chart">
+          <TopIncidentsByVehicleChart timeFilter={timeFilter} />
+        </div>
         
         {/* Top 5 de Incidentes por Tipo de Involucrado */}
-        <TopIncidentsByInvolvedChart timeFilter={timeFilter} />
+        <div className="top-incidents-by-involved-chart">
+          <TopIncidentsByInvolvedChart timeFilter={timeFilter} />
+        </div>
       </div>
       
       {/* Gráficos de Torta - Segunda Fila */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         {/* Top 5 de Incidentes por Empresa */}
-        <TopIncidentsByCompanyChart timeFilter={timeFilter} />
+        <div className="top-incidents-by-company-chart">
+          <TopIncidentsByCompanyChart timeFilter={timeFilter} />
+        </div>
         
         {/* Alertas por Tipo de Alertas */}
-        <AlertsByTypeChart timeFilter={timeFilter} />
+        <div className="alerts-by-type-chart">
+          <AlertsByTypeChart timeFilter={timeFilter} />
+        </div>
       </div>
       
       {/* Se elimina el gráfico de Incidentes por Ruta */}
       {/* <IncidentsRouteChart /> */}
       
       {/* Últimas Alertas, Incidentes y Registros de Camiones */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 latest-panels">
         {/* Últimas Alertas */}
         <LatestAlerts />
         
