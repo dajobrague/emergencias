@@ -4,23 +4,19 @@ import { Pie } from 'react-chartjs-2';
 const TopIncidentsByInvolvedChart = ({ timeFilter }) => {
   // Datos del gráfico
   const [chartData, setChartData] = useState({
-    labels: ['Conductor', 'Peatón', 'Otro Vehículo', 'Infraestructura', 'Animal'],
+    labels: ['CONTRATISTA (98.2%)', 'ANGLOAMERICAN (1.1%)', 'PARTICULAR (0.7%)'],
     datasets: [
       {
-        data: [45, 20, 18, 12, 5],
+        data: [98.2, 1.1, 0.7],
         backgroundColor: [
-          'rgba(255, 159, 64, 0.7)',
-          'rgba(75, 192, 192, 0.7)',
-          'rgba(54, 162, 235, 0.7)',
-          'rgba(153, 102, 255, 0.7)',
           'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
         ],
         borderColor: [
-          'rgba(255, 159, 64, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(153, 102, 255, 1)',
           'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
         ],
         borderWidth: 1,
       },
@@ -31,23 +27,19 @@ const TopIncidentsByInvolvedChart = ({ timeFilter }) => {
     // Actualizar datos según el filtro de tiempo
     if (timeFilter === 'day') {
       setChartData({
-        labels: ['Conductor', 'Peatón', 'Otro Vehículo', 'Infraestructura', 'Animal'],
+        labels: ['CONTRATISTA (98.2%)', 'ANGLOAMERICAN (1.1%)', 'PARTICULAR (0.7%)'],
         datasets: [
           {
-            data: [45, 20, 18, 12, 5],
+            data: [98.2, 1.1, 0.7],
             backgroundColor: [
-              'rgba(255, 159, 64, 0.7)',
-              'rgba(75, 192, 192, 0.7)',
-              'rgba(54, 162, 235, 0.7)',
-              'rgba(153, 102, 255, 0.7)',
               'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
             ],
             borderColor: [
-              'rgba(255, 159, 64, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(153, 102, 255, 1)',
               'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
             ],
             borderWidth: 1,
           },
@@ -55,23 +47,19 @@ const TopIncidentsByInvolvedChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'week') {
       setChartData({
-        labels: ['Conductor', 'Peatón', 'Otro Vehículo', 'Infraestructura', 'Animal'],
+        labels: ['CONTRATISTA (98.2%)', 'ANGLOAMERICAN (1.1%)', 'PARTICULAR (0.7%)'],
         datasets: [
           {
-            data: [42, 22, 20, 10, 6],
+            data: [98.2, 1.1, 0.7],
             backgroundColor: [
-              'rgba(255, 159, 64, 0.7)',
-              'rgba(75, 192, 192, 0.7)',
-              'rgba(54, 162, 235, 0.7)',
-              'rgba(153, 102, 255, 0.7)',
               'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
             ],
             borderColor: [
-              'rgba(255, 159, 64, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(153, 102, 255, 1)',
               'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
             ],
             borderWidth: 1,
           },
@@ -79,23 +67,19 @@ const TopIncidentsByInvolvedChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'month') {
       setChartData({
-        labels: ['Conductor', 'Peatón', 'Otro Vehículo', 'Infraestructura', 'Animal'],
+        labels: ['CONTRATISTA (98.2%)', 'ANGLOAMERICAN (1.1%)', 'PARTICULAR (0.7%)'],
         datasets: [
           {
-            data: [40, 25, 20, 10, 5],
+            data: [98.2, 1.1, 0.7],
             backgroundColor: [
-              'rgba(255, 159, 64, 0.7)',
-              'rgba(75, 192, 192, 0.7)',
-              'rgba(54, 162, 235, 0.7)',
-              'rgba(153, 102, 255, 0.7)',
               'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
             ],
             borderColor: [
-              'rgba(255, 159, 64, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(153, 102, 255, 1)',
               'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
             ],
             borderWidth: 1,
           },
@@ -103,23 +87,19 @@ const TopIncidentsByInvolvedChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'year') {
       setChartData({
-        labels: ['Conductor', 'Peatón', 'Otro Vehículo', 'Infraestructura', 'Animal'],
+        labels: ['CONTRATISTA (98.2%)', 'ANGLOAMERICAN (1.1%)', 'PARTICULAR (0.7%)'],
         datasets: [
           {
-            data: [38, 26, 22, 8, 6],
+            data: [98.2, 1.1, 0.7],
             backgroundColor: [
-              'rgba(255, 159, 64, 0.7)',
-              'rgba(75, 192, 192, 0.7)',
-              'rgba(54, 162, 235, 0.7)',
-              'rgba(153, 102, 255, 0.7)',
               'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
             ],
             borderColor: [
-              'rgba(255, 159, 64, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(153, 102, 255, 1)',
               'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
             ],
             borderWidth: 1,
           },

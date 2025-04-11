@@ -1,201 +1,169 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '../UI/Button';
 
 const UnitDetails = ({ unit, onClose }) => {
-  // Datos ficticios para el ejemplo
-  const unitDetails = {
-    crew: [
-      { id: 1, name: 'José Martínez', role: 'Conductor', status: 'active' },
-      { id: 2, name: 'Elena Gómez', role: 'Paramédico', status: 'active' },
-      { id: 3, name: 'Carlos López', role: 'Técnico', status: 'active' },
-    ],
-    specs: {
-      model: unit.type === 'helicopter' ? 'Bell 429' : 
-             unit.type === 'ambulance' ? 'Mercedes Sprinter' : 
-             unit.type === 'fire' ? 'Ford F-550' : 
-             unit.type === 'rescue' ? 'Dodge RAM 3500' : 'Vehículo especializado',
-      year: '2022',
-      capacity: unit.type === 'helicopter' ? '5 personas' : 
-                unit.type === 'ambulance' ? '3 pacientes' : 
-                unit.type === 'fire' ? '6 bomberos' : 
-                unit.type === 'rescue' ? '4 rescatistas' : '6 personas',
-      equipment: unit.type === 'helicopter' ? 'Cámara térmica, grúa, equipo médico' : 
-                unit.type === 'ambulance' ? 'Desfibrilador, oxígeno, camilla' : 
-                unit.type === 'fire' ? 'Mangueras, escaleras, tanque de agua' : 
-                unit.type === 'rescue' ? 'Herramientas de extricación, cuerdas' : 'Equipo táctico especializado',
-      lastService: '12/03/2023'
-    },
-    location: 'Estación Central',
-    fuelLevel: '85%',
-    nextMaintenance: '25/06/2023'
-  };
-
-  const getTypeText = (type) => {
+  // Funciones para obtener los colores según el tipo y estado
+  const getTypeColor = (type) => {
     switch (type) {
-      case 'fire': return 'Unidad contra incendios';
-      case 'rescue': return 'Unidad de rescate';
-      case 'tactical': return 'Unidad táctica';
-      case 'ambulance': return 'Ambulancia';
-      case 'helicopter': return 'Helicóptero';
-      default: return 'Vehículo de emergencia';
+      case 'fire': return 'bg-red-100 text-red-800';
+      case 'rescue': return 'bg-orange-100 text-orange-800';
+      case 'tactical': return 'bg-purple-100 text-purple-800';
+      case 'ambulance': return 'bg-green-100 text-green-800';
+      case 'helicopter': return 'bg-blue-100 text-blue-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
-  const getStatusBadge = (status) => {
-    if (status === 'active') {
-      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Activo</span>;
-    } else {
-      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Inactivo</span>;
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'active': return 'bg-green-100 text-green-800';
+      case 'standby': return 'bg-yellow-100 text-yellow-800';
+      case 'maintenance': return 'bg-red-100 text-red-800';
+      case 'en-route': return 'bg-blue-100 text-blue-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
-  const getBgColor = (type) => {
-    switch (type) {
-      case 'fire': return 'bg-red-100';
-      case 'rescue': return 'bg-orange-100';
-      case 'tactical': return 'bg-purple-100';
-      case 'ambulance': return 'bg-green-100';
-      case 'helicopter': return 'bg-blue-100';
-      default: return 'bg-gray-100';
+  const getStatusText = (status) => {
+    switch (status) {
+      case 'active': return 'Activo';
+      case 'standby': return 'En espera';
+      case 'maintenance': return 'En mantenimiento';
+      case 'en-route': return 'En ruta';
+      default: return status;
     }
   };
 
-  const getTextColor = (type) => {
-    switch (type) {
-      case 'fire': return 'text-red-500';
-      case 'rescue': return 'text-orange-500';
-      case 'tactical': return 'text-purple-500';
-      case 'ambulance': return 'text-green-500';
-      case 'helicopter': return 'text-blue-500';
-      default: return 'text-gray-500';
+  const getChecklistColor = (checklist) => {
+    switch (checklist) {
+      case 'Completo': return 'bg-green-100 text-green-800';
+      case 'Pendiente': return 'bg-yellow-100 text-yellow-800';
+      case 'No aplica': return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
   return (
-    <div className="py-6">
-      {/* Encabezado */}
-      <div className="mb-4 p-3 bg-gray-50 rounded-lg flex items-center justify-between">
-        <div className="flex items-center">
-          <div className={`w-12 h-12 rounded-full ${getBgColor(unit.type)} flex items-center justify-center mr-3`}>
-            <i className={`fas ${unit.icon} ${getTextColor(unit.type)}`}></i>
-          </div>
-          <div>
-            <h4 className="font-medium">{unit.name}</h4>
-            <p className="text-sm text-gray-500">
-              {getTypeText(unit.type)} - {unit.status === 'active' ? 'En servicio' : 'En espera'}
-            </p>
-          </div>
-        </div>
-      </div>
-      
-      {/* Especificaciones */}
-      <div className="mb-4">
-        <h5 className="text-sm font-semibold text-gray-700 mb-2">Especificaciones</h5>
-        <div className="bg-white border rounded-lg p-3">
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <p className="text-xs text-gray-500">Modelo</p>
-              <p className="text-sm font-medium">{unitDetails.specs.model}</p>
+    <div className="p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Columna izquierda - Información principal */}
+        <div>
+          <div className="flex items-center mb-4">
+            <div className={`w-16 h-16 rounded-full ${
+              unit.type === 'fire' ? 'bg-red-100' : 
+              unit.type === 'rescue' ? 'bg-orange-100' :
+              unit.type === 'tactical' ? 'bg-purple-100' :
+              unit.type === 'ambulance' ? 'bg-green-100' :
+              'bg-blue-100'
+            } flex items-center justify-center mr-4`}>
+              <i className={`fas ${unit.icon} ${
+                unit.type === 'fire' ? 'text-red-500' : 
+                unit.type === 'rescue' ? 'text-orange-500' :
+                unit.type === 'tactical' ? 'text-purple-500' :
+                unit.type === 'ambulance' ? 'text-green-500' :
+                'text-blue-500'
+              } text-2xl`}></i>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Año</p>
-              <p className="text-sm font-medium">{unitDetails.specs.year}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500">Capacidad</p>
-              <p className="text-sm font-medium">{unitDetails.specs.capacity}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500">Último servicio</p>
-              <p className="text-sm font-medium">{unitDetails.specs.lastService}</p>
-            </div>
-          </div>
-          
-          <div className="mt-3">
-            <p className="text-xs text-gray-500">Equipamiento</p>
-            <p className="text-sm">{unitDetails.specs.equipment}</p>
-          </div>
-        </div>
-      </div>
-      
-      {/* Estado */}
-      <div className="mb-4">
-        <h5 className="text-sm font-semibold text-gray-700 mb-2">Estado Actual</h5>
-        <div className="bg-white border rounded-lg p-3">
-          <div className="grid grid-cols-3 gap-3">
-            <div>
-              <p className="text-xs text-gray-500">Ubicación</p>
-              <p className="text-sm font-medium">{unitDetails.location}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500">Nivel de combustible</p>
-              <div className="w-full bg-gray-200 rounded-full h-2.5 mt-1.5">
-                <div 
-                  className="bg-green-500 h-2.5 rounded-full" 
-                  style={{ width: unitDetails.fuelLevel }}
-                ></div>
+              <h2 className="text-2xl font-bold text-gray-800">{unit.details.fullName}</h2>
+              <div className="flex mt-1 space-x-2">
+                <span className={`px-2 py-1 rounded-full text-xs ${getTypeColor(unit.type)}`}>
+                  {unit.details.subtype}
+                </span>
+                <span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(unit.status)}`}>
+                  {getStatusText(unit.status)}
+                </span>
               </div>
             </div>
-            <div>
-              <p className="text-xs text-gray-500">Próximo mantenimiento</p>
-              <p className="text-sm font-medium">{unitDetails.nextMaintenance}</p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 mb-6">
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-600 mb-3">Información General</h3>
+              
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-600">Ubicación:</span>
+                  <span className="text-sm font-medium text-gray-700">{unit.details.location}</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-600">Placa/ID:</span>
+                  <span className="text-sm font-medium text-gray-700">{unit.details.plate}</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-600">Teléfono:</span>
+                  <span className="text-sm font-medium text-gray-700">{unit.details.phone}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-600 mb-3">Estado Técnico</h3>
+              
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-600">Checklist:</span>
+                  <span className={`text-sm font-medium px-2 py-0.5 rounded-full ${getChecklistColor(unit.details.checklist)}`}>
+                    {unit.details.checklist}
+                  </span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-600">Última revisión:</span>
+                  <span className="text-sm font-medium text-gray-700">{unit.details.lastRevision}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Columna derecha - Observaciones y acciones */}
+        <div>
+          <div className="p-4 bg-gray-50 rounded-lg mb-4">
+            <h3 className="text-sm font-medium text-gray-600 mb-2">Observaciones</h3>
+            <p className="text-sm text-gray-700">
+              {unit.details.observations || "Sin observaciones registradas."}
+            </p>
+          </div>
+          
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <h3 className="text-sm font-medium text-gray-600 mb-2">Acciones</h3>
+            <div className="space-y-2">
+              <button className="w-full px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition-colors flex items-center justify-center text-sm">
+                <i className="fas fa-clipboard-check mr-2"></i>
+                Ver Checklist Completo
+              </button>
+              
+              <button className="w-full px-4 py-2 bg-green-50 hover:bg-green-100 text-green-700 rounded-lg transition-colors flex items-center justify-center text-sm">
+                <i className="fas fa-history mr-2"></i>
+                Historial de Mantenimiento
+              </button>
+              
+              <button className="w-full px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg transition-colors flex items-center justify-center text-sm">
+                <i className="fas fa-user-friends mr-2"></i>
+                Personal Asignado
+              </button>
             </div>
           </div>
         </div>
       </div>
       
-      {/* Personal asignado */}
-      <div className="mb-4">
-        <h5 className="text-sm font-semibold text-gray-700 mb-2">Personal Asignado</h5>
-        <div className="bg-white border rounded-lg overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Nombre
-                </th>
-                <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Rol
-                </th>
-                <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Estado
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {unitDetails.crew.map((person) => (
-                <tr key={person.id}>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
-                        <i className="fas fa-user text-gray-400"></i>
-                      </div>
-                      <div className="ml-3">
-                        <div className="text-sm font-medium text-gray-900">{person.name}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                    {person.role}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                    {getStatusBadge(person.status)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      
-      {/* Acciones */}
-      <div className="flex justify-end space-x-2 mt-6">
-        <button 
+      <div className="mt-6 flex justify-end">
+        <Button
+          variant="secondary"
           onClick={onClose}
-          className="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors"
+          className="mr-2"
         >
           Cerrar
-        </button>
+        </Button>
+        <Button
+          variant="primary"
+        >
+          Actualizar Estado
+        </Button>
       </div>
     </div>
   );

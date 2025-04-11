@@ -4,7 +4,7 @@ import { barOptions } from './ChartOptions';
 
 const IncidentsRouteChart = () => {
   const incidentsRouteData = {
-    labels: ['G21', 'G245', 'Los Boldos', 'Las Tórtolas', 'Otros'],
+    labels: ['G21', 'G245', 'Los Bronces', 'Las Tórtolas', 'Otros'],
     datasets: [
       {
         label: 'Incidentes por Ruta',

@@ -135,11 +135,11 @@ const EmergenciesQuantityChart = ({ timeFilter }) => {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
           >
             <option value="all">Todos</option>
-            <option value="norte">Norte</option>
-            <option value="sur">Sur</option>
-            <option value="este">Este</option>
-            <option value="oeste">Oeste</option>
-            <option value="central">Central</option>
+            <option value="lastortolas">Las Tórtolas</option>
+            <option value="mineroducto">Mineroducto</option>
+            <option value="rutag21g245">Ruta G21 y G245</option>
+            <option value="losbronces">Camino Internacional Los Bronces</option>
+            <option value="interiormina">Interior Mina</option>
           </select>
         </div>
         
@@ -153,11 +153,18 @@ const EmergenciesQuantityChart = ({ timeFilter }) => {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
           >
             <option value="all">Todas</option>
-            <option value="transportes_abc">Transportes ABC</option>
-            <option value="logistica_xyz">Logística XYZ</option>
-            <option value="cargas_express">Cargas Express</option>
-            <option value="minera_norte">Minera Norte</option>
-            <option value="otras">Otras</option>
+            <option value="resiter">RESITER</option>
+            <option value="sotraser">SOTRASER</option>
+            <option value="copec">COPEC</option>
+            <option value="transcargo">TRANSCARGO</option>
+            <option value="geobarra">GEOBARRA</option>
+            <option value="transnavarro">TRANSPORTE NAVARRO</option>
+            <option value="transbello">TRANSPORTE BELLO</option>
+            <option value="enaex">ENAEX</option>
+            <option value="transportebsm">TRANSPORTE BSM</option>
+            <option value="elis">ELIS</option>
+            <option value="besalco">BESALCO</option>
+            <option value="otros">OTROS</option>
           </select>
         </div>
         
@@ -175,7 +182,6 @@ const EmergenciesQuantityChart = ({ timeFilter }) => {
             <option value="incendio">Incendio</option>
             <option value="derrame">Derrame</option>
             <option value="emergencia_medica">Emergencia Médica</option>
-            <option value="otros">Otros</option>
           </select>
         </div>
         
@@ -189,11 +195,14 @@ const EmergenciesQuantityChart = ({ timeFilter }) => {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
           >
             <option value="all">Todos</option>
-            <option value="operador1">Juan Pérez</option>
-            <option value="operador2">María González</option>
-            <option value="operador3">Carlos Rodríguez</option>
-            <option value="operador4">Ana Martínez</option>
-            <option value="otros">Otros</option>
+            <option value="jaime_astroza">Jaime Astroza</option>
+            <option value="francisco_cortes">Francisco Cortés</option>
+            <option value="jose_riquelme">José Riquelme</option>
+            <option value="pablo_cima">Pablo Cima</option>
+            <option value="carlos_bravo">Carlos Bravo</option>
+            <option value="mario_guajardo">Mario Guajardo</option>
+            <option value="luis_cuello">Luis Cuello</option>
+            <option value="luis_carrasco">Luis Carrasco</option>
           </select>
         </div>
       </div>

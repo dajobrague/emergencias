@@ -2,7 +2,7 @@ import React from 'react';
 
 const MainStats = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6 main-stats">
       <div className="bg-white rounded-xl shadow-sm p-4 flex items-center">
         <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
           <i className="fas fa-truck text-blue-500 text-xl"></i>

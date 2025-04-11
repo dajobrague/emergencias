@@ -135,11 +135,11 @@ const IncidentChart = ({ timeFilter }) => {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
           >
             <option value="all">Todos</option>
-            <option value="norte">Norte</option>
-            <option value="sur">Sur</option>
-            <option value="este">Este</option>
-            <option value="oeste">Oeste</option>
-            <option value="central">Central</option>
+            <option value="lastortolas">Las Tórtolas</option>
+            <option value="mineroducto">Mineroducto</option>
+            <option value="rutag21g245">Ruta G21 y G245</option>
+            <option value="losbronces">Camino Internacional Los Bronces</option>
+            <option value="interiormina">Interior Mina</option>
           </select>
         </div>
         
@@ -155,9 +155,7 @@ const IncidentChart = ({ timeFilter }) => {
             <option value="all">Todas</option>
             <option value="g21">G21</option>
             <option value="g245">G245</option>
-            <option value="boldos">Los Boldos</option>
-            <option value="tortolas">Las Tórtolas</option>
-            <option value="otras">Otras</option>
+            <option value="otra">Otra</option>
           </select>
         </div>
         
@@ -171,11 +169,18 @@ const IncidentChart = ({ timeFilter }) => {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
           >
             <option value="all">Todas</option>
-            <option value="transportes_abc">Transportes ABC</option>
-            <option value="logistica_xyz">Logística XYZ</option>
-            <option value="cargas_express">Cargas Express</option>
-            <option value="minera_norte">Minera Norte</option>
-            <option value="otras">Otras</option>
+            <option value="resiter">RESITER</option>
+            <option value="sotraser">SOTRASER</option>
+            <option value="copec">COPEC</option>
+            <option value="transcargo">TRANSCARGO</option>
+            <option value="geobarra">GEOBARRA</option>
+            <option value="transnavarro">TRANSPORTE NAVARRO</option>
+            <option value="transbello">TRANSPORTE BELLO</option>
+            <option value="enaex">ENAEX</option>
+            <option value="transportebsm">TRANSPORTE BSM</option>
+            <option value="elis">ELIS</option>
+            <option value="besalco">BESALCO</option>
+            <option value="otros">OTROS</option>
           </select>
         </div>
         
@@ -189,12 +194,16 @@ const IncidentChart = ({ timeFilter }) => {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
           >
             <option value="all">Todos</option>
-            <option value="accidente">Accidente</option>
-            <option value="averia">Avería</option>
-            <option value="emergencia_medica">Emergencia Médica</option>
-            <option value="exceso_velocidad">Exceso de Velocidad</option>
-            <option value="desvio_ruta">Desvío de Ruta</option>
-            <option value="otros">Otros</option>
+            <option value="sinequipoinvierno">Sin Equipo Invierno</option>
+            <option value="fallamec">Falla Mecánica</option>
+            <option value="sinneumaticorepuesto">Sin Neumático de Repuesto</option>
+            <option value="fuerahorario">Fuera de Horario</option>
+            <option value="sinextintor">Sin Extintor</option>
+            <option value="personalinepp">Personal Sin EPP</option>
+            <option value="vehiculosineds">Vehículo Sin EDS</option>
+            <option value="sinpatente">Sin Patente</option>
+            <option value="sinautoriflujo">Sin Autorización de Flujo</option>
+            <option value="sinhds">Sin HDS</option>
           </select>
         </div>
       </div>

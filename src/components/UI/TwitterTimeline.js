@@ -19,17 +19,14 @@ const TwitterTimeline = ({ height = 600 }) => {
     }
   };
 
-  // Manejar el evento de carga del iframe
-  const handleIframeLoad = () => {
-    setIsLoading(false);
-  };
-
   // Generar el HTML para el timeline de Twitter
   const getTwitterTimelineHTML = (username) => {
     return `
       <a class="twitter-timeline" 
          data-height="${height}" 
          data-theme="light" 
+         data-tweet-limit="15"
+         data-chrome="noheader nofooter noborders"
          href="https://twitter.com/${username}?ref_src=twsrc%5Etfw">
          Tweets de @${username}
       </a>

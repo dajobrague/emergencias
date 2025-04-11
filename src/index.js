@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './styles/print.css'; // Importar estilos de impresión
+import './styles/modal.css'; // Importar estilos de modales
+import './styles/dropdown.css'; // Importar estilos de menú desplegable
 import App from './App';
 
 // Configuración para integración con Softr
@@ -45,12 +47,4 @@ root.render(
   <React.StrictMode>
     <SoftrIntegration />
   </React.StrictMode>
-);
-
-// Enviar mensajes a Softr
-function sendMessageToSoftr(data) {
-  window.parent.postMessage({
-    type: 'reactAppData',
-    data
-  }, '*');
-} 
+); 

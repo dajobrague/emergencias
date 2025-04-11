@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import PersonnelCard from '../../components/common/PersonnelCard';
-import Modal from '../../components/UI/Modal';
+// Importar el hook para el tutorial
+import { useTutorial } from '../../context/TutorialContext';
+import { personnelPanelSteps } from '../../components/Tutorial/tutorialSteps';
 
 const PersonnelPanel = () => {
   const [filter, setFilter] = useState('all');
@@ -8,6 +9,15 @@ const PersonnelPanel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState(null);
+  
+  // Acceder al contexto del tutorial
+  const { startTutorial } = useTutorial();
+  
+  // Función para iniciar el tutorial
+  const handleStartTutorial = () => {
+    startTutorial('personnel', personnelPanelSteps);
+  };
+  
   const [newEmployee, setNewEmployee] = useState({
     name: '',
     position: '',
@@ -24,102 +34,88 @@ const PersonnelPanel = () => {
   // Datos de ejemplo para el personal
   const [personnel, setPersonnel] = useState([
     {
-      id: 'EMP-001',
-      name: 'Carlos Rodríguez',
-      position: 'Paramédico',
-      department: 'medical',
-      status: 'active',
-      email: 'carlos.rodriguez@ejemplo.com',
-      phone: '(+56) 9 1234 5678',
-      joinDate: '2020-03-15',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      certifications: ['RCP Avanzado', 'ACLS', 'PHTLS'],
-      lastActivity: '2023-11-10',
-      address: 'Av. Providencia 1234, Santiago',
-      emergencyContact: 'María Rodríguez - (+56) 9 8765 4321',
-      bio: 'Paramédico con 5 años de experiencia en atención prehospitalaria y emergencias médicas. Especializado en soporte vital avanzado y manejo de trauma.',
-      skills: ['Atención prehospitalaria', 'Manejo de trauma', 'Soporte vital avanzado', 'Comunicación efectiva'],
-      rut: '12.345.678-9',
-      gender: 'male'
+      id: "190665",
+      name: "Jaime Astroza",
+      position: "Jefe de Turno Riesgos Naturales y Red Vial",
+      department: "Servicios a la Operación",
+      location: "Los Bronces",
+      status: "active",
+      email: "Por Confirmar",
+      phone: "Por Confirmar",
+      joinDate: "2020-03-14",
+      lastActivity: "2023-11-09",
+      rut: "10032774-0",
+      gender: "male"
     },
     {
-      id: 'EMP-002',
-      name: 'Ana Martínez',
-      position: 'Médico de Emergencia',
-      department: 'medical',
-      status: 'license',
-      email: 'ana.martinez@ejemplo.com',
-      phone: '(+56) 9 8765 4321',
-      joinDate: '2019-06-22',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      certifications: ['Medicina de Emergencia', 'ACLS', 'ATLS'],
-      lastActivity: '2023-11-12',
-      licenseEndDate: '2023-12-15',
-      licenseReason: 'Licencia médica por lesión en servicio',
-      rut: '14.567.890-1',
-      gender: 'female'
+      id: "191508",
+      name: "Francisco Cortés",
+      position: "Operaciones Mina",
+      department: "Mina",
+      location: "Los Bronces",
+      status: "license",
+      email: "Por Confirmar",
+      phone: "Por Confirmar",
+      joinDate: "2019-06-21",
+      lastActivity: "2023-11-11",
+      rut: "10357956-0",
+      gender: "male"
     },
     {
-      id: 'EMP-003',
-      name: 'Roberto Gómez',
-      position: 'Bombero',
-      department: 'fire',
-      status: 'active',
-      email: 'roberto.gomez@ejemplo.com',
-      phone: '(+56) 9 2345 6789',
-      joinDate: '2021-01-10',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      certifications: ['Combate de Incendios', 'Rescate en Altura', 'Materiales Peligrosos'],
-      lastActivity: '2023-11-08',
-      rut: '17.654.321-0',
-      gender: 'male'
+      id: "1915475",
+      name: "José Riquelme",
+      position: "Operador Filtros Hipertérmicos Planta 1",
+      department: "Plantas",
+      location: "Las Tórtolas",
+      status: "active",
+      email: "Por Confirmar",
+      phone: "Por Confirmar",
+      joinDate: "2021-01-09",
+      lastActivity: "2023-11-07",
+      rut: "10365231-0",
+      gender: "male"
     },
     {
-      id: 'EMP-004',
-      name: 'Laura Sánchez',
-      position: 'Despachadora',
-      department: 'dispatch',
-      status: 'license',
-      email: 'laura.sanchez@ejemplo.com',
-      phone: '(+56) 9 3456 7890',
-      joinDate: '2022-02-18',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      certifications: ['Gestión de Emergencias', 'Comunicaciones de Emergencia'],
-      lastActivity: '2023-11-11',
-      licenseEndDate: '2023-12-30',
-      licenseReason: 'Licencia por maternidad',
-      rut: '18.765.432-1',
-      gender: 'female'
+      id: "191200",
+      name: "Paolo Gima",
+      position: "Planificación Mantención",
+      department: "Mantención",
+      location: "Las Tórtolas",
+      status: "license",
+      email: "Por Confirmar",
+      phone: "Por Confirmar",
+      joinDate: "2022-02-17",
+      lastActivity: "2023-11-10",
+      rut: "10419138-1",
+      gender: "male"
     },
     {
-      id: 'EMP-005',
-      name: 'Miguel Torres',
-      position: 'Piloto de Helicóptero',
-      department: 'air',
-      status: 'leave',
-      email: 'miguel.torres@ejemplo.com',
-      phone: '(+56) 9 4567 8901',
-      joinDate: '2018-09-05',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      certifications: ['Piloto Comercial', 'Operaciones Aeromédicas', 'Vuelo Instrumental'],
-      lastActivity: '2023-10-25',
-      rut: '15.432.109-8',
-      gender: 'male'
+      id: "190799",
+      name: "Luis Cuello",
+      position: "Jefe Turno Mina",
+      department: "Mina",
+      location: "Los Bronces",
+      status: "leave",
+      email: "Por Confirmar",
+      phone: "Por Confirmar",
+      joinDate: "2018-09-04",
+      lastActivity: "2023-10-24",
+      rut: "10771956-3",
+      gender: "male"
     },
     {
-      id: 'EMP-006',
-      name: 'Carmen Díaz',
-      position: 'Técnico en Emergencias Médicas',
-      department: 'medical',
-      status: 'inactive',
-      email: 'carmen.diaz@ejemplo.com',
-      phone: '(+56) 9 5678 9012',
-      joinDate: '2020-11-30',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      certifications: ['RCP Básico', 'Primeros Auxilios Avanzados'],
-      lastActivity: '2023-09-15',
-      rut: '19.876.543-2',
-      gender: 'female'
+      id: "600997",
+      name: "Luis Carrasco",
+      position: "Operaciones Mina",
+      department: "Mina",
+      location: "Los Bronces",
+      status: "inactive",
+      email: "Por Confirmar",
+      phone: "Por Confirmar",
+      joinDate: "2020-11-29",
+      lastActivity: "2023-09-14",
+      rut: "11224697-5",
+      gender: "male"
     }
   ]);
 
@@ -219,10 +215,11 @@ const PersonnelPanel = () => {
   // Función para obtener el color según el departamento
   const getDepartmentColor = (department) => {
     switch (department) {
-      case 'medical': return 'bg-blue-100 text-blue-800';
+      case 'medical': return 'bg-green-100 text-green-800';
       case 'fire': return 'bg-red-100 text-red-800';
-      case 'dispatch': return 'bg-purple-100 text-purple-800';
-      case 'air': return 'bg-sky-100 text-sky-800';
+      case 'rescue': return 'bg-blue-100 text-blue-800';
+      case 'dispatch': return 'bg-yellow-100 text-yellow-800';
+      case 'air': return 'bg-purple-100 text-purple-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -232,29 +229,53 @@ const PersonnelPanel = () => {
     switch (department) {
       case 'medical': return 'Médico';
       case 'fire': return 'Bomberos';
+      case 'rescue': return 'Rescate';
       case 'dispatch': return 'Despacho';
       case 'air': return 'Aéreo';
+      case 'Servicios a la Operación': return 'Servicios a la Operación';
+      case 'Mina': return 'Mina';
+      case 'Plantas': return 'Plantas';
+      case 'Mantención': return 'Mantención';
       default: return department;
     }
   };
 
+  // Función para formatear fechas al formato español (DD-MM-YYYY)
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear()}`;
+  };
+
   return (
-    <div className="p-6">
+    <div className="p-6" id="personnel-panel">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Gestión de Personal</h1>
           <p className="text-gray-600">Administración de personal y equipos de emergencia</p>
         </div>
-        <button 
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-          onClick={() => setIsModalOpen(true)}
-        >
-          <i className="fas fa-user-plus mr-2"></i> Agregar Personal
-        </button>
+        <div className="flex space-x-3">
+          {/* Botón de ayuda para iniciar el tutorial */}
+          <button 
+            onClick={handleStartTutorial}
+            className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-blue-700 bg-blue-100 hover:bg-blue-200"
+            aria-label="Iniciar tutorial"
+          >
+            <i className="fas fa-question-circle mr-2"></i>
+            <span>Ayuda</span>
+          </button>
+          
+          <button 
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors add-personnel-button"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <i className="fas fa-user-plus mr-2"></i> Agregar Personal
+          </button>
+        </div>
       </div>
 
       {/* Barra de búsqueda y filtros */}
-      <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
+      <div className="bg-white rounded-xl shadow-sm p-4 mb-6 search-filters">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-grow">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -290,7 +311,7 @@ const PersonnelPanel = () => {
       </div>
 
       {/* Estadísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6 stats-panel">
         <div className="bg-white rounded-xl shadow-sm p-4 flex items-center">
           <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
             <i className="fas fa-users text-blue-500 text-xl"></i>
@@ -343,26 +364,33 @@ const PersonnelPanel = () => {
       </div>
 
       {/* Lista de personal */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 personnel-grid">
         {filteredPersonnel.map(person => (
-          <div key={person.id} className="bg-white rounded-xl shadow-sm overflow-hidden">
-            <div className="p-4">
-              <div className="flex items-start">
-                <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mr-4">
-                  <i className={`fas ${person.gender === 'male' ? 'fa-male text-blue-500' : 'fa-female text-pink-500'} text-2xl`}></i>
-                </div>
-                <div className="flex-1">
-                  <div className="flex justify-between">
-                    <h3 className="text-lg font-semibold">{person.name}</h3>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(person.status)}`}>
-                      {getStatusText(person.status)}
-                    </span>
+          <div key={person.id} className="bg-white rounded-xl shadow-sm overflow-hidden personnel-card">
+            <div className="p-5">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center">
+                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                    <i className={`fas ${person.gender === 'male' ? 'fa-male text-blue-500' : 'fa-female text-pink-500'} text-2xl`}></i>
                   </div>
-                  <p className="text-sm text-gray-600 mb-1">{person.position}</p>
-                  <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getDepartmentColor(person.department)} mb-2`}>
-                    {getDepartmentText(person.department)}
-                  </span>
+                  <div>
+                    <h3 className="text-lg font-semibold">{person.name}</h3>
+                    <p className="text-sm text-gray-600 truncate max-w-[180px]">{person.position}</p>
+                  </div>
                 </div>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(person.status)} status-badge`}>
+                  {getStatusText(person.status)}
+                </span>
+              </div>
+              
+              <div className="flex items-center mb-3">
+                <i className="fas fa-building text-gray-400 w-5"></i>
+                <span className="text-sm text-gray-600">{person.department}</span>
+              </div>
+
+              <div className="flex items-center mb-3">
+                <i className="fas fa-map-marker-alt text-gray-400 w-5"></i>
+                <span className="text-sm text-gray-600">{person.location}</span>
               </div>
               
               <div className="mt-4 space-y-2">
@@ -379,30 +407,34 @@ const PersonnelPanel = () => {
                 <div className="flex items-center text-sm">
                   <i className="fas fa-envelope text-gray-400 w-5"></i>
                   <span className="text-gray-600 mr-2">{person.email}</span>
-                  <a 
-                    href={`mailto:${person.email}`} 
-                    className="text-blue-500 hover:text-blue-700"
-                    title="Enviar email"
-                  >
-                    <i className="fas fa-paper-plane"></i>
-                  </a>
+                  {person.email !== "Por Confirmar" && (
+                    <a 
+                      href={`mailto:${person.email}`} 
+                      className="text-blue-500 hover:text-blue-700"
+                      title="Enviar email"
+                    >
+                      <i className="fas fa-paper-plane"></i>
+                    </a>
+                  )}
                 </div>
                 
                 <div className="flex items-center text-sm">
                   <i className="fas fa-phone text-gray-400 w-5"></i>
                   <span className="text-gray-600 mr-2">{person.phone}</span>
-                  <a 
-                    href={`tel:${person.phone.replace(/\D/g, '')}`} 
-                    className="text-green-500 hover:text-green-700"
-                    title="Llamar"
-                  >
-                    <i className="fas fa-phone-alt"></i>
-                  </a>
+                  {person.phone !== "Por Confirmar" && (
+                    <a 
+                      href={`tel:${person.phone.replace(/\D/g, '')}`} 
+                      className="text-green-500 hover:text-green-700"
+                      title="Llamar"
+                    >
+                      <i className="fas fa-phone-alt"></i>
+                    </a>
+                  )}
                 </div>
                 
                 <div className="flex items-center text-sm">
                   <i className="fas fa-calendar-alt text-gray-400 w-5"></i>
-                  <span className="text-gray-600">Ingreso: {new Date(person.joinDate).toLocaleDateString()}</span>
+                  <span className="text-gray-600">Ingreso: {formatDate(person.joinDate)}</span>
                 </div>
               </div>
               
@@ -410,10 +442,10 @@ const PersonnelPanel = () => {
                 <div className="flex justify-between items-center">
                   <div className="text-sm text-gray-500">
                     <i className="fas fa-history mr-1"></i>
-                    Última actividad: {new Date(person.lastActivity).toLocaleDateString()}
+                    Última actividad: {formatDate(person.lastActivity)}
                   </div>
                   <button 
-                    className="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm transition-colors"
+                    className="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm transition-colors view-profile-button"
                     onClick={() => openProfileModal(person)}
                   >
                     Ver perfil
@@ -712,13 +744,23 @@ const PersonnelPanel = () => {
                     </div>
                     
                     <div className="flex items-center">
+                      <i className="fas fa-building text-gray-400 w-6"></i>
+                      <span className="text-gray-600">{getDepartmentText(selectedPerson.department)}</span>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <i className="fas fa-map-marker-alt text-gray-400 w-6"></i>
+                      <span className="text-gray-600">{selectedPerson.location}</span>
+                    </div>
+                    
+                    <div className="flex items-center">
                       <i className="fas fa-calendar-alt text-gray-400 w-6"></i>
-                      <span className="text-gray-600">Ingreso: {new Date(selectedPerson.joinDate).toLocaleDateString()}</span>
+                      <span className="text-gray-600">Ingreso: {formatDate(selectedPerson.joinDate)}</span>
                     </div>
                     
                     <div className="flex items-center">
                       <i className="fas fa-history text-gray-400 w-6"></i>
-                      <span className="text-gray-600">Última actividad: {new Date(selectedPerson.lastActivity).toLocaleDateString()}</span>
+                      <span className="text-gray-600">Última actividad: {formatDate(selectedPerson.lastActivity)}</span>
                     </div>
                   </div>
                 </div>

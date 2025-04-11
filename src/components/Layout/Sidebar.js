@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
 
 const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) => {
   // Estado para controlar qué secciones están expandidas
@@ -33,12 +32,13 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
   const menuStructure = [
     {
       id: 'fleet-panel',
-      title: 'Seguridad Vial',
+      title: 'Panel de Seguridad Vial',
       icon: 'fa-traffic-light',
       subItems: [
         { id: 'wisetrack-panel', title: 'Wisetrack', icon: 'fa-satellite' },
         { id: 'teletrac-panel', title: 'GPSChile', icon: 'fa-location-arrow' },
         { id: 'gauss-panel', title: 'Gauss', icon: 'fa-compass' },
+        { id: 'webcontrol-panel', title: 'WebControl', icon: 'fa-id-card' },
         { id: 'explork-panel', title: 'Explor-K', icon: 'fa-map-marked-alt' },
         { id: 'document-panel', title: 'Repositorio', icon: 'fa-file-alt' },
         { id: 'records-panel', title: 'Registros', icon: 'fa-clipboard-list' },
@@ -92,7 +92,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
         {isCollapsed && (
           <button 
             onClick={toggleSidebar}
-            className="absolute -right-4 top-6 bg-white p-2 rounded-full shadow-md text-gray-500 hover:bg-gray-100 hover:text-blue-600 z-10"
+            className="absolute -right-4 top-6 bg-white p-2 rounded-full shadow-md text-gray-500 hover:bg-gray-100 hover:text-blue-600 z-50"
             style={{ boxShadow: '0 0 5px rgba(0,0,0,0.2)' }}
           >
             <i className="fas fa-chevron-right"></i>
@@ -107,16 +107,15 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
             <React.Fragment key={mainItem.id}>
               {/* Elemento principal */}
               <li>
-                <a
-                  href="#"
+                <button
+                  type="button"
                   data-panel={mainItem.id}
-                  className={`flex items-center py-3 px-4 rounded-lg transition-colors ${
+                  className={`w-full flex items-center py-3 px-4 rounded-lg transition-colors text-left ${
                     isMainActive(mainItem.id, mainItem.subItems.map(sub => sub.id)) 
                       ? 'bg-blue-100 text-blue-700' 
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={() => {
                     setActivePanel(mainItem.id);
                     // Si la sección está colapsada, la expandimos automáticamente
                     if (!expandedSections[mainItem.id]) {
@@ -135,7 +134,11 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
                   }`}></i>
                   
                   {/* Título (visible cuando el menú no está colapsado) */}
-                  {!isCollapsed && <span className="ml-3">{mainItem.title}</span>}
+                  {!isCollapsed && (
+                    <span className={`ml-3 ${mainItem.id === 'fleet-panel' ? 'text-sm' : ''}`}>
+                      {mainItem.title}
+                    </span>
+                  )}
                   
                   {/* Botón de colapso/expansión para la sección */}
                   {!isCollapsed && (
@@ -147,7 +150,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
                       <i className={`fas ${expandedSections[mainItem.id] ? 'fa-chevron-down' : 'fa-chevron-right'} text-sm transition-transform duration-200`}></i>
                     </button>
                   )}
-                </a>
+                </button>
               </li>
               
               {/* Subelementos - con animación de expansión/colapso */}
@@ -161,20 +164,19 @@ const Sidebar = ({ isCollapsed, toggleSidebar, activePanel, setActivePanel }) =>
               >
                 {mainItem.subItems.map(subItem => (
                   <li key={subItem.id} className={isCollapsed ? 'flex justify-center' : ''}>
-                    <a
-                      href="#"
+                    <button
+                      type="button"
                       data-panel={subItem.id}
-                      className={`flex items-center py-3 px-4 rounded-lg transition-colors ${
+                      className={`w-full flex items-center py-3 px-4 rounded-lg transition-colors text-left ${
                         isActive(subItem.id) ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
                       } ${!isCollapsed ? 'pl-10' : 'px-2'}`}
-                      onClick={(e) => {
-                        e.preventDefault();
+                      onClick={() => {
                         setActivePanel(subItem.id);
                       }}
                     >
                       <i className={`fas ${subItem.icon} text-xl ${isActive(subItem.id) ? 'text-blue-600' : 'text-gray-500'}`}></i>
                       {!isCollapsed && <span className="ml-3">{subItem.title}</span>}
-                    </a>
+                    </button>
                   </li>
                 ))}
               </div>

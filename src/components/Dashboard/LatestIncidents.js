@@ -4,7 +4,7 @@ const LatestIncidents = () => {
   // Últimos incidentes
   const latestIncidents = [
     { id: 'INC-001', type: 'Accidente', location: 'Ruta G21 Km 34', vehicles: 'Camión y vehículo particular', time: '11:15 AM' },
-    { id: 'INC-002', type: 'Avería', location: 'Los Boldos', vehicles: 'Ambulancia 01', time: '10:05 AM' },
+    { id: 'INC-002', type: 'Avería', location: 'Los Bronces', vehicles: 'Ambulancia 01', time: '10:05 AM' },
     { id: 'INC-003', type: 'Emergencia Médica', location: 'Las Tórtolas', vehicles: 'N/A', time: '09:22 AM' },
   ];
 
