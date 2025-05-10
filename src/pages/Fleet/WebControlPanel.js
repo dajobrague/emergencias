@@ -1,8 +1,30 @@
 import React from 'react';
+import { useTutorial } from '../../context/TutorialContext';
+import { webControlPanelSteps } from '../../components/Tutorial/tutorialSteps';
 
 const WebControlPanel = () => {
+  // Acceder al contexto del tutorial
+  const { startTutorial } = useTutorial();
+
+  // Manejar el inicio del tutorial
+  const handleStartTutorial = () => {
+    startTutorial('webcontrol-panel', webControlPanelSteps);
+  };
+
   return (
-    <div className="p-6">
+    <div className="p-6" id="webcontrol-panel">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold text-dark">Sistema WebControl</h2>
+        <button 
+          onClick={handleStartTutorial}
+          className="ml-2 flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-blue-700 bg-blue-100 hover:bg-blue-200"
+          aria-label="Iniciar tutorial"
+        >
+          <i className="fas fa-question-circle mr-2"></i>
+          <span>Ayuda</span>
+        </button>
+      </div>
+      
       <div className="bg-white rounded-xl shadow-sm p-8 text-center">
         <div className="flex justify-center mb-6">
           <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">

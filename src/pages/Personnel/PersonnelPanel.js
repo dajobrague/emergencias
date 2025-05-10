@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+// Importar el hook para el tutorial
+import { useTutorial } from '../../context/TutorialContext';
+import { personnelPanelSteps } from '../../components/Tutorial/tutorialSteps';
 
 const PersonnelPanel = () => {
   const [filter, setFilter] = useState('all');
@@ -6,6 +9,15 @@ const PersonnelPanel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState(null);
+  
+  // Acceder al contexto del tutorial
+  const { startTutorial } = useTutorial();
+  
+  // Función para iniciar el tutorial
+  const handleStartTutorial = () => {
+    startTutorial('personnel', personnelPanelSteps);
+  };
+  
   const [newEmployee, setNewEmployee] = useState({
     name: '',
     position: '',
@@ -236,22 +248,34 @@ const PersonnelPanel = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6" id="personnel-panel">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Gestión de Personal</h1>
           <p className="text-gray-600">Administración de personal y equipos de emergencia</p>
         </div>
-        <button 
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-          onClick={() => setIsModalOpen(true)}
-        >
-          <i className="fas fa-user-plus mr-2"></i> Agregar Personal
-        </button>
+        <div className="flex space-x-3">
+          {/* Botón de ayuda para iniciar el tutorial */}
+          <button 
+            onClick={handleStartTutorial}
+            className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-blue-700 bg-blue-100 hover:bg-blue-200"
+            aria-label="Iniciar tutorial"
+          >
+            <i className="fas fa-question-circle mr-2"></i>
+            <span>Ayuda</span>
+          </button>
+          
+          <button 
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors add-personnel-button"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <i className="fas fa-user-plus mr-2"></i> Agregar Personal
+          </button>
+        </div>
       </div>
 
       {/* Barra de búsqueda y filtros */}
-      <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
+      <div className="bg-white rounded-xl shadow-sm p-4 mb-6 search-filters">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-grow">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -287,7 +311,7 @@ const PersonnelPanel = () => {
       </div>
 
       {/* Estadísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6 stats-panel">
         <div className="bg-white rounded-xl shadow-sm p-4 flex items-center">
           <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
             <i className="fas fa-users text-blue-500 text-xl"></i>
@@ -340,9 +364,9 @@ const PersonnelPanel = () => {
       </div>
 
       {/* Lista de personal */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 personnel-grid">
         {filteredPersonnel.map(person => (
-          <div key={person.id} className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div key={person.id} className="bg-white rounded-xl shadow-sm overflow-hidden personnel-card">
             <div className="p-5">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
@@ -354,7 +378,7 @@ const PersonnelPanel = () => {
                     <p className="text-sm text-gray-600 truncate max-w-[180px]">{person.position}</p>
                   </div>
                 </div>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(person.status)}`}>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(person.status)} status-badge`}>
                   {getStatusText(person.status)}
                 </span>
               </div>
@@ -421,7 +445,7 @@ const PersonnelPanel = () => {
                     Última actividad: {formatDate(person.lastActivity)}
                   </div>
                   <button 
-                    className="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm transition-colors"
+                    className="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm transition-colors view-profile-button"
                     onClick={() => openProfileModal(person)}
                   >
                     Ver perfil

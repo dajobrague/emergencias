@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2';
 const TopIncidentsByCompanyChart = ({ timeFilter }) => {
   // Datos del gráfico
   const [chartData, setChartData] = useState({
-    labels: ['Transportes ABC', 'Logística XYZ', 'Cargas Express', 'Minera Norte', 'Distribuidora Sur'],
+    labels: ['GEOBARRA', 'TRANSAN', 'RESITER', 'COPEC', 'SOTRASER'],
     datasets: [
       {
         data: [30, 25, 20, 15, 10],
@@ -31,7 +31,7 @@ const TopIncidentsByCompanyChart = ({ timeFilter }) => {
     // Actualizar datos según el filtro de tiempo
     if (timeFilter === 'day') {
       setChartData({
-        labels: ['Transportes ABC', 'Logística XYZ', 'Cargas Express', 'Minera Norte', 'Distribuidora Sur'],
+        labels: ['GEOBARRA', 'TRANSAN', 'RESITER', 'COPEC', 'SOTRASER'],
         datasets: [
           {
             data: [30, 25, 20, 15, 10],
@@ -55,7 +55,7 @@ const TopIncidentsByCompanyChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'week') {
       setChartData({
-        labels: ['Transportes ABC', 'Logística XYZ', 'Cargas Express', 'Minera Norte', 'Distribuidora Sur'],
+        labels: ['GEOBARRA', 'TRANSAN', 'RESITER', 'COPEC', 'SOTRASER'],
         datasets: [
           {
             data: [32, 24, 18, 16, 10],
@@ -79,7 +79,7 @@ const TopIncidentsByCompanyChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'month') {
       setChartData({
-        labels: ['Transportes ABC', 'Logística XYZ', 'Cargas Express', 'Minera Norte', 'Distribuidora Sur'],
+        labels: ['GEOBARRA', 'TRANSAN', 'RESITER', 'COPEC', 'SOTRASER'],
         datasets: [
           {
             data: [28, 26, 22, 14, 10],
@@ -103,7 +103,7 @@ const TopIncidentsByCompanyChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'year') {
       setChartData({
-        labels: ['Transportes ABC', 'Logística XYZ', 'Cargas Express', 'Minera Norte', 'Distribuidora Sur'],
+        labels: ['GEOBARRA', 'TRANSAN', 'RESITER', 'COPEC', 'SOTRASER'],
         datasets: [
           {
             data: [26, 24, 22, 18, 10],
@@ -145,7 +145,7 @@ const TopIncidentsByCompanyChart = ({ timeFilter }) => {
       },
       title: {
         display: true,
-        text: 'Top 5 de Incidentes por Empresa',
+        text: 'Incidentes por Empresa',
         font: {
           size: 14,
           weight: 'bold'
@@ -172,7 +172,7 @@ const TopIncidentsByCompanyChart = ({ timeFilter }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm p-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold text-gray-800">Top 5 de Incidentes por Empresa</h2>
+        <h2 className="text-lg font-semibold text-gray-800">Incidentes por Empresa</h2>
       </div>
       
       <div className="h-64">

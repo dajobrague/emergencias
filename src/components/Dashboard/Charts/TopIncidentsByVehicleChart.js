@@ -4,20 +4,20 @@ import { Pie } from 'react-chartjs-2';
 const TopIncidentsByVehicleChart = ({ timeFilter }) => {
   // Datos del gráfico
   const [chartData, setChartData] = useState({
-    labels: ['Camión Articulado', 'Camión Rígido', 'Furgoneta', 'Camioneta', 'Vehículo Ligero'],
+    labels: ['Camión', 'Cama Baja', 'Automóvil', 'Bus', 'Camioneta'],
     datasets: [
       {
         data: [40, 25, 15, 12, 8],
         backgroundColor: [
-          'rgba(54, 162, 235, 0.7)',
           'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
           'rgba(255, 206, 86, 0.7)',
           'rgba(75, 192, 192, 0.7)',
           'rgba(153, 102, 255, 0.7)',
         ],
         borderColor: [
-          'rgba(54, 162, 235, 1)',
           'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
           'rgba(255, 206, 86, 1)',
           'rgba(75, 192, 192, 1)',
           'rgba(153, 102, 255, 1)',
@@ -31,20 +31,20 @@ const TopIncidentsByVehicleChart = ({ timeFilter }) => {
     // Actualizar datos según el filtro de tiempo
     if (timeFilter === 'day') {
       setChartData({
-        labels: ['Camión Articulado', 'Camión Rígido', 'Furgoneta', 'Camioneta', 'Vehículo Ligero'],
+        labels: ['Camión', 'Cama Baja', 'Automóvil', 'Bus', 'Camioneta'],
         datasets: [
           {
             data: [40, 25, 15, 12, 8],
             backgroundColor: [
-              'rgba(54, 162, 235, 0.7)',
               'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
               'rgba(255, 206, 86, 0.7)',
               'rgba(75, 192, 192, 0.7)',
               'rgba(153, 102, 255, 0.7)',
             ],
             borderColor: [
-              'rgba(54, 162, 235, 1)',
               'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
               'rgba(255, 206, 86, 1)',
               'rgba(75, 192, 192, 1)',
               'rgba(153, 102, 255, 1)',
@@ -55,20 +55,20 @@ const TopIncidentsByVehicleChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'week') {
       setChartData({
-        labels: ['Camión Articulado', 'Camión Rígido', 'Furgoneta', 'Camioneta', 'Vehículo Ligero'],
+        labels: ['Camión', 'Cama Baja', 'Automóvil', 'Bus', 'Camioneta'],
         datasets: [
           {
-            data: [38, 28, 16, 10, 8],
+            data: [42, 20, 18, 12, 8],
             backgroundColor: [
-              'rgba(54, 162, 235, 0.7)',
               'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
               'rgba(255, 206, 86, 0.7)',
               'rgba(75, 192, 192, 0.7)',
               'rgba(153, 102, 255, 0.7)',
             ],
             borderColor: [
-              'rgba(54, 162, 235, 1)',
               'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
               'rgba(255, 206, 86, 1)',
               'rgba(75, 192, 192, 1)',
               'rgba(153, 102, 255, 1)',
@@ -79,20 +79,20 @@ const TopIncidentsByVehicleChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'month') {
       setChartData({
-        labels: ['Camión Articulado', 'Camión Rígido', 'Furgoneta', 'Camioneta', 'Vehículo Ligero'],
+        labels: ['Camión', 'Cama Baja', 'Automóvil', 'Bus', 'Camioneta'],
         datasets: [
           {
-            data: [35, 30, 18, 10, 7],
+            data: [38, 28, 16, 10, 8],
             backgroundColor: [
-              'rgba(54, 162, 235, 0.7)',
               'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
               'rgba(255, 206, 86, 0.7)',
               'rgba(75, 192, 192, 0.7)',
               'rgba(153, 102, 255, 0.7)',
             ],
             borderColor: [
-              'rgba(54, 162, 235, 1)',
               'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
               'rgba(255, 206, 86, 1)',
               'rgba(75, 192, 192, 1)',
               'rgba(153, 102, 255, 1)',
@@ -103,20 +103,20 @@ const TopIncidentsByVehicleChart = ({ timeFilter }) => {
       });
     } else if (timeFilter === 'year') {
       setChartData({
-        labels: ['Camión Articulado', 'Camión Rígido', 'Furgoneta', 'Camioneta', 'Vehículo Ligero'],
+        labels: ['Camión', 'Cama Baja', 'Automóvil', 'Bus', 'Camioneta'],
         datasets: [
           {
-            data: [32, 30, 20, 12, 6],
+            data: [36, 26, 20, 10, 8],
             backgroundColor: [
-              'rgba(54, 162, 235, 0.7)',
               'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
               'rgba(255, 206, 86, 0.7)',
               'rgba(75, 192, 192, 0.7)',
               'rgba(153, 102, 255, 0.7)',
             ],
             borderColor: [
-              'rgba(54, 162, 235, 1)',
               'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
               'rgba(255, 206, 86, 1)',
               'rgba(75, 192, 192, 1)',
               'rgba(153, 102, 255, 1)',

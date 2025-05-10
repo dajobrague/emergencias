@@ -6,6 +6,8 @@ import HistoricalRecords from '../../components/Records/HistoricalRecords';
 import Modal from '../../components/UI/Modal';
 import IncidentForm from '../../components/Forms/IncidentForm';
 import CirculationForm from '../../components/Forms/CirculationForm';
+import { useTutorial } from '../../context/TutorialContext';
+import { recordsPanelSteps } from '../../components/Tutorial/tutorialSteps';
 
 const RecordsPanel = () => {
   const [activeTab, setActiveTab] = useState('incidents'); // 'incidents' o 'vehicles'
@@ -13,6 +15,14 @@ const RecordsPanel = () => {
   const [showIncidentModal, setShowIncidentModal] = useState(false);
   const [showVehicleModal, setShowVehicleModal] = useState(false);
   const dropdownRef = useRef(null);
+  
+  // Acceder al contexto del tutorial
+  const { startTutorial } = useTutorial();
+
+  // Manejar el inicio del tutorial
+  const handleStartTutorial = () => {
+    startTutorial('records-panel', recordsPanelSteps);
+  };
   
   // Cerrar el dropdown cuando se hace clic fuera
   useEffect(() => {
@@ -81,76 +91,91 @@ const RecordsPanel = () => {
   const recentVehicles = [
     {
       id: 1,
-      type: 'Mayor a 10 Metros',
-      operator: 'GOTRANS01',
-      license: 'SJFD43',
-      status: 'Activo',
-      time: '21:15'
+      type: 'MAYOR A 10 METROS',
+      operator: 'FRANCISCO HERRADA',
+      company: 'SOTRASER',
+      license: 'PYWH62',
+      direction: 'SUBIDA',
+      time: '21:00'
     },
     {
       id: 2,
-      type: 'Menor a 10 Metros',
-      operator: 'GOTRANS02',
-      license: 'RTJG65',
-      status: 'Mantenimiento',
-      time: '22:40'
+      type: 'MENOR A 10 METROS',
+      operator: 'RANDALL GARCES',
+      company: 'RESITER',
+      license: 'RRGV95',
+      direction: 'SUBIDA',
+      time: '21:05'
     },
     {
       id: 3,
-      type: 'Sustancias Peligrosas',
-      operator: 'CELTRANS',
-      license: 'RSJD65',
-      status: 'Construcción',
-      time: '00:05'
+      type: 'MAYOR A 10 METROS',
+      operator: 'HUGO CARRASCO',
+      company: 'T. NAVARRO',
+      license: 'RXDX27',
+      direction: 'BAJADA',
+      time: '22:00'
     }
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-6" id="records-panel">
       <div className="flex flex-wrap justify-between items-center mb-8">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Registros</h1>
           <p className="text-gray-600">Base de Datos de Incidentes y Camiones</p>
         </div>
         
-        {/* Botón Nuevo con desplegable */}
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => setShowDropdown(!showDropdown)}
-            className="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+        {/* Botón de ayuda para el tutorial */}
+        <div className="flex space-x-2">
+          <button 
+            onClick={handleStartTutorial}
+            className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-blue-700 bg-blue-100 hover:bg-blue-200"
+            aria-label="Iniciar tutorial"
           >
-            <i className="fas fa-plus mr-2"></i>
-            Nuevo
-            <i className={`fas fa-chevron-down ml-2 text-xs transition-transform ${showDropdown ? 'rotate-180' : ''}`}></i>
+            <i className="fas fa-question-circle mr-2"></i>
+            <span>Ayuda</span>
           </button>
           
-          {/* Menú desplegable */}
-          {showDropdown && (
-            <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-10 border border-gray-200 overflow-hidden dropdown-menu">
-              {/* Indicador triangular */}
-              <div className="dropdown-arrow"></div>
-              
-              <div className="relative">
-                <h4 className="dropdown-header">
-                  Crear nuevo
-                </h4>
-                <button
-                  onClick={handleOpenIncidentModal}
-                  className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors border-b border-gray-100 dropdown-item"
-                >
-                  <i className="fas fa-exclamation-triangle mr-2 text-orange-500"></i>
-                  Registro de Incidentes
-                </button>
-                <button
-                  onClick={handleOpenVehicleModal}
-                  className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors dropdown-item"
-                >
-                  <i className="fas fa-truck mr-2 text-green-500"></i>
-                  Control de Camiones
-                </button>
+          {/* Botón Nuevo con desplegable */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
+              className="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              <i className="fas fa-plus mr-2"></i>
+              Nuevo
+              <i className={`fas fa-chevron-down ml-2 text-xs transition-transform ${showDropdown ? 'rotate-180' : ''}`}></i>
+            </button>
+            
+            {/* Menú desplegable */}
+            {showDropdown && (
+              <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-10 border border-gray-200 overflow-hidden dropdown-menu">
+                {/* Indicador triangular */}
+                <div className="dropdown-arrow"></div>
+                
+                <div className="relative">
+                  <h4 className="dropdown-header">
+                    Crear nuevo
+                  </h4>
+                  <button
+                    onClick={handleOpenIncidentModal}
+                    className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors border-b border-gray-100 dropdown-item"
+                  >
+                    <i className="fas fa-exclamation-triangle mr-2 text-orange-500"></i>
+                    Registro de Incidentes
+                  </button>
+                  <button
+                    onClick={handleOpenVehicleModal}
+                    className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors dropdown-item"
+                  >
+                    <i className="fas fa-ticket-alt mr-2 text-green-500"></i>
+                    Control de Camiones
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
@@ -167,7 +192,7 @@ const RecordsPanel = () => {
 
         {/* Columna de Últimos Registros de Camiones */}
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Últimos Registro de Camiones</h2>
+          <h2 className="text-lg font-semibold mb-4">Últimos Registros de Camiones</h2>
           <div className="space-y-4">
             {recentVehicles.map(vehicle => (
               <VehicleCard key={vehicle.id} vehicle={vehicle} />

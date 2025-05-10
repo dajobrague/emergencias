@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { barOptions } from './ChartOptions';
 
-const TruckChart = ({ timeFilter }) => {
+const TruckChart = ({ timeFilter, onTruckTypeChange }) => {
   // Filtros adicionales
   const [cargoType, setCargoType] = useState('all');
   const [truckType, setTruckType] = useState('all');
@@ -21,6 +21,16 @@ const TruckChart = ({ timeFilter }) => {
       },
     ],
   });
+
+  // Manejar cambio en tipo de camión
+  const handleTruckTypeChange = (e) => {
+    const newType = e.target.value;
+    setTruckType(newType);
+    // Pasar el cambio al padre
+    if (onTruckTypeChange) {
+      onTruckTypeChange(newType);
+    }
+  };
 
   useEffect(() => {
     // Actualizar datos según el filtro de tiempo y otros filtros
@@ -135,9 +145,13 @@ const TruckChart = ({ timeFilter }) => {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
           >
             <option value="all">Todos</option>
-            <option value="mineral">Mineral</option>
-            <option value="concentrado">Concentrado</option>
             <option value="combustible">Combustible</option>
+            <option value="lubricantes">Lubricantes</option>
+            <option value="acido">Ácido</option>
+            <option value="agua">Agua</option>
+            <option value="residuos">Residuos</option>
+            <option value="calviva">Cal Viva</option>
+            <option value="catodos">Cátodos</option>
             <option value="otros">Otros</option>
           </select>
         </div>
@@ -148,14 +162,14 @@ const TruckChart = ({ timeFilter }) => {
           </label>
           <select
             value={truckType}
-            onChange={(e) => setTruckType(e.target.value)}
+            onChange={handleTruckTypeChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
           >
             <option value="all">Todos</option>
-            <option value="tolva">Tolva</option>
-            <option value="cisterna">Cisterna</option>
-            <option value="plataforma">Plataforma</option>
-            <option value="otros">Otros</option>
+            <option value="sustanciaspeligrosas">Sustancias Peligrosas</option>
+            <option value="menor10m">Menor a 10 Metros</option>
+            <option value="mayor10m">Mayor a 10 Metros</option>
+            <option value="mop">MOP</option>
           </select>
         </div>
         

@@ -1,4 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
+// Importar el hook para el tutorial
+import { useTutorial } from '../../context/TutorialContext';
+import { simulatorsPanelSteps } from '../../components/Tutorial/tutorialSteps';
+
+// Importar las imágenes directamente
+import simulator1Image from '../../assets/images/simulators/screenshot1.png';
+import simulator2Image from '../../assets/images/simulators/screenshot2.png';
 
 const SimulatorsPanel = () => {
   const [activeTab, setActiveTab] = useState('simulators');
@@ -9,6 +16,14 @@ const SimulatorsPanel = () => {
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   
+  // Acceder al contexto del tutorial
+  const { startTutorial } = useTutorial();
+
+  // Manejar el inicio del tutorial
+  const handleStartTutorial = () => {
+    startTutorial('simulators-panel', simulatorsPanelSteps);
+  };
+  
   // Estados para los resultados filtrados
   const [filteredSimulators, setFilteredSimulators] = useState([]);
   const [filteredCampaigns, setFilteredCampaigns] = useState([]);
@@ -18,35 +33,23 @@ const SimulatorsPanel = () => {
   const simulationVideos = useMemo(() => [
     {
       id: 1,
-      title: 'Simulador de Conducción Segura',
-      description: 'Aprenda técnicas de conducción segura para camiones de carga pesada en diferentes condiciones climáticas.',
-      youtubeId: 'tXNhoRJOvnI', // Actualizado con el enlace proporcionado
-      category: 'Conducción',
-      date: '2023-06-15'
+      title: 'DEMO 1: Demo Control de Tráfico AA LB Versión 1',
+      description: 'Simulador interactivo de conducción para entrenamiento en situaciones de emergencia y condiciones climáticas adversas.',
+      oneDriveUrl: 'https://onedrive.live.com/?qt=allmyphotos&photosData=%2Fshare%2FC11B1CBF0DFA71E1%2190959%3Fithint%3Dvideo%26e%3DpY3dmk&sw=bypassConfig&cid=C11B1CBF0DFA71E1&id=C11B1CBF0DFA71E1%2190959&authkey=%21ALOgeVnKQW%5F%5FMso&v=photos',
+      category: 'Simulador',
+      date: '2023-11-15',
+      type: 'onedrive',
+      thumbnail: simulator1Image
     },
     {
       id: 2,
-      title: 'Simulador de Respuesta a Emergencias',
-      description: 'Procedimientos de respuesta ante situaciones de emergencia durante el transporte de carga.',
-      youtubeId: 'A3GivkzxxJQ', // Actualizado con el enlace proporcionado
-      category: 'Emergencias',
-      date: '2023-08-22'
-    },
-    {
-      id: 3,
-      title: 'Simulador de Carga y Descarga',
-      description: 'Técnicas adecuadas para la carga y descarga segura de mercancías en diferentes tipos de vehículos.',
-      youtubeId: 'f8tcx2FEvSs', // Actualizado con el enlace proporcionado
-      category: 'Operaciones',
-      date: '2023-10-05'
-    },
-    {
-      id: 4,
-      title: 'Simulador de Mantenimiento Preventivo',
-      description: 'Aprenda a realizar verificaciones de mantenimiento preventivo para garantizar la seguridad y eficiencia de los vehículos.',
-      youtubeId: 'jB-xDvBQuL0', 
-      category: 'Mantenimiento',
-      date: '2023-11-18'
+      title: 'DEMO 2: Demo Control de Tráfico AA LB Versión 2',
+      description: 'Módulo de ejercicios prácticos para mejorar técnicas de conducción segura en diferentes escenarios y condiciones.',
+      oneDriveUrl: 'https://onedrive.live.com/?qt=allmyphotos&photosData=%2Fshare%2FC11B1CBF0DFA71E1%2190958%3Fithint%3Dvideo%26e%3DpIdqn2&sw=bypassConfig&cid=C11B1CBF0DFA71E1&id=C11B1CBF0DFA71E1%2190958&authkey=%21ACeIDT4QGwIbf84&v=photos',
+      category: 'Simulador',
+      date: '2023-11-25',
+      type: 'onedrive',
+      thumbnail: simulator2Image
     }
   ], []);
 
@@ -55,7 +58,7 @@ const SimulatorsPanel = () => {
     {
       id: 1,
       title: 'Campaña: Exceso de Velocidad',
-      description: 'Conoce los riesgos del exceso de velocidad y cómo afecta a la seguridad vial.',
+      description: 'Conoce los riesgos del exceso de velocidad y cómo afecta a la seguridad vial. Esta campaña oficial de la CONASET resalta la importancia de respetar los límites de velocidad.',
       youtubeId: 'tXNhoRJOvnI',
       externalLink: 'https://www.conaset.cl/exceso-velocidad/',
       category: 'Seguridad Vial',
@@ -67,8 +70,8 @@ const SimulatorsPanel = () => {
   const learningContent = useMemo(() => [
     {
       id: 1,
-      title: 'Seguridad en el Transporte',
-      description: 'Aprenda técnicas esenciales para garantizar la seguridad en el transporte de pasajeros y carga.',
+      title: 'Medidas de seguridad en carretera',
+      description: 'Aprenda las medidas de seguridad esenciales para conducir por carretera y prevenir accidentes en diferentes condiciones.',
       youtubeId: 'A3GivkzxxJQ',
       category: 'Capacitación',
       date: '2023-07-12'
@@ -76,7 +79,7 @@ const SimulatorsPanel = () => {
     {
       id: 2,
       title: 'Técnicas de Conducción Defensiva',
-      description: 'Mejore sus habilidades de conducción defensiva para prevenir accidentes y situaciones de riesgo.',
+      description: 'Mejore sus habilidades de conducción defensiva para prevenir accidentes y situaciones de riesgo. Serie completa de capacitación.',
       youtubeId: 'f8tcx2FEvSs',
       playlistLink: 'https://www.youtube.com/watch?v=f8tcx2FEvSs&list=PLimBShHKRwbBLjTtBZL3J3zm6wTHABGqu&index=1',
       category: 'Conducción',
@@ -163,26 +166,38 @@ const SimulatorsPanel = () => {
     });
     setFilteredLearning(filteredLearn);
     
-  }, [searchTerm, selectedCategory, dateFrom, dateTo]);
+  }, [searchTerm, selectedCategory, dateFrom, dateTo, simulationVideos, campaignContent, learningContent]);
 
   // Asignar los valores iniciales al cargar el componente
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     setFilteredSimulators(simulationVideos);
     setFilteredCampaigns(campaignContent);
     setFilteredLearning(learningContent);
   }, [simulationVideos, campaignContent, learningContent]);
-  /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold text-dark mb-4">Centro de Simulación y Aprendizaje</h2>
-      <p className="text-gray-600 mb-6">
-        Explore nuestra colección de videos instructivos, simuladores y recursos educativos para mejorar sus habilidades y conocimientos en seguridad vial y operación de vehículos.
-      </p>
+    <div className="p-6" id="simulators-panel">
+      <div className="flex flex-wrap justify-between items-center mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-dark mb-4">Centro de Simulación y Aprendizaje</h2>
+          <p className="text-gray-600">
+            Explore nuestra colección de videos instructivos, simuladores y recursos educativos para mejorar sus habilidades y conocimientos en seguridad vial y operación de vehículos.
+          </p>
+        </div>
+        
+        {/* Botón de ayuda para el tutorial */}
+        <button 
+          onClick={handleStartTutorial}
+          className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-blue-700 bg-blue-100 hover:bg-blue-200"
+          aria-label="Iniciar tutorial"
+        >
+          <i className="fas fa-question-circle mr-2"></i>
+          <span>Ayuda</span>
+        </button>
+      </div>
 
       {/* Pestañas de navegación */}
-      <div className="flex flex-wrap border-b mb-8">
+      <div className="flex flex-wrap border-b mb-8 scenario-selector">
         <button
           onClick={() => setActiveTab('simulators')}
           className={`py-3 px-6 text-sm font-medium rounded-t-lg transition-colors ${
@@ -216,8 +231,8 @@ const SimulatorsPanel = () => {
       </div>
       
       {/* Barra de filtros */}
-      <div className="bg-gray-50 p-4 rounded-lg mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+      <div className="bg-gray-50 p-4 rounded-lg mb-8 simulation-controls">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end parameters-panel">
           {/* Filtro de búsqueda */}
           <div className="relative md:col-span-4">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -295,7 +310,7 @@ const SimulatorsPanel = () => {
 
       {/* Contenido de Simuladores */}
       {activeTab === 'simulators' && (
-        <div className="animate-fadeIn">
+        <div className="animate-fadeIn results-section">
           <h3 className="text-xl font-semibold text-gray-800 mb-6">Simuladores y Videos Instructivos</h3>
           
           {filteredSimulators.length === 0 ? (
@@ -313,16 +328,26 @@ const SimulatorsPanel = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {filteredSimulators.map(video => (
                 <div key={video.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                  <div className="aspect-w-16 aspect-h-9">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${video.youtubeId}`}
-                      title={video.title}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full"
-                    ></iframe>
-                  </div>
+                  {video.type === 'onedrive' ? (
+                    <div className="aspect-w-16 aspect-h-9 bg-[#0A2756] flex items-center justify-center relative">
+                      <img 
+                        src={video.thumbnail} 
+                        alt={video.title}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <div className="aspect-w-16 aspect-h-9">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${video.youtubeId}`}
+                        title={video.title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full"
+                      ></iframe>
+                    </div>
+                  )}
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-3">
                       <span className="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
@@ -335,10 +360,19 @@ const SimulatorsPanel = () => {
                     <h3 className="text-xl font-semibold mb-2">{video.title}</h3>
                     <p className="text-gray-600 mb-4">{video.description}</p>
                     <div className="flex flex-wrap gap-3">
-                      <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center text-sm">
-                        <i className="fas fa-play-circle mr-2"></i>
-                        Ver Completo
-                      </button>
+                      {video.type === 'onedrive' ? (
+                        <button 
+                          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center text-sm"
+                        >
+                          <i className="fas fa-cloud mr-2"></i>
+                          Abrir Simulador
+                        </button>
+                      ) : (
+                        <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center text-sm">
+                          <i className="fas fa-play-circle mr-2"></i>
+                          Ver Completo
+                        </button>
+                      )}
                       <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors flex items-center text-sm">
                         <i className="fas fa-download mr-2"></i>
                         Descargar Material
@@ -503,7 +537,7 @@ const SimulatorsPanel = () => {
         </div>
       )}
 
-      <div className="mt-12 bg-blue-50 rounded-xl p-8">
+      <div className="mt-12 bg-blue-50 rounded-xl p-8 history-log">
         <h3 className="text-xl font-semibold mb-4">Recursos Adicionales</h3>
         <p className="text-gray-600 mb-6">
           Además de los videos de simulación, ofrecemos los siguientes recursos para mejorar su capacitación:

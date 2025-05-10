@@ -2,39 +2,41 @@ import React, { useState } from 'react';
 // import { Card } from '../../components/UI/Card';
 import Button from '../../components/UI/Button';
 import Modal from '../../components/UI/Modal';
+// Importar el hook para el tutorial
+import { useTutorial } from '../../context/TutorialContext';
+import { emergencyUnitsPanelSteps } from '../../components/Tutorial/tutorialSteps';
 
 const EmergencyUnitsPanel = () => {
-  const [showAddUnitModal, setShowAddUnitModal] = useState(false);
   const [showUnitProfileModal, setShowUnitProfileModal] = useState(false);
   const [selectedUnit, setSelectedUnit] = useState(null);
-  const [formData, setFormData] = useState({
-    unitNumber: '',
-    unitType: '',
-    unitStatus: 'Activo',
-    unitZone: '',
-    unitNotes: '',
-    unitPhone: ''
-  });
+  
+  // Acceder al contexto del tutorial
+  const { startTutorial } = useTutorial();
+
+  // Función para iniciar el tutorial
+  const handleStartTutorial = () => {
+    startTutorial('emergency-units-panel', emergencyUnitsPanelSteps);
+  };
   
   // Array de checklists recientes
   const recentChecklists = [
     {
       id: 1,
-      unitNumber: 'Los Bronce',
+      unitNumber: 'Los Bronces',
       unitType: 'Camión de Bomberos',
       date: '18/05/2023',
       time: '09:30',
-      responsable: 'Juan Pérez',
+      responsable: 'Jaime Astroza',
       status: 'Completo',
       observations: 'Equipo en condiciones óptimas'
     },
     {
       id: 2,
-      unitNumber: 'Las Tórtola',
+      unitNumber: 'Las Tórtolas',
       unitType: 'Camión de Bomberos',
       date: '17/05/2023',
       time: '14:15',
-      responsable: 'María Gómez',
+      responsable: 'Francisco Cortés',
       status: 'Completo',
       observations: 'Nivel de combustible al 75%'
     },
@@ -44,7 +46,7 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Ambulancia',
       date: '16/05/2023',
       time: '11:45',
-      responsable: 'Carlos Rodríguez',
+      responsable: 'José Riquelme',
       status: 'Completo',
       observations: 'Reposición de material médico realizada'
     },
@@ -54,7 +56,7 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Vehículo de Rescate',
       date: '16/05/2023',
       time: '08:20',
-      responsable: 'Ana Martínez',
+      responsable: 'Paolo Gima',
       status: 'Pendiente',
       observations: 'Pendiente revisión de equipo hidráulico'
     },
@@ -64,7 +66,7 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Unidad Aérea',
       date: '15/05/2023',
       time: '16:30',
-      responsable: 'Roberto Sánchez',
+      responsable: 'Luis Cuello',
       status: 'Completo',
       observations: 'Mantenimiento preventivo realizado'
     },
@@ -74,7 +76,7 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Unidad Táctica',
       date: '15/05/2023',
       time: '10:00',
-      responsable: 'Laura Torres',
+      responsable: 'Luis Carrasco',
       status: 'Completo',
       observations: 'Sin observaciones'
     },
@@ -84,17 +86,17 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Vehículo de Rescate',
       date: '14/05/2023',
       time: '15:45',
-      responsable: 'Daniel López',
+      responsable: 'Jaime Astroza',
       status: 'Completo',
       observations: 'Materiales reemplazados'
     },
     {
       id: 8,
-      unitNumber: 'Los Bronce',
+      unitNumber: 'Los Bronces',
       unitType: 'Camión de Bomberos',
       date: '13/05/2023',
       time: '09:15',
-      responsable: 'Juan Pérez',
+      responsable: 'Francisco Cortés',
       status: 'Completo',
       observations: 'Revisión de mangueras completada'
     },
@@ -104,29 +106,30 @@ const EmergencyUnitsPanel = () => {
       unitType: 'Ambulancia',
       date: '12/05/2023',
       time: '13:20',
-      responsable: 'María Gómez',
+      responsable: 'José Riquelme',
       status: 'Completo',
       observations: 'Equipo médico verificado'
     },
     {
       id: 10,
-      unitNumber: 'Las Tórtola',
+      unitNumber: 'Las Tórtolas',
       unitType: 'Camión de Bomberos',
       date: '11/05/2023',
       time: '11:30',
-      responsable: 'Roberto Sánchez',
+      responsable: 'Paolo Gima',
       status: 'Completo',
       observations: 'Cambio de aceite realizado'
     }
   ];
   
-  const [units, setUnits] = useState([
+  // Array de unidades (ahora como constante en lugar de estado)
+  const units = [
     {
       id: 1,
-      number: 'Los Bronce',
+      number: 'Los Bronces',
       type: 'Camión de Bomberos',
       status: 'Activo',
-      zone: 'Zona Norte',
+      zone: 'Los Bronces',
       icon: 'fas fa-fire-extinguisher',
       bgColor: 'bg-red-100',
       iconColor: 'text-red-500',
@@ -154,10 +157,10 @@ const EmergencyUnitsPanel = () => {
     },
     {
       id: 2,
-      number: 'Las Tórtola',
+      number: 'Las Tórtolas',
       type: 'Camión de Bomberos',
       status: 'En ruta',
-      zone: 'Zona Centro',
+      zone: 'Las Tórtolas',
       icon: 'fas fa-fire-extinguisher',
       bgColor: 'bg-red-100',
       iconColor: 'text-red-500',
@@ -181,7 +184,7 @@ const EmergencyUnitsPanel = () => {
       number: 'La Ermita',
       type: 'Vehículo de Rescate',
       status: 'Activo',
-      zone: 'Zona Sur',
+      zone: 'La Ermita',
       icon: 'fas fa-truck',
       bgColor: 'bg-orange-100',
       iconColor: 'text-orange-500',
@@ -197,7 +200,7 @@ const EmergencyUnitsPanel = () => {
       number: 'STP',
       type: 'Vehículo de Rescate',
       status: 'En mantenimiento',
-      zone: 'Zona Este',
+      zone: 'STP',
       icon: 'fas fa-truck',
       bgColor: 'bg-orange-100',
       iconColor: 'text-orange-500',
@@ -213,7 +216,7 @@ const EmergencyUnitsPanel = () => {
       number: 'Mina',
       type: 'Unidad Táctica',
       status: 'Activo',
-      zone: 'Zona Centro',
+      zone: 'Mina',
       icon: 'fas fa-shield-alt',
       bgColor: 'bg-purple-100',
       iconColor: 'text-purple-500',
@@ -229,7 +232,7 @@ const EmergencyUnitsPanel = () => {
       number: 'Ambulancia',
       type: 'Ambulancia',
       status: 'Activo',
-      zone: 'Zona Oeste',
+      zone: 'STP',
       icon: 'fas fa-ambulance',
       bgColor: 'bg-green-100',
       iconColor: 'text-green-500',
@@ -245,7 +248,7 @@ const EmergencyUnitsPanel = () => {
       number: 'Helicóptero',
       type: 'Unidad Aérea',
       status: 'En espera',
-      zone: 'Base Aérea',
+      zone: 'Los Bronces',
       icon: 'fas fa-helicopter',
       bgColor: 'bg-blue-100',
       iconColor: 'text-blue-500',
@@ -256,7 +259,7 @@ const EmergencyUnitsPanel = () => {
       patente: 'HLC01',
       personnel: []
     }
-  ]);
+  ];
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -292,125 +295,29 @@ const EmergencyUnitsPanel = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setFormData({
-      ...formData,
-      [id]: value
-    });
-  };
-
-  const handleAddUnit = () => {
-    // Validar que al menos se haya ingresado un número de unidad
-    if (!formData.unitNumber.trim()) {
-      alert('Por favor ingrese al menos un número de unidad');
-      return;
-    }
-    
-    // Crear un nuevo objeto de unidad
-    const newUnit = {
-      id: units.length + 1,
-      number: formData.unitNumber,
-      type: formData.unitType || 'No especificado',
-      status: formData.unitStatus,
-      zone: formData.unitZone || 'No asignada',
-      icon: getIconByType(formData.unitType),
-      bgColor: getBgColorByType(formData.unitType),
-      iconColor: getIconColorByType(formData.unitType),
-      lastCheck: 'No realizado',
-      checklistStatus: 'Pendiente',
-      observations: formData.unitNotes || 'Sin observaciones',
-      phone: formData.unitPhone || 'No registrado',
-      patente: formData.unitNumber,
-      personnel: []
-    };
-    
-    // Agregar la nueva unidad al array de unidades
-    setUnits([...units, newUnit]);
-    
-    // Cerrar el modal y resetear el formulario
-    setShowAddUnitModal(false);
-    setFormData({
-      unitNumber: '',
-      unitType: '',
-      unitStatus: 'Activo',
-      unitZone: '',
-      unitNotes: '',
-      unitPhone: ''
-    });
-  };
-
-  const getIconByType = (type) => {
-    if (type.toLowerCase().includes('bombero')) {
-      return 'fas fa-fire-extinguisher';
-    } else if (type.toLowerCase().includes('ambulancia')) {
-      return 'fas fa-ambulance';
-    } else if (type.toLowerCase().includes('rescate')) {
-      return 'fas fa-truck';
-    } else if (type.toLowerCase().includes('helicóptero')) {
-      return 'fas fa-helicopter';
-    } else if (type.toLowerCase().includes('táctica')) {
-      return 'fas fa-shield-alt';
-    } else {
-      return 'fas fa-truck'; // Icono por defecto
-    }
-  };
-
-  const getBgColorByType = (type) => {
-    if (type.toLowerCase().includes('bombero')) {
-      return 'bg-red-100';
-    } else if (type.toLowerCase().includes('ambulancia')) {
-      return 'bg-green-100';
-    } else if (type.toLowerCase().includes('rescate')) {
-      return 'bg-orange-100';
-    } else if (type.toLowerCase().includes('helicóptero')) {
-      return 'bg-blue-100';
-    } else if (type.toLowerCase().includes('táctica')) {
-      return 'bg-purple-100';
-    } else {
-      return 'bg-gray-100'; // Color de fondo por defecto
-    }
-  };
-
-  const getIconColorByType = (type) => {
-    if (type.toLowerCase().includes('bombero')) {
-      return 'text-red-500';
-    } else if (type.toLowerCase().includes('ambulancia')) {
-      return 'text-green-500';
-    } else if (type.toLowerCase().includes('rescate')) {
-      return 'text-orange-500';
-    } else if (type.toLowerCase().includes('helicóptero')) {
-      return 'text-blue-500';
-    } else if (type.toLowerCase().includes('táctica')) {
-      return 'text-purple-500';
-    } else {
-      return 'text-gray-500'; // Color del ícono por defecto
-    }
-  };
-
   const openUnitProfile = (unit) => {
     setSelectedUnit(unit);
     setShowUnitProfileModal(true);
   };
 
   return (
-    <div id="emergency-units-panel" className="service-panel">
+    <div className="p-6" id="emergency-units-panel">
       <div className="flex justify-between items-center mb-6">
-        <div>
-          <h2 className="text-2xl font-bold text-dark">Unidades de Emergencia</h2>
-          <p className="text-gray-600 mt-1">Gestión y monitoreo de vehículos de emergencia</p>
-        </div>
-        <Button 
-          variant="primary" 
-          icon="fas fa-plus"
-          onClick={() => setShowAddUnitModal(true)}
+        <h1 className="text-2xl font-bold text-dark">Unidades de Emergencia</h1>
+        
+        {/* Botón de ayuda para iniciar el tutorial */}
+        <button 
+          onClick={handleStartTutorial}
+          className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-blue-700 bg-blue-100 hover:bg-blue-200"
+          aria-label="Iniciar tutorial"
         >
-          Añadir Unidad
-        </Button>
+          <i className="fas fa-question-circle mr-2"></i>
+          <span>Ayuda</span>
+        </button>
       </div>
 
       {/* Filtros */}
-      <div className="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-wrap gap-4">
+      <div className="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-wrap gap-4 units-filters">
         <div className="flex-1 min-w-[200px]">
           <label className="block text-sm text-gray-600 mb-1">Tipo de Unidad</label>
           <select className="w-full p-2 border border-gray-200 rounded text-sm">
@@ -435,6 +342,18 @@ const EmergencyUnitsPanel = () => {
         </div>
         
         <div className="flex-1 min-w-[200px]">
+          <label className="block text-sm text-gray-600 mb-1">Zona</label>
+          <select className="w-full p-2 border border-gray-200 rounded text-sm">
+            <option value="">Todas las zonas</option>
+            <option>Los Bronces</option>
+            <option>Las Tórtolas</option>
+            <option>STP</option>
+            <option>Mina</option>
+            <option>La Ermita</option>
+          </select>
+        </div>
+        
+        <div className="flex-1 min-w-[200px]">
           <label className="block text-sm text-gray-600 mb-1">Estado de Checklist</label>
           <select className="w-full p-2 border border-gray-200 rounded text-sm">
             <option value="">Todos</option>
@@ -453,9 +372,9 @@ const EmergencyUnitsPanel = () => {
       </div>
 
       {/* Grid de unidades */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 units-grid">
         {units.map(unit => (
-          <div key={unit.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:-translate-y-1 transition-transform">
+          <div key={unit.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:-translate-y-1 transition-transform unit-card">
             {/* Header con estado e ícono */}
             <div className="p-4 flex items-center justify-between border-b border-gray-100">
               <div className="flex items-center">
@@ -467,7 +386,7 @@ const EmergencyUnitsPanel = () => {
                   <p className="text-sm text-gray-600">{unit.type}</p>
                 </div>
               </div>
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusClass(unit.status)}`}>
+              <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusClass(unit.status)} status-indicator`}>
                 {unit.status}
               </span>
             </div>
@@ -477,7 +396,7 @@ const EmergencyUnitsPanel = () => {
               <div className="mb-4">
                 <div className="flex justify-between mb-2">
                   <span className="text-sm text-gray-500">Checklist:</span>
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getChecklistStatusClass(unit.checklistStatus)}`}>
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getChecklistStatusClass(unit.checklistStatus)} checklist-status`}>
                     {unit.checklistStatus}
                   </span>
                 </div>
@@ -521,7 +440,7 @@ const EmergencyUnitsPanel = () => {
                 <Button 
                   variant="primary" 
                   size="sm" 
-                  className="flex-1"
+                  className="flex-1 view-profile-btn"
                   onClick={() => openUnitProfile(unit)}
                 >
                   <i className="fas fa-info-circle mr-1"></i>
@@ -548,7 +467,7 @@ const EmergencyUnitsPanel = () => {
         
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
+            <table className="min-w-full divide-y divide-gray-200 checklist-table">
               <thead className="bg-gray-50">
                 <tr>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -619,149 +538,6 @@ const EmergencyUnitsPanel = () => {
         </div>
       </div>
       
-      {/* Modal para añadir unidad */}
-      <Modal 
-        isOpen={showAddUnitModal} 
-        onClose={() => setShowAddUnitModal(false)}
-        title="Agregar Nueva Unidad de Emergencia"
-      >
-        <div className="p-5">
-          <form id="addUnitForm">
-            <div className="flex flex-col md:flex-row gap-4 mb-4">
-              <div className="flex-1">
-                <label htmlFor="unitNumber" className="block text-sm text-gray-700 mb-1">
-                  Número/Patente de Unidad: <span className="text-red-500">*</span>
-                </label>
-                <input 
-                  type="text" 
-                  id="unitNumber" 
-                  className="w-full p-2 border border-gray-200 rounded" 
-                  placeholder="Ej. RGBD50" 
-                  required
-                  value={formData.unitNumber}
-                  onChange={handleInputChange}
-                />
-              </div>
-              
-              <div className="flex-1">
-                <label htmlFor="unitStatus" className="block text-sm text-gray-700 mb-1">
-                  Estado:
-                </label>
-                <select 
-                  id="unitStatus" 
-                  className="w-full p-2 border border-gray-200 rounded"
-                  value={formData.unitStatus}
-                  onChange={handleInputChange}
-                >
-                  <option value="Activo">Activo</option>
-                  <option value="En ruta">En ruta</option>
-                  <option value="En mantenimiento">En mantenimiento</option>
-                  <option value="En espera">En espera</option>
-                </select>
-              </div>
-            </div>
-            
-            <div className="flex flex-col md:flex-row gap-4 mb-4">
-              <div className="flex-1">
-                <label htmlFor="unitType" className="block text-sm text-gray-700 mb-1">
-                  Tipo de Unidad: <span className="text-red-500">*</span>
-                </label>
-                <select 
-                  id="unitType" 
-                  className="w-full p-2 border border-gray-200 rounded"
-                  value={formData.unitType}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Seleccione un tipo</option>
-                  <option value="Camión de Bomberos">Camión de Bomberos</option>
-                  <option value="Ambulancia">Ambulancia</option>
-                  <option value="Vehículo de Rescate">Vehículo de Rescate</option>
-                  <option value="Unidad Táctica">Unidad Táctica</option>
-                  <option value="Unidad Aérea">Unidad Aérea (Helicóptero)</option>
-                </select>
-              </div>
-              
-              <div className="flex-1">
-                <label htmlFor="unitZone" className="block text-sm text-gray-700 mb-1">
-                  Zona de Operación: <span className="text-red-500">*</span>
-                </label>
-                <select 
-                  id="unitZone" 
-                  className="w-full p-2 border border-gray-200 rounded"
-                  value={formData.unitZone}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Seleccione una zona</option>
-                  <option value="Zona Norte">Zona Norte</option>
-                  <option value="Zona Sur">Zona Sur</option>
-                  <option value="Zona Este">Zona Este</option>
-                  <option value="Zona Oeste">Zona Oeste</option>
-                  <option value="Zona Centro">Zona Centro</option>
-                  <option value="Base Aérea">Base Aérea</option>
-                </select>
-              </div>
-            </div>
-            
-            <div className="mb-4">
-              <label htmlFor="unitPhone" className="block text-sm text-gray-700 mb-1">
-                Teléfono de Contacto:
-              </label>
-              <input 
-                type="text" 
-                id="unitPhone" 
-                className="w-full p-2 border border-gray-200 rounded" 
-                placeholder="Ej. +56 9 1234 5678" 
-                value={formData.unitPhone}
-                onChange={handleInputChange}
-              />
-            </div>
-            
-            <div className="mb-4">
-              <label htmlFor="unitNotes" className="block text-sm text-gray-700 mb-1">
-                Observaciones:
-              </label>
-              <textarea 
-                id="unitNotes" 
-                rows="3" 
-                className="w-full p-2 border border-gray-200 rounded resize-none" 
-                placeholder="Ingrese cualquier información adicional relevante..."
-                value={formData.unitNotes}
-                onChange={handleInputChange}
-              ></textarea>
-            </div>
-            
-            <div className="bg-gray-50 p-4 rounded-lg mb-4">
-              <div className="flex gap-3">
-                <div className="text-gray-500 text-3xl">
-                  <i className="fas fa-info-circle"></i>
-                </div>
-                <p className="text-sm text-gray-600">
-                  Las unidades añadidas estarán disponibles inmediatamente para su asignación. 
-                  Asegúrese de completar todos los campos obligatorios marcados con (*).
-                </p>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div className="flex justify-end gap-3 p-4 border-t border-gray-100">
-          <Button 
-            variant="outline" 
-            onClick={() => setShowAddUnitModal(false)}
-          >
-            Cancelar
-          </Button>
-          <Button 
-            variant="primary" 
-            icon="fas fa-plus-circle"
-            onClick={handleAddUnit}
-          >
-            Guardar Unidad
-          </Button>
-        </div>
-      </Modal>
-      
       {/* Modal de perfil de unidad */}
       {selectedUnit && (
         <Modal 
@@ -769,6 +545,7 @@ const EmergencyUnitsPanel = () => {
           onClose={() => setShowUnitProfileModal(false)}
           title={`Unidad ${selectedUnit.number}`}
           size="lg"
+          className="unit-profile-modal"
         >
           <div className="p-5">
             {/* Resumen de la unidad */}
@@ -845,7 +622,7 @@ const EmergencyUnitsPanel = () => {
             
             {/* Personal asignado */}
             <h4 className="text-sm font-semibold text-gray-700 uppercase mb-2">Personal Asignado</h4>
-            <div className="bg-white border rounded-lg p-4 mb-6">
+            <div className="bg-white border rounded-lg p-4 mb-6 personnel-section">
               {selectedUnit.personnel.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {selectedUnit.personnel.map((person, index) => (
@@ -881,6 +658,7 @@ const EmergencyUnitsPanel = () => {
               </Button>
               <Button 
                 variant="primary"
+                className="assign-personnel-btn"
               >
                 <i className="fas fa-user-plus mr-1.5"></i>
                 Asignar Personal

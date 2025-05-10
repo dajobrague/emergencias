@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { getThumbnail, documentosEstudiosTecnicos } from '../../data/documentData';
+import React, { useState, useEffect, useMemo } from 'react';
+import { documentosEstudiosTecnicos } from '../../data/documentData';
 import { documentosConThumbnail } from '../../data/documentosConThumbnail';
+import { documentosAuditorias } from '../../data/documentData';
+import { useTutorial } from '../../context/TutorialContext';
+import { documentPanelSteps } from '../../components/Tutorial/tutorialSteps';
 
 const DocumentPanel = () => {
   const [filter, setFilter] = useState('all');
@@ -10,25 +13,26 @@ const DocumentPanel = () => {
     startDate: '',
     endDate: ''
   });
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newDocument, setNewDocument] = useState({
-    title: '',
-    category: 'tecnicos',
-    author: '',
-    type: 'PDF',
-    size: '',
-    description: '',
-    tags: []
-  });
+
+  // Acceder al contexto del tutorial
+  const { startTutorial } = useTutorial();
+
+  // Manejar el inicio del tutorial
+  const handleStartTutorial = () => {
+    startTutorial('document-panel', documentPanelSteps);
+  };
 
   // Filtrar documentos con valores NaN en título o autor
-  const validDocumentosConThumbnail = documentosConThumbnail.filter(doc => 
-    doc.title && doc.title !== "NaN" && !Number.isNaN(doc.title) && 
-    doc.author && doc.author !== "NaN" && !Number.isNaN(doc.author)
-  );
+  const validDocumentosConThumbnail = useMemo(() => 
+    documentosConThumbnail.filter(doc => 
+      doc.title && doc.title !== "NaN" && !Number.isNaN(doc.title) && 
+      doc.author && doc.author !== "NaN" && !Number.isNaN(doc.author)
+    ), []);
   
-  // Combinar ambas fuentes de documentos
-  const [documents, setDocuments] = useState([...validDocumentosConThumbnail, ...documentosEstudiosTecnicos]);
+  // Combinar ambas fuentes de documentos usando useMemo para evitar recalculos innecesarios
+  const documents = useMemo(() => 
+    [...validDocumentosConThumbnail, ...documentosEstudiosTecnicos, ...documentosAuditorias], 
+    [validDocumentosConThumbnail]);
 
   // Extraer todas las etiquetas únicas de todos los documentos
   const [uniqueTags, setUniqueTags] = useState([]);
@@ -43,62 +47,6 @@ const DocumentPanel = () => {
     });
     setUniqueTags(Array.from(allTags).sort());
   }, [documents]);
-
-  // Manejar cambios en el formulario
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setNewDocument(prev => ({ 
-      ...prev, 
-      [name]: type === 'checkbox' ? checked : value 
-    }));
-  };
-
-  // Manejar envío del formulario
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    // Generar ID único
-    const newId = `DOC-${String(documents.length + 1).padStart(3, '0')}`;
-    
-    // Obtener fecha actual
-    const currentDate = new Date().toISOString().split('T')[0];
-    
-    // Procesar etiquetas
-    const tags = newDocument.tags.length > 0 
-      ? (typeof newDocument.tags === 'string' 
-          ? newDocument.tags.split(',').map(tag => tag.trim()) 
-          : newDocument.tags)
-      : [];
-    
-    // Crear nuevo documento
-    const documentToAdd = {
-      id: newId,
-      title: newDocument.title,
-      category: newDocument.category,
-      date: currentDate,
-      author: newDocument.author,
-      type: newDocument.type,
-      size: newDocument.size || '1.0 MB',
-      thumbnail: getThumbnail(newDocument.category),
-      description: newDocument.description,
-      tags: tags
-    };
-    
-    // Agregar a la lista de documentos
-    setDocuments([documentToAdd, ...documents]);
-    
-    // Cerrar modal y resetear formulario
-    setIsModalOpen(false);
-    setNewDocument({
-      title: '',
-      category: 'tecnicos',
-      author: '',
-      type: 'PDF',
-      size: '',
-      description: '',
-      tags: []
-    });
-  };
 
   // Manejar cambios en el filtro de fecha
   const handleDateFilterChange = (e) => {
@@ -120,42 +68,39 @@ const DocumentPanel = () => {
     });
   };
 
-  // Filtrar documentos según la categoría, etiqueta, término de búsqueda y rango de fechas
+  // Función para formatear fechas en formato DD-MM-YYYY
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const [year, month, day] = dateString.split('-');
+    return `${day}-${month}-${year}`;
+  };
+
+  // Filtrar documentos según los criterios seleccionados
   const filteredDocuments = documents.filter(doc => {
-    if (!doc) return false;
-    
     // Filtro por categoría
-    const matchesCategory = filter === 'all' || doc.category === filter;
+    if (filter !== 'all' && doc.category !== filter) return false;
     
     // Filtro por etiqueta
-    const matchesTag = tagFilter === 'all' || (doc.tags && doc.tags.includes(tagFilter));
+    if (tagFilter !== 'all' && (!doc.tags || !doc.tags.includes(tagFilter))) return false;
     
-    // Filtro por término de búsqueda (con verificación de seguridad)
-    const matchesSearch = !searchTerm || (
-      (doc.title && doc.title.toString().toLowerCase().includes(searchTerm.toLowerCase())) || 
-      (doc.author && doc.author.toString().toLowerCase().includes(searchTerm.toLowerCase()))
-    );
-    
-    // Filtro por rango de fechas
-    let matchesDateRange = true;
-    
-    if (doc.date) {
-      const docDate = new Date(doc.date);
-      
-      if (dateFilter.startDate) {
-        const startDate = new Date(dateFilter.startDate);
-        matchesDateRange = matchesDateRange && docDate >= startDate;
-      }
-      
-      if (dateFilter.endDate) {
-        const endDate = new Date(dateFilter.endDate);
-        // Ajustar la fecha final para incluir todo el día
-        endDate.setHours(23, 59, 59, 999);
-        matchesDateRange = matchesDateRange && docDate <= endDate;
-      }
+    // Filtro por búsqueda
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      const titleMatch = doc.title.toLowerCase().includes(searchLower);
+      const authorMatch = doc.author.toLowerCase().includes(searchLower);
+      const tagsMatch = doc.tags && doc.tags.some(tag => tag.toLowerCase().includes(searchLower));
+      if (!titleMatch && !authorMatch && !tagsMatch) return false;
     }
     
-    return matchesCategory && matchesTag && matchesSearch && matchesDateRange;
+    // Filtro por fecha
+    if (dateFilter.startDate && dateFilter.endDate) {
+      const docDate = new Date(doc.date);
+      const startDate = new Date(dateFilter.startDate);
+      const endDate = new Date(dateFilter.endDate);
+      if (docDate < startDate || docDate > endDate) return false;
+    }
+    
+    return true;
   });
 
   // Función para obtener el color según la categoría
@@ -197,17 +142,19 @@ const DocumentPanel = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6" id="document-panel">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Repositorio</h1>
           <p className="text-gray-600">Biblioteca de documentos y recursos</p>
         </div>
         <button 
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleStartTutorial}
+          className="ml-2 flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all text-indigo-700 bg-indigo-100 hover:bg-indigo-200"
+          aria-label="Iniciar tutorial"
         >
-          <i className="fas fa-plus mr-2"></i> Subir Documento
+          <i className="fas fa-question-circle mr-2"></i>
+          <span>Ayuda</span>
         </button>
       </div>
 
@@ -409,7 +356,12 @@ const DocumentPanel = () => {
                   <h3 className="text-lg font-semibold mb-2 line-clamp-2">{doc.title}</h3>
                   <div className="flex justify-between items-center text-sm text-gray-500 mb-3">
                     <span>{doc.author}</span>
-                    <span>{new Date(doc.date).toLocaleDateString()}</span>
+                    {doc.category === 'tecnicos' && (
+                      <div className="flex items-center space-x-2">
+                        <i className="fas fa-calendar text-gray-400"></i>
+                        <span>{formatDate(doc.date)}</span>
+                      </div>
+                    )}
                   </div>
                   {doc.tags && doc.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-3">
@@ -460,149 +412,6 @@ const DocumentPanel = () => {
           )}
         </div>
       </div>
-
-      {/* Modal para agregar documento */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-2xl">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-gray-800">Subir Nuevo Documento</h2>
-              <button 
-                className="text-gray-500 hover:text-gray-700"
-                onClick={() => setIsModalOpen(false)}
-              >
-                <i className="fas fa-times"></i>
-              </button>
-            </div>
-            
-            <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Título del Documento*
-                  </label>
-                  <input
-                    type="text"
-                    name="title"
-                    value={newDocument.title}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Autor/Departamento*
-                  </label>
-                  <input
-                    type="text"
-                    name="author"
-                    value={newDocument.author}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Categoría
-                  </label>
-                  <select
-                    name="category"
-                    value={newDocument.category}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option value="tecnicos">Estudio Técnico</option>
-                    <option value="estandar">Estándar</option>
-                    <option value="procedimientos">Procedimientos - Planes</option>
-                    <option value="reglamentos">Reglamentos</option>
-                    <option value="auditorias">Auditorias Viales</option>
-                    <option value="alertas">Alertas</option>
-                    <option value="faqs">FAQ's</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Tipo de Archivo
-                  </label>
-                  <select
-                    name="type"
-                    value={newDocument.type}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option value="PDF">PDF</option>
-                    <option value="DOCX">DOCX</option>
-                    <option value="XLSX">XLSX</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Tamaño del Archivo
-                  </label>
-                  <input
-                    type="text"
-                    name="size"
-                    value={newDocument.size}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Ej: 1.5 MB"
-                  />
-                </div>
-              </div>
-              
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Etiquetas (separadas por comas)
-                </label>
-                <input
-                  type="text"
-                  name="tags"
-                  value={typeof newDocument.tags === 'string' ? newDocument.tags : newDocument.tags.join(', ')}
-                  onChange={(e) => setNewDocument({...newDocument, tags: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Ej: seguridad, minería, procedimiento"
-                />
-                <p className="text-xs text-gray-500 mt-1">Añade palabras clave para facilitar la búsqueda del documento</p>
-              </div>
-              
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Descripción
-                </label>
-                <textarea
-                  name="description"
-                  value={newDocument.description}
-                  onChange={handleInputChange}
-                  rows="3"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                ></textarea>
-              </div>
-              
-              <div className="flex justify-end space-x-3">
-                <button
-                  type="button"
-                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
-                >
-                  Guardar Documento
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
